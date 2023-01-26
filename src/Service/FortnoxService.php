@@ -7,7 +7,7 @@ use ITBMedia\FortnoxBundle\Modal\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class FortnoxService{
@@ -23,6 +23,11 @@ class FortnoxService{
         $this->tokenStorage = $tokenStorage;
     }
     #region article
+
+    public function getArticles(Token $token, array $params = [])
+    {
+        return $this->call($token, 'GET', 'articles', $params);
+    }
 
     #endregion
     private function refreshToken(Token $token) : Token
