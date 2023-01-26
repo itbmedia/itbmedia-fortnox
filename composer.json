@@ -16,7 +16,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "symfony/framework-bundle": "^5.4",
-        "jms/serializer-bundle": "5.x-dev"
+        "symfony/framework-bundle": "*",
+        "jms/serializer-bundle": "^2.4"
     }
 }
