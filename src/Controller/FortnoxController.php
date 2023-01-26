@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class FortnoxController extends Controller
@@ -31,33 +32,29 @@ class FortnoxController extends Controller
 
     public function fortnoxConnect(Request $request)
     {
-        if(empty($this->session->get('fortnox_csrf_token'))){
-            $csrfToken = bin2hex(random_bytes(32));
-            $this->session->set('fortnox_csrf_token', $csrfToken);
-        }else{
-            $csrfToken = $this->session->get('fortnox_csrf_token');
-        }
-
-        if(is_array($request->query->get('state')))
-        {
-            $state = array_merge($request->query->get('state'), array('fortnox_csrf_token' => $csrfToken));
-        }else{
-            $state = array(
-                'fortnox_csrf_token' => $csrfToken,
-                $request->query->get('state')
-            );
-        }
-
-        return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
-            array(
-                'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
-                'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
-                'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
-                'state' => $state,
+        $user = $this->getUser();
+        if($user && method_exists('getRoles', $user) && is_callable(array('getRoles', $user))){       
+            if(empty($this->session->get('fortnox_csrf_token'))){
+                $csrfToken = bin2hex(random_bytes(32));
+                $this->session->set('fortnox_csrf_token', $csrfToken);
+            }else{
+                $csrfToken = $this->session->get('fortnox_csrf_token');
+            }
+            return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
+                array(
+                    'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
+                    'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
+                    'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
+                    'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
+                    'state' => array(
+                        'fortnox_csrf_token' => $csrfToken
+                    ),
+                )
             )
-        )
-        );
+            );
+        } else {
+            throw new UnauthorizedHttpException("access denied");
+        }
     }
 
     public function fortnoxCallback(Request $request)
