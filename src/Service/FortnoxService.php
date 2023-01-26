@@ -68,7 +68,7 @@ class FortnoxService{
 			$headers[] = 'Content-Type: application/json';
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 		} else {
-			$url .= "?" . http_build_query($data);
+			$path .= "?" . http_build_query($data);
 		}
 		
         curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/3/$path");
