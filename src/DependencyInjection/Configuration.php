@@ -26,6 +26,9 @@ class Configuration implements ConfigurationInterface{
                 ->arrayNode('scopes')
                     ->scalarPrototype()->end()
                 ->end()
+                ->arrayNode('allowed_roles')
+                    ->scalarPrototype()->end()
+                ->end()
                 ->scalarNode('success_redirect_url')->end()
             ->end();
 

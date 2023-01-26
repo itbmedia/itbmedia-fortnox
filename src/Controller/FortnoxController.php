@@ -33,7 +33,7 @@ class FortnoxController extends Controller
     public function fortnoxConnect(Request $request)
     {
         $user = $this->getUser();
-        if($user && method_exists($user, 'getRoles')){       
+        if($user && method_exists($user, 'getRoles') && array_intersect($user->getRoles(), $this->parameterBag->get('fortnox_bundle.allowed_roles'))){       
             if(empty($this->session->get('fortnox_csrf_token'))){
                 $csrfToken = bin2hex(random_bytes(32));
                 $this->session->set('fortnox_csrf_token', $csrfToken);
