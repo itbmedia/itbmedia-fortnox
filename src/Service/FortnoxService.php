@@ -29,7 +29,7 @@ class FortnoxService{
     {
         $articles = array();
         $response = $this->call($token, 'GET', 'articles', $params);
-        print_r(get_class($response)):
+        print_r(get_class($response));
         die;
         foreach($response['Articles'] as $article)
         {
