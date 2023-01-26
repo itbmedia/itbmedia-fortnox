@@ -6,20 +6,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class FortnoxService{
 
     private ParameterBagInterface $parameterBag;
-    private string $callback;
     /**
      */
     public function __construct(ParameterBagInterface $parameterBag) {
         $this->parameterBag = $parameterBag;
     }
 
-    public function initializeAuth(string $callback, string $type = "code", array $scopes = [], array $state = []) : RedirectResponse
+    public function initializeAuth(string $type = "code", array $scopes = [], array $state = []) : RedirectResponse
     {
-        $this->callback = $callback;
+        
         return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
                 array(
                     'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                    'redirect_uri' => $callback,
+                    'redirect_uri' => $this->parameterBag->get('fortnox_bundle.redirect_url'),
                     'response_type' => $type,
                     'scope' => implode($scopes, ' '),
                     'state' => $state,
@@ -42,7 +41,7 @@ class FortnoxService{
             array(
                 'grant_type' => 'authorization_code',
                 'code' => $code,
-                'redirect_uri' => $this->callback,
+                'redirect_uri' => $this->parameterBag->get('fortnox_bundle.redirect_url'),
             )
         ));
         $res = json_decode(curl_exec($ch), true);
