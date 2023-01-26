@@ -2,8 +2,10 @@ services:
   itbmedia_fortnox.callback.controller:
     class: ITBMedia\FortnoxBundle\Controller\CallbackController
     public: true
-    arguments: []
-    
+    arguments: 
+      $parameterBag: "@parameter_bag"
+      $eventDispatcher: "@event_dispatcher"
+
   itbmedia_fortnox.service:
     class: ITBMedia\FortnoxBundle\Service\FortnoxService
     public: true
