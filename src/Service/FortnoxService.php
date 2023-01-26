@@ -5,10 +5,11 @@ use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Modal\Article;
 use ITBMedia\FortnoxBundle\Modal\MetaInformation;
+use ITBMedia\FortnoxBundle\Modal\Response\AticlesResponse;
+
 use ITBMedia\FortnoxBundle\Modal\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -25,17 +26,11 @@ class FortnoxService{
         $this->tokenStorage = $tokenStorage;
     }
     #region article
-
-    public function getArticles(Token $token, array $params = []) : array
+    public function getArticles(Token $token, array $params = []) : AticlesResponse
     {
-        $response = $this->call($token, 'GET', 'articles', $params);
-        array_walk($response['Articles'], function ($item, $key) use (&$articles) {
-            $articles[$key] = Article::deserialize(json_encode($item));
-        });
-        $metaInformation = MetaInformation::deserialize(json_encode($response['MetaInformation']));
-        return array('Articles' => $articles, 'MetaInformation' => $metaInformation) ;
+        $response = $this->call($token, 'GET', 'articles', $params, false);
+        return AticlesResponse::deserialize($response);
     }
-
     #endregion
     private function refreshToken(Token $token) : Token
     {
@@ -65,7 +60,7 @@ class FortnoxService{
         return Token::deserialize(curl_exec($ch));
     }
 
-    private function call(Token $token, string $method, string $path, array $data = [], bool $firstRequest = true)
+    private function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true)
     {
         $ch = curl_init();
         $headers = array();
@@ -108,14 +103,13 @@ class FortnoxService{
             }
 
             $this->eventDispatcher->dispatch(TokenRefreshEvent::NAME, new TokenRefreshEvent($token, $user));
-            return $this->call($token, $method, $path, $data, false);
+            return $this->call($token, $method, $path, $data, $serialize, false);
         }
 
         if ($content_type === "application/json") {
-            $response = json_decode($body, true);
-            $response['status_code'] = $response_code;
-
-            if ($response['status_code'] < 200 || $response['status_code'] > 299) {
+            if ($response_code < 200 || $response_code > 299) {
+                $response = json_decode($body, true);
+                $response['status_code'] = $response_code;
 				array_walk_recursive($response, function ($item, $key) use (&$error) {
 					$error[strtolower($key)] = $item;
 				});
@@ -125,7 +119,11 @@ class FortnoxService{
 					throw new HttpException($response['status_code'], json_encode(array_merge($response, $error)));
 				}
 			}
-			return $response;
+            if($serialize){
+                return json_decode($body, true);
+            }else{
+                $body;
+            }
         } else {
 			return array('body' => $body, 'status' => $response_code, 'headers' => $this->get_headers_from_curl_response($header));
 		}
