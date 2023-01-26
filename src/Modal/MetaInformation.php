@@ -6,7 +6,7 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 
-class Metadata implements SerializableInterface
+class MetaInformation implements SerializableInterface
 {
      /**
      * @var int
@@ -90,7 +90,7 @@ class Metadata implements SerializableInterface
 	}
 	
 	/**
-	 * @return Metadata
+	 * @return MetaInformation
 	 */
 	public static function deserialize(string $data) {
 		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
