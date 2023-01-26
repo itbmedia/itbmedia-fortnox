@@ -3,6 +3,7 @@ namespace ITBMedia\FortnoxBundle\Service;
 use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
+use ITBMedia\FortnoxBundle\Modal\Article;
 use ITBMedia\FortnoxBundle\Modal\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -24,9 +25,17 @@ class FortnoxService{
     }
     #region article
 
-    public function getArticles(Token $token, array $params = [])
+    public function getArticles(Token $token, array $params = []) : array
     {
-        return $this->call($token, 'GET', 'articles', $params);
+        $articles = array();
+        $response = $this->call($token, 'GET', 'articles', $params);
+        print_r(get_class($response)):
+        die;
+        foreach($response['Articles'] as $article)
+        {
+            $articles[] = Article::deserialize(json_encode($article));
+        }
+        return $articles;
     }
 
     #endregion
