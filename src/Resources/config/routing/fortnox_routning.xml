@@ -12,7 +12,7 @@
             <default key="_controller">itbmedia_fortnox.controller:fortnoxCallback</default>
         </route>
 
-        <route id="itbmedia_fortnox_disconnect" path="/fortnox/disconnect" methods="GET">
+        <route id="itbmedia_fortnox_disconnect" path="/fortnox/disconnect" methods="POST">
             <default key="_controller">itbmedia_fortnox.controller:fortnoxDisconnect</default>
         </route>
         
