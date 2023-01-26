@@ -114,7 +114,7 @@ class FortnoxController extends Controller
         ));
     }
 
-    public public function fortnoxDisconnect(Request $request)
+    public function fortnoxDisconnect(Request $request)
     {
         $user = $this->getUser();
         if (
