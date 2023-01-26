@@ -57,7 +57,7 @@ class FortnoxController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(
             array(
                 'grant_type' => 'authorization_code',
-                'code' => $request->query->get('code')."asd",
+                'code' => $request->query->get('code'),
                 'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
             )
         ));
