@@ -7,7 +7,7 @@ class AuthorizationSuccessEvent extends Event
 {
     const NAME = "itbmedia_fortnox.auth_success";
     private Token $token;
-    private $state;
+    private object $user;
 
 	/**
 	 * @return Token
@@ -25,25 +25,25 @@ class AuthorizationSuccessEvent extends Event
 		return $this;
 	}
 	
-	/**
-	 * @return mixed
+    /**
+	 * @return object
 	 */
-	public function getState() {
-		return $this->state;
+	public function getUser(): object {
+		return $this->user;
 	}
 	
 	/**
-	 * @param mixed $state 
+	 * @param object $user 
 	 * @return self
 	 */
-	public function setState($state): self {
-		$this->state = $state;
+	public function setUser(object $user): self {
+		$this->user = $user;
 		return $this;
-	}
+	}	
 
-    public function __construct(Token $token, $state)
+    public function __construct(Token $token, object $user)
     {
         $this->token = $token;
-        $this->state = $state;
+        $this->user = $user;
     }
 }

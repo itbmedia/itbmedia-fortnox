@@ -33,7 +33,11 @@ class FortnoxController extends Controller
     public function fortnoxConnect(Request $request)
     {
         $user = $this->getUser();
-        if($user && method_exists($user, 'getRoles') && array_intersect($user->getRoles(), $this->parameterBag->get('fortnox_bundle.allowed_roles'))){       
+        if(
+            $user && 
+            method_exists($user, 'getRoles') &&
+            array_intersect($user->getRoles(), $this->parameterBag->get('fortnox_bundle.allowed_roles'))
+        ){       
             if(empty($this->session->get('fortnox_csrf_token'))){
                 $csrfToken = bin2hex(random_bytes(32));
                 $this->session->set('fortnox_csrf_token', $csrfToken);
@@ -100,13 +104,12 @@ class FortnoxController extends Controller
 
         $this->eventDispatcher->dispatch(
             AuthorizationSuccessEvent::NAME, 
-            new AuthorizationSuccessEvent(Token::deserialize($response), $request->query->get('state'))
+            new AuthorizationSuccessEvent(Token::deserialize($response), $this->getUser())
         );
 
         return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
             array(
-                'success' => true,
-                'state' => $request->query->get('state')
+                'success' => true
             )
         ));
     }
