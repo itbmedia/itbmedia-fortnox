@@ -32,7 +32,7 @@ class FortnoxService{
         array_walk($response['Articles'], function ($item, $key) use (&$articles) {
             $articles[$key] = Article::deserialize(json_encode($item));
         });
-        $metaInformation = MetaInformation::deserialize($response['MetaInformation']);
+        $metaInformation = MetaInformation::deserialize(json_encode($response['MetaInformation']));
         return array('Articles' => $articles, 'MetaInformation' => $metaInformation) ;
     }
 
