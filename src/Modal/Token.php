@@ -4,7 +4,7 @@ namespace ITBMedia\FortnoxBundle\Modal;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
-class Token
+class Token implements SerializableInterface
 {
      /**
      * @var string
