@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface{
                 ->scalarNode('client_id')->end()
                 ->scalarNode('client_secret')->end()
                 ->scalarNode('redirect_url')->end()
+                ->scalarNode('success_redirect_url')->end()
             ->end();
 
         return $treeBuilder;
