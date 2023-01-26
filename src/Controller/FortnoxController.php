@@ -1,7 +1,8 @@
 <?php
 namespace ITBMedia\FortnoxBundle\Controller;
 
-use ITBMedia\FortnoxBundle\Event\AuthorizationSuccessEvent;
+use ITBMedia\FortnoxBundle\Event\ConnectEvent;
+use ITBMedia\FortnoxBundle\Event\DisconnectEvent;
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Modal\Token;
 
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +59,7 @@ class FortnoxController extends Controller
             )
             );
         } else {
-            throw new UnauthorizedHttpException("access denied");
+            throw new AccessDeniedException("access denied");
         }
     }
 
@@ -103,8 +105,8 @@ class FortnoxController extends Controller
         }
 
         $this->eventDispatcher->dispatch(
-            AuthorizationSuccessEvent::NAME, 
-            new AuthorizationSuccessEvent(Token::deserialize($response), $this->getUser())
+            ConnectEvent::NAME, 
+            new ConnectEvent(Token::deserialize($response), $this->getUser())
         );
 
         return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
@@ -112,5 +114,23 @@ class FortnoxController extends Controller
                 'success' => true
             )
         ));
+    }
+
+    public public function fortnoxDisconnect(Request $request)
+    {
+        $user = $this->getUser();
+        if (
+            $user &&
+            method_exists($user, 'getRoles') &&
+            array_intersect($user->getRoles(), $this->parameterBag->get('fortnox_bundle.allowed_roles'))
+        ) {
+            $this->eventDispatcher->dispatch(
+                DisconnectEvent::NAME, 
+                new DisconnectEvent($user)
+            );
+            return new Response("Success", 200);
+        }else{
+            return new Response("Unauthorized", 403);
+        }
     }
 }

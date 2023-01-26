@@ -3,7 +3,7 @@ namespace ITBMedia\FortnoxBundle\Event;
 use ITBMedia\FortnoxBundle\Modal\Token;
 use Symfony\Component\EventDispatcher\Event;
 
-class AuthorizationSuccessEvent extends Event
+class ConnectEvent extends Event
 {
     const NAME = "itbmedia_fortnox.auth_success";
     private Token $token;

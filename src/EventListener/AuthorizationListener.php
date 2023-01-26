@@ -7,11 +7,11 @@ class AuthorizationListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            AuthorizationSuccessEvent::NAME => 'authorization',
+            ConnectEvent::NAME => 'authorization',
         );
     }
 
-    public function authorization(AuthorizationSuccessEvent $event)
+    public function authorization(ConnectEvent $event)
     {
         
     }
