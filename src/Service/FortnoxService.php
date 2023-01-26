@@ -122,7 +122,7 @@ class FortnoxService{
             if($serialize){
                 return json_decode($body, true);
             }else{
-                $body;
+                return $body;
             }
         } else {
 			return array('body' => $body, 'status' => $response_code, 'headers' => $this->get_headers_from_curl_response($header));
