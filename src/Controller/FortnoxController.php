@@ -66,7 +66,7 @@ class FortnoxController extends Controller
         curl_close($ch);
 
         if($statusCode !== 200){
-            throw new FortnoxException($statusCode, 0, json_decode($response)['error_description'] ?: "Unknown error");
+            throw new FortnoxException($statusCode, 0, json_decode($response, true)['error_description'] ?: "Unknown error");
         }
 
         $this->eventDispatcher->dispatch(
