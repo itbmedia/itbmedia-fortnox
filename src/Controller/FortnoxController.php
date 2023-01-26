@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class FortnoxController extends Controller
 {
@@ -19,6 +20,23 @@ class FortnoxController extends Controller
     {
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    public function fortnoxConnect(Request $request)
+    {
+        $type = $this->parameterBag->get('fortnox_bundle.type');
+        $scopes = $this->parameterBag->get('fortnox_bundle.scopes');
+
+        return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
+            array(
+                'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
+                'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
+                'response_type' => $type,
+                'scope' => $scopes,
+                'state' => [],
+            )
+        )
+        );
     }
 
     public function fortnoxCallback(Request $request)

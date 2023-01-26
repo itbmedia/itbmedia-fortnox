@@ -1,5 +1,5 @@
 fortnox_bundle:
   client_id: yourid
   client_secret: yoursecret
-  redirect_url: /path/to/callback
+  scopes: ['article']
   success_redirect_url: /on/success
