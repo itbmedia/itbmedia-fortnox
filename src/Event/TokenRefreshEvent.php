@@ -10,6 +10,22 @@ class TokenRefreshEvent extends Event
     private object $user;
 
     /**
+	 * @return Token
+	 */
+	public function getToken(): Token {
+		return $this->token;
+	}
+	
+	/**
+	 * @param Token $token 
+	 * @return self
+	 */
+	public function setToken(Token $token): self {
+		$this->token = $token;
+		return $this;
+	}
+
+    /**
 	 * @return object
 	 */
 	public function getUser(): object {
