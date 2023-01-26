@@ -28,11 +28,11 @@ class FortnoxService{
     public function getArticles(Token $token, array $params = []) : array
     {
         $response = $this->call($token, 'GET', 'articles', $params);
-        array_walk($response['Articles'], function ($item, $key) use (&$articles) {
-            $articles[$key] = Article::deserialize(json_encode($item));
-        });
-
-        return $articles;
+        return $response;
+        // array_walk($response['Articles'], function ($item, $key) use (&$articles) {
+        //     $articles[$key] = Article::deserialize(json_encode($item));
+        // });
+        // return $articles;
     }
 
     #endregion
