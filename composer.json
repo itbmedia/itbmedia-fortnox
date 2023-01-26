@@ -1,5 +1,5 @@
 {
-    "name": "itbmedia/fortnox",
+    "name": "itbmedia/fortnox-bundle",
     "description": "Fortnox api client",
     "type": "symfony-bundle",
     "license": "MIT",
