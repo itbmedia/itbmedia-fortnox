@@ -1,11 +1,15 @@
 <?php
 namespace ITBMedia\FortnoxBundle\Service;
+use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
+
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Modal\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\HttpKernel\Exceptiuse Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+                        on\HttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -83,7 +87,19 @@ class FortnoxService{
         if($firstRequest && $response_code === 401)
         {
             //kolla med fredda om lösning för att sätta nya tokent
-            return $this->call($this->refreshToken($token), $method, $path, $data, false);
+            $token = $this->refreshToken($token);
+            $user = $this->tokenStorage->getToken();
+
+            if (null === $userToken =  $this->tokenStorage->getToken()) {
+                throw new UnauthorizedHttpException();
+            }
+    
+            if (!\is_object($user = $userToken->getUser())) {
+                throw new UnauthorizedHttpException();
+            }
+
+            $this->eventDispatcher->dispatch(TokenRefreshEvent::NAME, new TokenRefreshEvent($token, $user));
+            return $this->call($token, $method, $path, $data, false);
         }
 
         if ($content_type === "application/json") {
