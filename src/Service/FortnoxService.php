@@ -1,15 +1,12 @@
 <?php
 namespace ITBMedia\FortnoxBundle\Service;
-use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
+use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Modal\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Component\HttpKernel\Exceptiuse Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-                        on\HttpException;
+
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
