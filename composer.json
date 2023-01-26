@@ -1,0 +1,23 @@
+{
+    "name": "itbmedia/fortnox",
+    "description": "Fortnox api client",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ITBMedia\\FortnoxBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "LucasNapik98",
+            "email": "lucas.napik@outlook.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "symfony/framework-bundle": "^5.4",
+        "symfony/serializer": "5.4.x-dev",
+        "jms/serializer-bundle": "5.x-dev"
+    }
+}
