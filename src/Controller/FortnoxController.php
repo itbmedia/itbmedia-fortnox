@@ -55,7 +55,7 @@ class FortnoxController extends Controller
             array(
                 'grant_type' => 'authorization_code',
                 'code' => $request->query->get('code'),
-                'redirect_uri' => $this->parameterBag->get('fortnox_bundle.redirect_url'),
+                'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
             )
         ));
         $res = json_decode(curl_exec($ch), true);
