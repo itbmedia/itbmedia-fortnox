@@ -29,12 +29,13 @@ class FortnoxService{
     {
         $articles = array();
         $response = $this->call($token, 'GET', 'articles', $params);
-        print_r($response['Articles']);
-        die;
         foreach($response['Articles'] as $article)
         {
-            $articles[] = Article::deserialize(json_encode($article));
+            print_r($article);
+            // $articles[] = Article::deserialize(json_encode($article));
         }
+        die;
+
         return $articles;
     }
 
