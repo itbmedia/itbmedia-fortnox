@@ -10,7 +10,7 @@ class Configuration implements ConfigurationInterface{
 	 * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
 	 */
 	public function getConfigTreeBuilder() {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('fortnox_bundle');
 
         if (method_exists($treeBuilder, 'getRootNode')) {
             $rootNode = $treeBuilder->getRootNode();
@@ -19,10 +19,10 @@ class Configuration implements ConfigurationInterface{
         }
 
         $rootNode
-        ->children()
-            ->scalarNode('client_id')->defaultNull()->end()
-            ->scalarNode('client_secret')->defaultNull()->end()
-        ->end();
+            ->children()
+                ->scalarNode('client_id')->end()
+                ->scalarNode('client_secret')->end()
+            ->end();
 
         return $treeBuilder;
 	}
