@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
         
         <route id="itbmedia_fortnox_callback" path="/fortnox/callback" methods="GET">
-            <default key="_controller">fortnox_bundle.callback.controller:fortnoxCallback</default>
+            <default key="_controller">itbmedia_fortnox.callback.controller:fortnoxCallback</default>
         </route>
         
 </routes>
