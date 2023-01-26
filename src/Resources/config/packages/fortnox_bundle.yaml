@@ -1,3 +1,4 @@
 fortnox_bundle:
   client_id: yourid
   client_secret: yoursecret
+  redirect_url: /path/to/callback
