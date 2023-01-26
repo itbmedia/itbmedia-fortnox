@@ -31,7 +31,7 @@ class FortnoxService{
         $response = $this->call($token, 'GET', 'articles', $params);
         foreach($response['Articles'] as $article)
         {
-            print_r($article);
+            print_r(json_encode($article));
             // $articles[] = Article::deserialize(json_encode($article));
         }
         die;
