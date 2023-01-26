@@ -4,6 +4,7 @@ namespace ITBMedia\FortnoxBundle\Controller;
 use ITBMedia\FortnoxBundle\Event\AuthorizationSuccessEvent;
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Modal\Token;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -63,13 +64,14 @@ class FortnoxController extends Controller
         $response = curl_exec($ch);
         $statusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        
-        if($statusCode === 200){
-            $this->eventDispatcher->dispatch(
-                AuthorizationSuccessEvent::NAME, 
-                new AuthorizationSuccessEvent(Token::deserialize($response), $request->query->get('state'))
-            );
-        }
+        print_r(Token::deserialize($response));
+        die;
+        // if($statusCode === 200){
+        //     $this->eventDispatcher->dispatch(
+        //         AuthorizationSuccessEvent::NAME, 
+        //         new AuthorizationSuccessEvent(, $request->query->get('state'))
+        //     );
+        // }
 
         return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
             array(
