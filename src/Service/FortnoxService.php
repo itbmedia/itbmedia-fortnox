@@ -27,14 +27,10 @@ class FortnoxService{
 
     public function getArticles(Token $token, array $params = []) : array
     {
-        $articles = array();
         $response = $this->call($token, 'GET', 'articles', $params);
-        foreach($response['Articles'] as $article)
-        {
-            print_r(json_encode($article));
-            // $articles[] = Article::deserialize(json_encode($article));
-        }
-        die;
+        array_walk_recursive($response['Articles'], function ($item, $key) use (&$articles) {
+            $articles[$key] = Article::deserialize(json_encode($item));
+        });
 
         return $articles;
     }
