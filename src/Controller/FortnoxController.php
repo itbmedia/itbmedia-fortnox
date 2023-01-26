@@ -57,7 +57,7 @@ class FortnoxController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(
             array(
                 'grant_type' => 'authorization_code',
-                'code' => $request->query->get('code'),
+                'code' => $request->query->get('code')."asd",
                 'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
             )
         ));
@@ -65,13 +65,16 @@ class FortnoxController extends Controller
         $statusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         print_r(Token::deserialize($response));
-        die;
-        // if($statusCode === 200){
-        //     $this->eventDispatcher->dispatch(
-        //         AuthorizationSuccessEvent::NAME, 
-        //         new AuthorizationSuccessEvent(, $request->query->get('state'))
-        //     );
-        // }
+
+        if($statusCode === 200){
+            $this->eventDispatcher->dispatch(
+                AuthorizationSuccessEvent::NAME, 
+                new AuthorizationSuccessEvent(Token::deserialize($response), $request->query->get('state'))
+            );
+        }else{
+            print_r($response);
+            die;
+        }
 
         return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
             array(
