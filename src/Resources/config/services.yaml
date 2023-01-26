@@ -1,5 +1,5 @@
 services:
   itbmedia_fortnox.service:
-    class: ITBMedia\FortnoxBundle\Service\FortnoxService;
+    class: ITBMedia\FortnoxBundle\Service\FortnoxService
     arguments:
       $parameterBag: "@parameter_bag"
