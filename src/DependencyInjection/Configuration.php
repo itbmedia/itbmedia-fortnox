@@ -10,7 +10,7 @@ class Configuration implements ConfigurationInterface{
 	 * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
 	 */
 	public function getConfigTreeBuilder() {
-        $treeBuilder = new TreeBuilder('fortnox_bundle');
+        $treeBuilder = new TreeBuilder();
 
         if (method_exists($treeBuilder, 'getRootNode')) {
             $rootNode = $treeBuilder->getRootNode();
