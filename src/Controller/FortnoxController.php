@@ -12,17 +12,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class FortnoxController extends Controller
 {
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;
+    private SessionInterface $session;
 
-    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher)
+    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher, SessionInterface $session)
     {
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
+        $this->session = $session;
     }
 
     public function fortnoxConnect(Request $request)
