@@ -6,6 +6,7 @@ use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Modal\Token;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,13 +31,19 @@ class FortnoxController extends Controller
 
     public function fortnoxConnect(Request $request)
     {
+        if(empty($this->session->get('fortnox_csrf_token'))){
+            $csrfToken = bin2hex(random_bytes(32));
+            $this->session->set('fortnox_csrf_token', $csrfToken);
+        }else{
+            $csrfToken = $this->session->get('fortnox_csrf_token');
+        }
         return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
             array(
                 'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
                 'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
                 'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
                 'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
-                'state' => $request->query->get('state'),
+                'state' => array_merge($request->query->get('state'), array('fortnox_csrf_token' => $csrfToken)),
             )
         )
         );
@@ -46,6 +53,17 @@ class FortnoxController extends Controller
     {
         if ($request->query->get('error') && $request->query->get('error_description')) {
             throw new FortnoxException(500, 0, $request->query->get('error_description'));
+        }
+        $state = $request->query->get('state');
+
+        if(!isset($state['fortnox_csrf_token']) || empty($this->session->get('fortnox_csrf_token')))
+        {
+            throw new Exception("Missing csrf token");
+        }
+
+        if($state['fortnox_csrf_token'] !== $this->session->get('fortnox_csrf_token'))
+        {
+            throw new Exception("csrf token mismatch");
         }
 
         $auth = base64_encode($this->parameterBag->get('fortnox_bundle.client_id').':'.$this->parameterBag->get('fortnox_bundle.client_secret'));
