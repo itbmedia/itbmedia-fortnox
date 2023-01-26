@@ -77,6 +77,7 @@ class FortnoxController extends Controller
         return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
             array(
                 'success' => true,
+                'state' => $request->query->get('state')
             )
         ));
     }
