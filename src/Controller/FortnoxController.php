@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CallbackController extends Controller
+class FortnoxController extends Controller
 {
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;

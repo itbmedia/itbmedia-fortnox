@@ -1,6 +1,6 @@
 services:
-  itbmedia_fortnox.callback.controller:
-    class: ITBMedia\FortnoxBundle\Controller\CallbackController
+  itbmedia_fortnox.controller:
+    class: ITBMedia\FortnoxBundle\Controller\FortnoxController
     public: true
     arguments: 
       $parameterBag: "@parameter_bag"
