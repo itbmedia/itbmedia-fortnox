@@ -37,13 +37,24 @@ class FortnoxController extends Controller
         }else{
             $csrfToken = $this->session->get('fortnox_csrf_token');
         }
+
+        if(is_array($request->query->get('state')))
+        {
+            $state = array_merge($request->query->get('state'), array('fortnox_csrf_token' => $csrfToken));
+        }else{
+            $state = array(
+                'fortnox_csrf_token' => $csrfToken,
+                $request->query->get('state')
+            );
+        }
+
         return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
             array(
                 'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
                 'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
                 'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
                 'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
-                'state' => array_merge($request->query->get('state'), array('fortnox_csrf_token' => $csrfToken)),
+                'state' => $state,
             )
         )
         );
