@@ -24,16 +24,13 @@ class FortnoxController extends Controller
 
     public function fortnoxConnect(Request $request)
     {
-        $type = $this->parameterBag->get('fortnox_bundle.type');
-        $scopes = $this->parameterBag->get('fortnox_bundle.scopes');
-
         return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
             array(
                 'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
                 'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
-                'response_type' => $type,
-                'scope' => $scopes,
-                'state' => [],
+                'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
+                'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
+                'state' => $request->query->get('state'),
             )
         )
         );
