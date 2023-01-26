@@ -64,7 +64,6 @@ class FortnoxController extends Controller
         $response = curl_exec($ch);
         $statusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        print_r(Token::deserialize($response));
 
         if($statusCode !== 200){
             throw new FortnoxException($statusCode, 0, json_decode($response)['error_description'] ?: "Unknown error");
@@ -72,7 +71,7 @@ class FortnoxController extends Controller
 
         $this->eventDispatcher->dispatch(
             AuthorizationSuccessEvent::NAME, 
-            new AuthorizationSuccessEvent(Token::deserialize($response), [$request->query->get('state'), $this->get('security.token_storage')->getToken()->getUser()])
+            new AuthorizationSuccessEvent(Token::deserialize($response), $request->query->get('state'))
         );
 
         return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
