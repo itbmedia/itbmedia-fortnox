@@ -2,6 +2,7 @@
 namespace ITBMedia\FortnoxBundle\Controller;
 
 use ITBMedia\FortnoxBundle\Event\AuthorizationSuccessEvent;
+use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -38,8 +39,8 @@ class FortnoxController extends Controller
 
     public function fortnoxCallback(Request $request)
     {
-        if (isset($request->query->all()['error'])) {
-            
+        if ($request->query->get('error') && $request->query->get('error_description')) {
+            throw new FortnoxException(500, 0, $request->query->get('error_description'));
         }
 
         $auth = base64_encode($this->parameterBag->get('fortnox_bundle.client_id').':'.$this->parameterBag->get('fortnox_bundle.client_secret'));
