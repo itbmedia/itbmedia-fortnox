@@ -12,7 +12,13 @@ class Configuration implements ConfigurationInterface{
 	public function getConfigTreeBuilder() {
         $treeBuilder = new TreeBuilder('fortnox_bundle');
 
-        $treeBuilder->getRootNode()
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $rootNode = $treeBuilder->root('fortnox_bundle');
+        }
+
+        $rootNode
         ->children()
             ->scalarNode('client_id')->defaultNull()->end()
             ->scalarNode('client_secret')->defaultNull()->end()
