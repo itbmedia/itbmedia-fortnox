@@ -1,56 +1,123 @@
 <?php
 namespace ITBMedia\FortnoxBundle\Service;
+use ITBMedia\FortnoxBundle\Exception\FortnoxException;
+use ITBMedia\FortnoxBundle\Modal\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class FortnoxService{
 
     private ParameterBagInterface $parameterBag;
+    private EventDispatcherInterface $eventDispatcher;
+    private TokenStorage $tokenStorage;
     /**
      */
-    public function __construct(ParameterBagInterface $parameterBag) {
+    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher, TokenStorage $tokenStorage) {
         $this->parameterBag = $parameterBag;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->tokenStorage = $tokenStorage;
     }
+    #region article
 
-    public function initializeAuth(string $type = "code", array $scopes = [], array $state = []) : RedirectResponse
+    #endregion
+    private function refreshToken(Token $token) : Token
     {
-        
-        return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
+        $ch = curl_init();
+        $secret = base64_encode($this->parameterBag->get('fortnox_bundle.client_id').':'.$this->parameterBag->get('fortnox_bundle.client_secret'));
+        curl_setopt($ch, CURLOPT_URL, "https://apps.fortnox.se/oauth-v1/token");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt(
+            $ch,
+            CURLOPT_POSTFIELDS,
+            http_build_query(
                 array(
-                    'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                    'redirect_uri' => $this->parameterBag->get('fortnox_bundle.redirect_url'),
-                    'response_type' => $type,
-                    'scope' => implode($scopes, ' '),
-                    'state' => $state,
+                    "grant_type" => "refresh_token",
+                    "refresh_token" => $token->getRefreshToken(),
                 )
             )
         );
+        curl_setopt(
+			$ch,
+			CURLOPT_HTTPHEADER,
+			array(
+				'Content-type: application/x-www-form-urlencoded',
+				'Authorization: Basic ' . $secret,
+			)
+		);
+        return Token::deserialize(curl_exec($ch));
     }
 
-    public function getToken(string $code) : array
+    private function call(Token $token, string $method, string $path, array $data = [], bool $firstRequest = true)
     {
-        $auth = base64_encode($this->parameterBag->get('fortnox_bundle.client_id').':'.$this->parameterBag->get('fortnox_bundle.client_secret'));
-        $ch = curl_init("https://apps.fortnox.se/oauth-v1/token");
+        $ch = curl_init();
+        $headers = array();
+	    $headers[] = 'Authorization: Bearer ' . $token->getAccessToken();
+
+        if (in_array($method, array('POST', 'PUT'))) {
+			$headers[] = 'Content-Type: application/json';
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+		} else {
+			$url .= "?" . http_build_query($data);
+		}
+		
+        curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/3/$path");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-type: application/x-www-form-urlencoded',
-            'Authorization: Basic '.$auth
-        ));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(
-            array(
-                'grant_type' => 'authorization_code',
-                'code' => $code,
-                'redirect_uri' => $this->parameterBag->get('fortnox_bundle.redirect_url'),
-            )
-        ));
-        $res = json_decode(curl_exec($ch), true);
-        $statusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_HEADER, true);
+
+        $res = curl_exec($ch);
+
+        $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        $response_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $header = substr($res, 0, $header_size);
+		$body = substr($res, $header_size);
         curl_close($ch);
 
-        if($statusCode === 200)
+        if($firstRequest && $response_code === 401)
         {
-            return $res;
+            //kolla med fredda om lösning för att sätta nya tokent
+            return $this->call($this->refreshToken($token), $method, $path, $data, false);
         }
+
+        if ($content_type === "application/json") {
+            $response = json_decode($body, true);
+            $response['status_code'] = $response_code;
+
+            if ($response['status_code'] < 200 || $response['status_code'] > 299) {
+				array_walk_recursive($response, function ($item, $key) use (&$error) {
+					$error[strtolower($key)] = $item;
+				});
+				if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
+					throw new FortnoxException($error['status_code'], $error['code'], $error['message']);
+				} else {
+					throw new HttpException($response['status_code'], json_encode(array_merge($response, $error)));
+				}
+			}
+			return $response;
+        } else {
+			return array('body' => $body, 'status' => $response_code, 'headers' => $this->get_headers_from_curl_response($header));
+		}
     }
+
+    public function get_headers_from_curl_response(string $responseHeaders) {
+		$headers = array();
+		$header_text = substr($responseHeaders, 0, strpos($responseHeaders, "\r\n\r\n"));
+		foreach (explode("\r\n", $header_text) as $i => $line) {
+			if ($i === 0) {
+				$headers['http_code'] = $line;
+			} else {
+				list($key, $value) = explode(': ', $line);
+	
+				$headers[$key] = $value;
+			}
+		}
+		return $headers;
+	}
 }
