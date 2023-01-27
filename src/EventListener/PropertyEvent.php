@@ -1,6 +1,7 @@
 <?php
-namespace ITBMedia\FortnoxBundle\Event;
+namespace ITBMedia\FortnoxBundle\EventListener;
 
+use ITBMedia\FortnoxBundle\Event\PropertyAccessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class PropertyEvent implements EventSubscriberInterface

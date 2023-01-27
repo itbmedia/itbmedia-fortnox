@@ -1,5 +1,6 @@
 <?php
-namespace ITBMedia\FortnoxBundle\Event;
+namespace ITBMedia\FortnoxBundle\EventListener;
+use ITBMedia\FortnoxBundle\Event\ConnectEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class AuthorizationListener implements EventSubscriberInterface

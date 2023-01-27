@@ -4,7 +4,7 @@ services:
     arguments:
       $eventDispatcher: "@event_dispatcher"
   
-  ITBMedia\FortnoxBundle\Event\PropertyEvent:
+  ITBMedia\FortnoxBundle\EventListener\PropertyEvent:
     tags:
       - { name: kernel.event_listener, event: itbmedia_annotation.access_event }
 
