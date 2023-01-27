@@ -53,7 +53,7 @@ class FortnoxController extends AbstractController
             )
             )
         );
-        $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
+        // $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
         return $response;
     }
 
