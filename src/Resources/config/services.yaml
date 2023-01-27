@@ -18,5 +18,5 @@ services:
       $eventDispatcher: "@event_dispatcher"
       $session: "@session"
     calls:
-      - setContainer: ['Psr\Container\ContainerInterface']
+      - setContainer: ["@service_container"]
     
