@@ -9,6 +9,7 @@ use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +43,7 @@ class FortnoxController extends AbstractController
             $csrfToken = $this->session->get('fortnox_csrf_token');
         }
         $state['fortnox_csrf_token'] = $csrfToken;
-        return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
+        $response = new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
             array(
                 'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
                 'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
@@ -50,8 +51,10 @@ class FortnoxController extends AbstractController
                 'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
                 'state' => $state,
             )
-        )
+            )
         );
+        $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
+        return $response;
     }
 
     public function fortnoxCallback(Request $request)
@@ -116,8 +119,7 @@ class FortnoxController extends AbstractController
                     )
                 )
             ));
-        }
-       
+        }       
     }
 
     public function fortnoxDisconnect(Request $request)
