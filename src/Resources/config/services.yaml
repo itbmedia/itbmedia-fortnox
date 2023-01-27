@@ -1,4 +1,12 @@
 services:
+  ITBMedia\FortnoxBundle\Controller\FortnoxController:
+    public: true
+    tags: ['controller.service_arguments']
+    arguments: 
+      $parameterBag: "@parameter_bag"
+      $eventDispatcher: "@event_dispatcher"
+      $session: "@session"
+
   itbmedia_fortnox.controller:
     class: ITBMedia\FortnoxBundle\Controller\FortnoxController
     public: true
