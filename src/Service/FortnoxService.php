@@ -54,7 +54,9 @@ class FortnoxService{
 				'Authorization: Basic ' . $secret,
 			)
 		);
-        $token = Token::deserialize(curl_exec($ch));
+        $res = curl_exec($ch);
+        curl_close($ch);
+        $token = Token::deserialize($res);
         $this->eventDispatcher->dispatch(TokenRefreshEvent::NAME, new TokenRefreshEvent($token));
         return $token;
     }
