@@ -1,9 +1,4 @@
-services:
-  ITBMedia\FortnoxBundle\Modal\ViewObject:
-    public: false
-    arguments:
-      $eventDispatcher: "@event_dispatcher"
-  
+services:  
   ITBMedia\FortnoxBundle\EventListener\PropertyEvent:
     tags:
       - { name: kernel.event_listener, event: itbmedia_annotation.access_event }
