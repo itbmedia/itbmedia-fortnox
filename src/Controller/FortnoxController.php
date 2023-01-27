@@ -31,6 +31,10 @@ class FortnoxController extends AbstractController
 
     public function fortnoxConnect(Request $request)
     {
+        $state = [];
+        if(is_array($request->query->all())){
+            $state = $request->query->all();
+        }
         if(empty($this->session->get('fortnox_csrf_token'))){
             $csrfToken = bin2hex(random_bytes(32));
             $this->session->set('fortnox_csrf_token', $csrfToken);
@@ -38,9 +42,6 @@ class FortnoxController extends AbstractController
             $csrfToken = $this->session->get('fortnox_csrf_token');
         }
         $state = array('fortnox_csrf_token' => $csrfToken);
-        if(is_array($request->query->all())){
-            $state = array_merge($request->query->all(), $state);
-        }
         return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
             array(
                 'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
