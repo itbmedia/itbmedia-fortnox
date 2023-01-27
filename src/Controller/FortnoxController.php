@@ -32,24 +32,31 @@ class FortnoxController extends AbstractController
 
     public function fortnoxConnect(Request $request)
     {
-            if(empty($this->session->get('fortnox_csrf_token'))){
-                $csrfToken = bin2hex(random_bytes(32));
-                $this->session->set('fortnox_csrf_token', $csrfToken);
-            }else{
-                $csrfToken = $this->session->get('fortnox_csrf_token');
-            }
-            return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
-                array(
-                    'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                    'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
-                    'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
-                    'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
-                    'state' => array(
-                        'fortnox_csrf_token' => $csrfToken
-                    ),
-                )
+        if(empty($this->session->get('fortnox_csrf_token'))){
+            $csrfToken = bin2hex(random_bytes(32));
+            $this->session->set('fortnox_csrf_token', $csrfToken);
+        }else{
+            $csrfToken = $this->session->get('fortnox_csrf_token');
+        }
+        $state = array('fortnox_csrf_token' => $csrfToken);
+        if($success = $request->query->get('success_callback'))
+        {
+            $state['success_callback'] = $success;
+        }
+        if($failure = $request->query->get('failure_callback'))
+        {
+            $state['failure_callback'] = $failure;
+        }        
+        return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
+            array(
+                'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
+                'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
+                'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
+                'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
+                'state' => $state,
             )
-            );
+        )
+        );
     }
 
     public function fortnoxCallback(Request $request)
@@ -90,36 +97,36 @@ class FortnoxController extends AbstractController
         curl_close($ch);
 
         if($statusCode !== 200){
-            throw new FortnoxException($statusCode, 0, json_decode($response, true)['error_description'] ?: "Unknown error");
+            if(isset($state['failure_callback']))
+            {
+                return $this->redirect($state['failure_callback'] . '?' . http_build_query(json_decode($response, true)));
+            }else{
+                throw new FortnoxException($statusCode, 0, json_decode($response, true)['error_description'] ?: "Unknown error");
+            }
         }
-
         $this->eventDispatcher->dispatch(
             new ConnectEvent(Token::deserialize($response)),
             ConnectEvent::NAME
         );
-
-        return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
-            array(
-                'success' => true
-            )
-        ));
+        if(isset($state['success_callback']))
+        {
+            return $this->redirect($state['success_callback'] . '?' . http_build_query(array('success' => true)));
+        }else{
+            return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
+                array(
+                    'success' => true
+                )
+            ));
+        }
+       
     }
 
     public function fortnoxDisconnect(Request $request)
     {
-        $user = $this->getUser();
-        if (
-            $user &&
-            method_exists($user, 'getRoles') &&
-            array_intersect($user->getRoles(), $this->parameterBag->get('fortnox_bundle.allowed_roles'))
-        ) {
-            $this->eventDispatcher->dispatch(
-                DisconnectEvent::NAME, 
-                new DisconnectEvent($user)
-            );
-            return new Response("Success", 200);
-        }else{
-            return new Response("Unauthorized", 403);
-        }
+        $this->eventDispatcher->dispatch(
+            new DisconnectEvent(),
+            DisconnectEvent::NAME,            
+        );
+        return new Response("Success", 200);      
     }
 }
