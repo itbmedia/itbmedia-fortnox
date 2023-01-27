@@ -51,12 +51,9 @@ class FortnoxController extends AbstractController
                 'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
                 'state' => $state,
             )
-            ), 
-            302, 
-            array(
-                'Set-Cookie' => (new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)))->__toString()
             )
         );
+        $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
         return $response;
     }
 
