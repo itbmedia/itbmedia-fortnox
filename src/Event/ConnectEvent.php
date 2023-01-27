@@ -1,6 +1,6 @@
 <?php
 namespace ITBMedia\FortnoxBundle\Event;
-use ITBMedia\FortnoxBundle\Modal\Token;
+use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\EventDispatcher\Event;
 
 class ConnectEvent extends Event

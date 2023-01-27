@@ -1,10 +1,4 @@
 services:
-  # ITBMedia\FortnoxBundle\Modal:
-  #   abstract: true
-  #   arguments: 
-  #     $eventDispatcher: '@event_dispatcher'
-  #     $serializer: jms_serializer
-
   itbmedia_fortnox.controller:
     class: ITBMedia\FortnoxBundle\Controller\FortnoxController
     public: true
@@ -19,9 +13,3 @@ services:
     arguments:
       $parameterBag: "@parameter_bag"
       $eventDispatcher: "@event_dispatcher"
-      $tokenStorage: "@security.token_storage"
-
-  itbmedia_fortnox.serializer_listener:
-    class: ITBMedia\FortnoxBundle\EventListener\PropertyEvent
-    tags:
-      - { name: kernel.event_listener, event: itbmedia_annotation.access_event, method: onPropertyAccessed }

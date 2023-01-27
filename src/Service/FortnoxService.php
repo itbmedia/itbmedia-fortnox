@@ -3,33 +3,30 @@ namespace ITBMedia\FortnoxBundle\Service;
 use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
-use ITBMedia\FortnoxBundle\Modal\Article;
-use ITBMedia\FortnoxBundle\Modal\MetaInformation;
-use ITBMedia\FortnoxBundle\Modal\Response\AticlesResponse;
+use ITBMedia\FortnoxBundle\Model\Article;
+use ITBMedia\FortnoxBundle\Model\MetaInformation;
+use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 
-use ITBMedia\FortnoxBundle\Modal\Token;
+use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class FortnoxService{
 
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;
-    private TokenStorage $tokenStorage;
     /**
      */
-    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher, TokenStorage $tokenStorage) {
+    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher) {
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
-        $this->tokenStorage = $tokenStorage;
     }
     #region article
-    public function getArticles(Token $token, array $params = []) : AticlesResponse
+    public function getArticles(Token $token, array $params = []) : ArticlesResponse
     {
         $response = $this->call($token, 'GET', 'articles', $params, false);
-        return AticlesResponse::deserialize($response);
+        return ArticlesResponse::deserialize($response);
     }
     #endregion
     private function refreshToken(Token $token) : Token
@@ -57,7 +54,9 @@ class FortnoxService{
 				'Authorization: Basic ' . $secret,
 			)
 		);
-        return Token::deserialize(curl_exec($ch));
+        $token = Token::deserialize(curl_exec($ch));
+        $this->eventDispatcher->dispatch(TokenRefreshEvent::NAME, new TokenRefreshEvent($token));
+        return $token;
     }
 
     private function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true)
@@ -89,21 +88,8 @@ class FortnoxService{
         curl_close($ch);
 
         if($firstRequest && $response_code === 401)
-        {
-            //kolla med fredda om lösning för att sätta nya tokent
-            $token = $this->refreshToken($token);
-            $user = $this->tokenStorage->getToken();
-
-            if (null === $userToken =  $this->tokenStorage->getToken()) {
-                throw new UnauthorizedHttpException();
-            }
-    
-            if (!\is_object($user = $userToken->getUser())) {
-                throw new UnauthorizedHttpException();
-            }
-
-            $this->eventDispatcher->dispatch(TokenRefreshEvent::NAME, new TokenRefreshEvent($token, $user));
-            return $this->call($token, $method, $path, $data, $serialize, false);
+        {           
+            return $this->call($this->refreshToken($token), $method, $path, $data, $serialize, false);
         }
 
         if ($content_type === "application/json") {

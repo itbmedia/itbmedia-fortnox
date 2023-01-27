@@ -4,7 +4,7 @@ namespace ITBMedia\FortnoxBundle\Controller;
 use ITBMedia\FortnoxBundle\Event\ConnectEvent;
 use ITBMedia\FortnoxBundle\Event\DisconnectEvent;
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
-use ITBMedia\FortnoxBundle\Modal\Token;
+use ITBMedia\FortnoxBundle\Model\Token;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;

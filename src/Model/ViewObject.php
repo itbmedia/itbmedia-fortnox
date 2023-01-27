@@ -1,5 +1,5 @@
 <?php
-namespace ITBMedia\FortnoxBundle\Modal;
+namespace ITBMedia\FortnoxBundle\Model;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 

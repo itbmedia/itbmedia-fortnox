@@ -1,25 +1,25 @@
 <?php
-namespace ITBMedia\FortnoxBundle\Modal\Response;
+namespace ITBMedia\FortnoxBundle\Model\Response;
 
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 
-use ITBMedia\FortnoxBundle\Modal\MetaInformation;
-use ITBMedia\FortnoxBundle\Modal\SerializableInterface;
+use ITBMedia\FortnoxBundle\Model\MetaInformation;
+use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 
-class AticlesResponse implements SerializableInterface 
+class ArticlesResponse implements SerializableInterface 
 {
      /**
      * @var MetaInformation
-     * @Type("ITBMedia\FortnoxBundle\Modal\MetaInformation")
+     * @Type("ITBMedia\FortnoxBundle\Model\MetaInformation")
      * @SerializedName("MetaInformation")
      */
     private MetaInformation $metaInformation;
 
     /**
      * @var array
-     * @Type("array<ITBMedia\FortnoxBundle\Modal\Article>")
+     * @Type("array<ITBMedia\FortnoxBundle\Model\Article>")
      * @SerializedName("Articles")
      */
     private array $articles;
@@ -68,9 +68,9 @@ class AticlesResponse implements SerializableInterface
 	}
 	
 	/**
-	 * @return AticlesResponse
+	 * @return ArticlesResponse
 	 */
-	public static function deserialize(string $data) {
+	public static function deserialize(string $data) : ArticlesResponse {
 		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
 	}	
 }

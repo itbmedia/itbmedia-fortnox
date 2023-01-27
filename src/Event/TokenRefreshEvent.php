@@ -1,13 +1,12 @@
 <?php
 namespace ITBMedia\FortnoxBundle\Event;
-use ITBMedia\FortnoxBundle\Modal\Token;
+use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\EventDispatcher\Event;
 
 class TokenRefreshEvent extends Event
 {
     const NAME = "itbmedia_fortnox.token_refresh";
     private Token $token;
-    private object $user;
 
     /**
 	 * @return Token
@@ -25,25 +24,8 @@ class TokenRefreshEvent extends Event
 		return $this;
 	}
 
-    /**
-	 * @return object
-	 */
-	public function getUser(): object {
-		return $this->user;
-	}
-	
-	/**
-	 * @param object $user 
-	 * @return self
-	 */
-	public function setUser(object $user): self {
-		$this->user = $user;
-		return $this;
-	}	
-
-    public function __construct(Token $token, object $user)
+    public function __construct(Token $token)
     {
         $this->token = $token;
-        $this->user = $user;
     }
 }

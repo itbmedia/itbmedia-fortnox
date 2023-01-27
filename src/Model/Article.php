@@ -1,8 +1,8 @@
 <?php
-namespace ITBMedia\FortnoxBundle\Modal;
+namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Event\PropertyAccessEvent;
-use ITBMedia\FortnoxBundle\Modal\SerializableInterface;
+use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
@@ -1105,22 +1105,6 @@ class Article implements SerializableInterface{
 	 * @return Article
 	 */
 	public static function deserialize(string $data) {
-		die;
-		$data = SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
-		$dispatcher = new EventDispatcher();
-		$dispatcher->dispatch(PropertyAccessEvent::NAME, new PropertyAccessEvent("test", $data));
-		return $data;
+		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
 	}
-
-	public function __get(string $key)
-    {
-		die;
-		if(isset($this->{$key}))
-		{
-			$dispatcher = new EventDispatcher();
-			$dispatcher->dispatch(PropertyAccessEvent::NAME, new PropertyAccessEvent($key, $this));
-			return $this->{$key};
-		}
-        
-    }
 }

@@ -1,7 +1,7 @@
 <?php
-namespace ITBMedia\FortnoxBundle\Modal;
+namespace ITBMedia\FortnoxBundle\Model;
 
-use ITBMedia\FortnoxBundle\Modal\SerializableInterface;
+use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
