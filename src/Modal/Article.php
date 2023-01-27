@@ -1110,6 +1110,7 @@ class Article implements SerializableInterface{
 
 	public function __get(string $key)
     {
+		die;
 		if(isset($this->{$key}))
 		{
 			$dispatcher = new EventDispatcher();
