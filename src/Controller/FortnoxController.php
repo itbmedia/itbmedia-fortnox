@@ -70,7 +70,7 @@ class FortnoxController extends AbstractController
         {
             throw new Exception("csrf token mismatch");
         }
-
+        unset($state['fortnox_csrf_token']);
         $auth = base64_encode($this->parameterBag->get('fortnox_bundle.client_id').':'.$this->parameterBag->get('fortnox_bundle.client_secret'));
         $ch = curl_init("https://apps.fortnox.se/oauth-v1/token");
 
@@ -106,13 +106,14 @@ class FortnoxController extends AbstractController
         if(isset($state['success_callback']))
         {
             $callback = $state['success_callback'];
-            unset($state['fortnox_csrf_token']);
             unset($state['success_callback']);
             return $this->redirect($callback . '?' . http_build_query(array_merge($state, array('success' => true))));
         }else{
             return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
-                array(
-                    'success' => true
+                array_merge($state,
+                    array(
+                        'success' => true
+                    )
                 )
             ));
         }
