@@ -6,7 +6,7 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 
-class Article implements SerializableInterface{
+class Article extends ViewObject implements SerializableInterface{
 
 	/**
 	* @var string
