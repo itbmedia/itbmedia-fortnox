@@ -5,15 +5,15 @@
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
         <route id="itbmedia_fortnox_connect" path="/fortnox/connect" methods="GET">
-            <default key="_controller">itbmedia_fortnox.controller:fortnoxConnect</default>
+            <default key="_controller">itbmedia_fortnox.controller::fortnoxConnect</default>
         </route>
 
         <route id="itbmedia_fortnox_callback" path="/fortnox/callback" methods="GET">
-            <default key="_controller">itbmedia_fortnox.controller:fortnoxCallback</default>
+            <default key="_controller">itbmedia_fortnox.controller::fortnoxCallback</default>
         </route>
 
         <route id="itbmedia_fortnox_disconnect" path="/fortnox/disconnect" methods="POST">
-            <default key="_controller">itbmedia_fortnox.controller:fortnoxDisconnect</default>
+            <default key="_controller">itbmedia_fortnox.controller::fortnoxDisconnect</default>
         </route>
         
 </routes>

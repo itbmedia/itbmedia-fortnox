@@ -16,3 +16,8 @@ services:
     arguments:
       $parameterBag: "@parameter_bag"
       $eventDispatcher: "@event_dispatcher"
+
+  itbmedia_fortnox.controaasasasller:
+    class: ITBMedia\FortnoxBundle\Controller\FortnoxController
+    public: true
+  
