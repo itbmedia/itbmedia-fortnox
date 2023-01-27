@@ -9,7 +9,7 @@ use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,8 +94,8 @@ class FortnoxController extends AbstractController
         }
 
         $this->eventDispatcher->dispatch(
-            ConnectEvent::NAME, 
-            new ConnectEvent(Token::deserialize($response), $this->getUser())
+            new ConnectEvent(Token::deserialize($response)),
+            ConnectEvent::NAME
         );
 
         return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(

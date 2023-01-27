@@ -7,7 +7,6 @@ class ConnectEvent extends Event
 {
     const NAME = "itbmedia_fortnox.auth_success";
     private Token $token;
-    private object $user;
 
 	/**
 	 * @return Token
@@ -24,26 +23,9 @@ class ConnectEvent extends Event
 		$this->token = $token;
 		return $this;
 	}
-	
-    /**
-	 * @return object
-	 */
-	public function getUser(): object {
-		return $this->user;
-	}
-	
-	/**
-	 * @param object $user 
-	 * @return self
-	 */
-	public function setUser(object $user): self {
-		$this->user = $user;
-		return $this;
-	}	
 
-    public function __construct(Token $token, object $user)
+    public function __construct(Token $token)
     {
         $this->token = $token;
-        $this->user = $user;
     }
 }
