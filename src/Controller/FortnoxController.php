@@ -32,12 +32,6 @@ class FortnoxController extends AbstractController
 
     public function fortnoxConnect(Request $request)
     {
-        $user = $this->getUser();
-        if(
-            $user && 
-            method_exists($user, 'getRoles') &&
-            array_intersect($user->getRoles(), $this->parameterBag->get('fortnox_bundle.allowed_roles'))
-        ){       
             if(empty($this->session->get('fortnox_csrf_token'))){
                 $csrfToken = bin2hex(random_bytes(32));
                 $this->session->set('fortnox_csrf_token', $csrfToken);
@@ -56,9 +50,6 @@ class FortnoxController extends AbstractController
                 )
             )
             );
-        } else {
-            throw new AccessDeniedException("access denied");
-        }
     }
 
     public function fortnoxCallback(Request $request)
