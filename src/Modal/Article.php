@@ -5,8 +5,9 @@ use ITBMedia\FortnoxBundle\Modal\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use ITBMedia\FortnoxBundle\Annotation\View;
 
-class Article extends ViewObject implements SerializableInterface{
+class Article implements SerializableInterface{
 
 	/**
 	* @var string
@@ -35,6 +36,7 @@ class Article extends ViewObject implements SerializableInterface{
 	/**
 	* @var int
 	* @Type("integer")
+	* @View(["list", "details"])
 	* @SerializedName("Depth")
 	*/
 	private $depth;
