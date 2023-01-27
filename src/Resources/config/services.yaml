@@ -18,4 +18,4 @@ services:
   itbmedia_fortnox.serializer_listener:
     class: ITBMedia\FortnoxBundle\EventListener\SerializerListener
     tags:
-      - { name: kernel.event_listener, event: serializer.pre_serialize, method: onPreSerialize }
+      - { name: jms_serializer.event_subscriber }
