@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,14 +38,9 @@ class FortnoxController extends AbstractController
             $csrfToken = $this->session->get('fortnox_csrf_token');
         }
         $state = array('fortnox_csrf_token' => $csrfToken);
-        if($success = $request->query->get('success_callback'))
-        {
-            $state['success_callback'] = $success;
+        if(is_array($request->query->all())){
+            $state = array_merge($request->query->all(), $state);
         }
-        if($failure = $request->query->get('failure_callback'))
-        {
-            $state['failure_callback'] = $failure;
-        }        
         return new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
             array(
                 'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
