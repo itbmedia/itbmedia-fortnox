@@ -1,6 +1,6 @@
 services:
   ITBMedia\FortnoxBundle\Controller\:
-    resource: '../src/Controller'
+    resource: '../../src/Controller'
     tags: ['controller.service_arguments']
 
   itbmedia_fortnox.controller:
