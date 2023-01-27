@@ -59,6 +59,8 @@ class FortnoxController extends AbstractController
 
     public function fortnoxCallback(Request $request)
     {
+        print_r($request->cookies->all());
+        die;
         if ($request->query->get('error') && $request->query->get('error_description')) {
             throw new FortnoxException(500, 0, $request->query->get('error_description'));
         }
