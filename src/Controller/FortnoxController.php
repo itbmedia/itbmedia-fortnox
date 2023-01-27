@@ -105,7 +105,10 @@ class FortnoxController extends AbstractController
         );
         if(isset($state['success_callback']))
         {
-            return $this->redirect($state['success_callback'] . '?' . http_build_query(array('success' => true)));
+            $callback = $state['success_callback'];
+            unset($state['fortnox_csrf_token']);
+            unset($state['success_callback']);
+            return $this->redirect($callback . '?' . http_build_query(array_merge($state, array('success' => true))));
         }else{
             return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
                 array(
