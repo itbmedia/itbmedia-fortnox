@@ -1105,7 +1105,10 @@ class Article implements SerializableInterface{
 	 * @return Article
 	 */
 	public static function deserialize(string $data) {
-		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
+		$data = SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
+		$dispatcher = new EventDispatcher();
+		$dispatcher->dispatch(PropertyAccessEvent::NAME, new PropertyAccessEvent("test", $data));
+		return $data;
 	}
 
 	public function __get(string $key)
