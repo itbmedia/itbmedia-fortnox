@@ -54,7 +54,7 @@ class FortnoxController extends AbstractController
             ), 
             302, 
             array(
-                'Set-Cookie' => new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60))
+                'Set-Cookie' => (new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)))->__toString()
             )
         );
         return $response;
