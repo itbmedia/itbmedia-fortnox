@@ -51,15 +51,18 @@ class FortnoxController extends AbstractController
                 'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
                 'state' => $state,
             )
+            ), 
+            302, 
+            array(
+                'Set-Cookie' => new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60))
             )
         );
-        $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
         return $response;
     }
 
     public function fortnoxCallback(Request $request)
     {
-        print_r($request->cookies->all());
+        print_r($request->cookies->get('fortnox_csrf_token'));
         die;
         if ($request->query->get('error') && $request->query->get('error_description')) {
             throw new FortnoxException(500, 0, $request->query->get('error_description'));
