@@ -1,9 +1,14 @@
 services:
-  ITBMedia\FortnoxBundle\Controller\:
-    resource: '../../../src/Controller'
-    tags: ['controller.service_arguments']
-
-
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+  
+  ITBMedia\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/Entity/'
+      - '../src/Kernel.php'
 
   itbmedia_fortnox.service:
     class: ITBMedia\FortnoxBundle\Service\FortnoxService
