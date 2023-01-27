@@ -22,6 +22,6 @@ services:
       $tokenStorage: "@security.token_storage"
 
   itbmedia_fortnox.serializer_listener:
-    class: ITBMedia\FortnoxBundle\EventListener\SerializerListener
+    class: ITBMedia\FortnoxBundle\EventListener\PropertyEvent
     tags:
-      - { name: jms_serializer.event_subscriber }
+      - { name: kernel.event_listener, event: itbmedia_annotation.access_event, method: onPropertyAccessed }

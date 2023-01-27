@@ -7,6 +7,6 @@ class ViewObject
 {
     public function __get(string $name)
     {
-
+        $dispatcher = new EventDispatcher();
     }
 }
