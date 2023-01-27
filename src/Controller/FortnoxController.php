@@ -6,7 +6,7 @@ use ITBMedia\FortnoxBundle\Event\DisconnectEvent;
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Model\Token;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
-class FortnoxController extends Controller
+class FortnoxController extends AbstractController
 {
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;
