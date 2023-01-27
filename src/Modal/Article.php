@@ -1,11 +1,13 @@
 <?php
 namespace ITBMedia\FortnoxBundle\Modal;
 
+use ITBMedia\FortnoxBundle\Event\PropertyAccessEvent;
 use ITBMedia\FortnoxBundle\Modal\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use ITBMedia\FortnoxBundle\Annotation\View;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Article implements SerializableInterface{
 
@@ -1105,4 +1107,15 @@ class Article implements SerializableInterface{
 	public static function deserialize(string $data) {
 		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
 	}
+
+	public function __get(string $key)
+    {
+		if(isset($this->{$key}))
+		{
+			$dispatcher = new EventDispatcher();
+			$dispatcher->dispatch(PropertyAccessEvent::NAME, new PropertyAccessEvent($key, $this));
+			return $this->{$key};
+		}
+        
+    }
 }
