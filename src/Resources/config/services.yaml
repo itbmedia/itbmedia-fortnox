@@ -16,3 +16,5 @@ services:
       $tokenStorage: "@security.token_storage"
 
   ITBMedia\FortnoxBundle\EventListener\SerializerListener:
+    tags:
+      - { name: kernel.event_listener, event: serializer.pre_serialize }
