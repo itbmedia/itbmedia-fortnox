@@ -1,9 +1,9 @@
 services:
-  ITBMedia\FortnoxBundle\Modal:
-    abstract: true
-    arguments: 
-      $eventDispatcher: '@event_dispatcher'
-      $serializer: jms_serializer
+  # ITBMedia\FortnoxBundle\Modal:
+  #   abstract: true
+  #   arguments: 
+  #     $eventDispatcher: '@event_dispatcher'
+  #     $serializer: jms_serializer
 
   itbmedia_fortnox.controller:
     class: ITBMedia\FortnoxBundle\Controller\FortnoxController
