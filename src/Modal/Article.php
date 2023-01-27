@@ -36,8 +36,8 @@ class Article implements SerializableInterface{
 	/**
 	* @var int
 	* @Type("integer")
-	* @View(["list", "details"])
 	* @SerializedName("Depth")
+	* @View("[list, details]")
 	*/
 	private $depth;
 	/**

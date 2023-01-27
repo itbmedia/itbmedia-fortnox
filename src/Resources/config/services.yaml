@@ -1,8 +1,4 @@
-services:  
-  ITBMedia\FortnoxBundle\EventListener\PropertyEvent:
-    tags:
-      - { name: kernel.event_listener, event: itbmedia_annotation.access_event }
-
+services:
   itbmedia_fortnox.controller:
     class: ITBMedia\FortnoxBundle\Controller\FortnoxController
     public: true
