@@ -10,7 +10,7 @@ use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class FortnoxService{
 
@@ -57,7 +57,7 @@ class FortnoxService{
         $res = curl_exec($ch);
         curl_close($ch);
         $token = Token::deserialize($res);
-        $this->eventDispatcher->dispatch(TokenRefreshEvent::NAME, new TokenRefreshEvent($token));
+        $this->eventDispatcher->dispatch(new TokenRefreshEvent($token), TokenRefreshEvent::NAME);
         return $token;
     }
 

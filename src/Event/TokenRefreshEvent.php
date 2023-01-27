@@ -1,7 +1,7 @@
 <?php
 namespace ITBMedia\FortnoxBundle\Event;
 use ITBMedia\FortnoxBundle\Model\Token;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class TokenRefreshEvent extends Event
 {
