@@ -53,14 +53,12 @@ class FortnoxController extends AbstractController
             )
             )
         );
-        $response->headers->clearCookie('fortnox_csrf_token');
+        // $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
         return $response;
     }
 
     public function fortnoxCallback(Request $request)
     {
-        print_r($this->session->get('fortnox_csrf_token'));
-        die;
         if ($request->query->get('error') && $request->query->get('error_description')) {
             throw new FortnoxException(500, 0, $request->query->get('error_description'));
         }
