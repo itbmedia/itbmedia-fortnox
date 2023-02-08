@@ -8,6 +8,7 @@ use ITBMedia\FortnoxBundle\Model\MetaInformation;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
+use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -40,6 +41,13 @@ class FortnoxService{
     {
         $response = $this->call($token, 'GET', "articles/$number", $params, true)['Article'];
         return Article::fromArray($response);
+    }
+    #endregion
+    #region offers
+    public function getOffers(Token $token, array $params = []) : OffersResponse
+    {
+        $response = $this->call($token, 'GET', 'offers', $params, false);
+        return OffersResponse::deserialize($response);
     }
     #endregion
     private function refreshToken(Token $token) : Token
