@@ -34,6 +34,7 @@ class FortnoxController extends AbstractController
     public function fortnoxConnect(Request $request)
     {
         if ($scopes = $request->query->get('scopes')) {
+            $request->query->remove('scopes');
             $state = [];
             if (is_array($request->query->all())) {
                 $state = $request->query->all();
