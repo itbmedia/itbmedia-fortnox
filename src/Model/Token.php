@@ -139,7 +139,7 @@ class Token implements SerializableInterface
 	 * @return array
 	 */
 	public function serializeToArray() : array {
-		return json_decode(SerializerBuilder::create()->build()->serialize($this, 'json'));
+		return SerializerBuilder::create()->build()->toArray($this);
 	}
 	
 	/**
@@ -153,6 +153,6 @@ class Token implements SerializableInterface
 	 * @return Token
 	 */
 	public static function deserializeFromArray(array $data) {
-		return SerializerBuilder::create()->build()->deserialize(json_encode($data), self::class, 'json');
+		return SerializerBuilder::create()->build()->fromArray($data, self::class);
 	}
 }
