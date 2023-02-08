@@ -38,7 +38,7 @@ class FortnoxService{
     }
     public function getArticle(Token $token, string $number, array $params = []) : Article
     {
-        $response = $this->call($token, 'GET', "articles/$number", $params)['Article'];
+        $response = $this->call($token, 'GET', "articles/$number", $params);
         return Article::fromArray($response);
     }
     #endregion
