@@ -134,11 +134,25 @@ class Token implements SerializableInterface
 	public function serialize() {
 		return SerializerBuilder::create()->build()->serialize($this, 'json');
 	}
+
+	/**
+	 * @return array
+	 */
+	public function serializeToArray() : array {
+		return json_decode(SerializerBuilder::create()->build()->serialize($this, 'json'));
+	}
 	
 	/**
 	 * @return Token
 	 */
 	public static function deserialize(string $data) {
 		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
+	}
+
+	/**
+	 * @return Token
+	 */
+	public static function deserializeFromArray(array $data) {
+		return SerializerBuilder::create()->build()->deserialize(json_encode($data), self::class, 'json');
 	}
 }

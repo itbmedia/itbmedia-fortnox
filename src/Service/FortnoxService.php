@@ -7,6 +7,7 @@ use ITBMedia\FortnoxBundle\Model\Article;
 use ITBMedia\FortnoxBundle\Model\MetaInformation;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 
+use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -22,6 +23,13 @@ class FortnoxService{
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
     }
+    #region article
+    public function getCustomers(Token $token, array $params = []) : CustomersResponse
+    {
+        $response = $this->call($token, 'GET', 'customers', $params, false);
+        return CustomersResponse::deserialize($response);
+    }
+    #endregion
     #region article
     public function getArticles(Token $token, array $params = []) : ArticlesResponse
     {
