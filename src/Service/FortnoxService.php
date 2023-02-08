@@ -36,6 +36,11 @@ class FortnoxService{
         $response = $this->call($token, 'GET', 'articles', $params, false);
         return ArticlesResponse::deserialize($response);
     }
+    public function getArticle(Token $token, string $number, array $params = []) : Article
+    {
+        $response = $this->call($token, 'GET', "articles/$number", $params, false);
+        return Article::deserialize($response);
+    }
     #endregion
     private function refreshToken(Token $token) : Token
     {
