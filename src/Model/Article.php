@@ -1111,7 +1111,7 @@ class Article implements SerializableInterface{
 	/**
 	 * @return array
 	 */
-	public function toArray() : array {
+	public function toArray(): array {
 		return SerializerBuilder::create()->build()->toArray($this);
 	}
 
