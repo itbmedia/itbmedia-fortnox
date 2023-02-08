@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,29 +33,35 @@ class FortnoxController extends AbstractController
 
     public function fortnoxConnect(Request $request)
     {
-        $state = [];
-        if(is_array($request->query->all())){
-            $state = $request->query->all();
-        }
-        if(empty($this->session->get('fortnox_csrf_token'))){
-            $csrfToken = bin2hex(random_bytes(32));
-            $this->session->set('fortnox_csrf_token', $csrfToken);
+        if ($scopes = $request->query->get('scopes')) {
+            $state = [];
+            if (is_array($request->query->all())) {
+                $state = $request->query->all();
+            }
+            if (empty($this->session->get('fortnox_csrf_token'))) {
+                $csrfToken = bin2hex(random_bytes(32));
+                $this->session->set('fortnox_csrf_token', $csrfToken);
+            } else {
+                $csrfToken = $this->session->get('fortnox_csrf_token');
+            }
+
+            $state['fortnox_csrf_token'] = $csrfToken;
+            $response = new RedirectResponse(
+                "https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
+                    array(
+                        'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
+                        'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
+                        'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
+                        'scope' => $scopes,
+                        'state' => $state,
+                    )
+                )
+            );
+            // $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
+            return $response;
         }else{
-            $csrfToken = $this->session->get('fortnox_csrf_token');
+            return new JsonResponse(array('message' => "Missing scopes"), 400);
         }
-        $state['fortnox_csrf_token'] = $csrfToken;
-        $response = new RedirectResponse("https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
-            array(
-                'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
-                'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
-                'scope' => implode($this->parameterBag->get('fortnox_bundle.scopes'), ' '),
-                'state' => $state,
-            )
-            )
-        );
-        // $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
-        return $response;
     }
 
     public function fortnoxCallback(Request $request)
