@@ -10,6 +10,7 @@ use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
+use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -53,6 +54,18 @@ class FortnoxService{
     public function getOffer(Token $token, string $number, array $params = []) : Offer
     {
         $response = $this->call($token, 'GET', "offers/$number", $params, true)['Offer'];
+        return Offer::fromArray($response);
+    }
+    #endregion
+    #region orders
+    public function getOrders(Token $token, array $params = []) : OrdersResponse
+    {
+        $response = $this->call($token, 'GET', 'orders', $params, false);
+        return OrdersResponse::deserialize($response);
+    }
+    public function getOrder(Token $token, string $number, array $params = []) : Offer
+    {
+        $response = $this->call($token, 'GET', "orders/$number", $params, true)['Order'];
         return Offer::fromArray($response);
     }
     #endregion
