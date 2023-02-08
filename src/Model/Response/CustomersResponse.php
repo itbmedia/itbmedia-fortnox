@@ -72,5 +72,19 @@ class CustomersResponse implements SerializableInterface
 	 */
 	public static function deserialize(string $data) : CustomersResponse {
 		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
-	}	
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() : array {
+		return SerializerBuilder::create()->build()->toArray($this);
+	}
+
+	/**
+	 * @return CustomersResponse
+	 */
+	public static function fromArray(array $data) {
+		return SerializerBuilder::create()->build()->fromArray($data, self::class);
+	}
 }
