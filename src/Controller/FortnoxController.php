@@ -70,64 +70,68 @@ class FortnoxController extends AbstractController
         if ($request->query->get('error') && $request->query->get('error_description')) {
             throw new FortnoxException(500, 0, $request->query->get('error_description'));
         }
-        $state = $request->query->get('state');
-
-        if(!isset($state['fortnox_csrf_token']) || empty($this->session->get('fortnox_csrf_token')))
+        if(is_array($request->query->get('state')))
         {
-            throw new Exception("Missing csrf token");
-        }
-
-        if($state['fortnox_csrf_token'] !== $this->session->get('fortnox_csrf_token'))
-        {
-            throw new Exception("csrf token mismatch");
-        }
-        unset($state['fortnox_csrf_token']);
-        $auth = base64_encode($this->parameterBag->get('fortnox_bundle.client_id').':'.$this->parameterBag->get('fortnox_bundle.client_secret'));
-        $ch = curl_init("https://apps.fortnox.se/oauth-v1/token");
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-type: application/x-www-form-urlencoded',
-            'Authorization: Basic '.$auth
-        ));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(
-            array(
-                'grant_type' => 'authorization_code',
-                'code' => $request->query->get('code'),
-                'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
-            )
-        ));
-        $response = curl_exec($ch);
-        $statusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if($statusCode !== 200){
-            if(isset($state['failure_callback']))
+            $state = $request->query->get('state');
+            if(!isset($state['fortnox_csrf_token']) || empty($this->session->get('fortnox_csrf_token')))
             {
-                return $this->redirect($state['failure_callback'] . '?' . http_build_query(json_decode($response, true)));
-            }else{
-                throw new FortnoxException($statusCode, 0, json_decode($response, true)['error_description'] ?: "Unknown error");
+                throw new Exception("Missing csrf token");
             }
-        }
-        $this->eventDispatcher->dispatch(
-            new ConnectEvent(Token::deserialize($response)),
-            ConnectEvent::NAME
-        );
-        if(isset($state['success_callback']))
-        {
-            $callback = $state['success_callback'];
-            unset($state['success_callback']);
-            return $this->redirect($callback . '?' . http_build_query(array_merge($state, array('success' => true))));
-        }else{
-            return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
-                array_merge($state,
-                    array(
-                        'success' => true
-                    )
+    
+            if($state['fortnox_csrf_token'] !== $this->session->get('fortnox_csrf_token'))
+            {
+                throw new Exception("csrf token mismatch");
+            }
+            unset($state['fortnox_csrf_token']);
+            $auth = base64_encode($this->parameterBag->get('fortnox_bundle.client_id').':'.$this->parameterBag->get('fortnox_bundle.client_secret'));
+            $ch = curl_init("https://apps.fortnox.se/oauth-v1/token");
+    
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-type: application/x-www-form-urlencoded',
+                'Authorization: Basic '.$auth
+            ));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(
+                array(
+                    'grant_type' => 'authorization_code',
+                    'code' => $request->query->get('code'),
+                    'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
                 )
             ));
-        }       
+            $response = curl_exec($ch);
+            $statusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+    
+            if($statusCode !== 200){
+                if(isset($state['failure_callback']))
+                {
+                    return $this->redirect($state['failure_callback'] . '?' . http_build_query(json_decode($response, true)));
+                }else{
+                    throw new FortnoxException($statusCode, 0, json_decode($response, true)['error_description'] ?: "Unknown error");
+                }
+            }
+            $this->eventDispatcher->dispatch(
+                new ConnectEvent(Token::deserialize($response), $state),
+                ConnectEvent::NAME
+            );
+            if(isset($state['success_callback']))
+            {
+                $callback = $state['success_callback'];
+                unset($state['success_callback']);
+                return $this->redirect($callback . '?' . http_build_query(array_merge($state, array('success' => true))));
+            }else{
+                return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
+                    array_merge($state,
+                        array(
+                            'success' => true
+                        )
+                    )
+                ));
+            }      
+        }else{
+            return new JsonResponse(array("message" => "missing state"), 400);
+        }         
     }
 
     public function fortnoxDisconnect(Request $request)
