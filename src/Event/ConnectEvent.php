@@ -7,6 +7,7 @@ class ConnectEvent extends Event
 {
     const NAME = "itbmedia_fortnox.auth_success";
     private Token $token;
+	private array $state;
 
 	/**
 	 * @return Token
@@ -14,7 +15,6 @@ class ConnectEvent extends Event
 	public function getToken(): Token {
 		return $this->token;
 	}
-	
 	/**
 	 * @param Token $token 
 	 * @return self
@@ -23,9 +23,23 @@ class ConnectEvent extends Event
 		$this->token = $token;
 		return $this;
 	}
-
-    public function __construct(Token $token)
+	/**
+	 * @return array
+	 */
+	public function getState(): array {
+		return $this->state;
+	}
+	/**
+	 * @param array $state 
+	 * @return self
+	 */
+	public function setState(array $state): self {
+		$this->state = $state;
+		return $this;
+	}
+    public function __construct(Token $token, array $state = [])
     {
         $this->token = $token;
+		$this->state = $state;
     }
 }
