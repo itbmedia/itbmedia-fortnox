@@ -1107,4 +1107,18 @@ class Article implements SerializableInterface{
 	public static function deserialize(string $data) {
 		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
 	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() : array {
+		return SerializerBuilder::create()->build()->toArray($this);
+	}
+
+	/**
+	 * @return self
+	 */
+	public static function fromArray(array $data) {
+		return SerializerBuilder::create()->build()->fromArray($data, self::class);
+	}
 }
