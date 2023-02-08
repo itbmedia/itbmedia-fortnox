@@ -5,6 +5,7 @@ use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Model\Article;
 use ITBMedia\FortnoxBundle\Model\MetaInformation;
+use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
@@ -48,6 +49,11 @@ class FortnoxService{
     {
         $response = $this->call($token, 'GET', 'offers', $params, false);
         return OffersResponse::deserialize($response);
+    }
+    public function getOffer(Token $token, string $number, array $params = []) : Offer
+    {
+        $response = $this->call($token, 'GET', "offers/$number", $params, true)['Offer'];
+        return Offer::fromArray($response);
     }
     #endregion
     private function refreshToken(Token $token) : Token
