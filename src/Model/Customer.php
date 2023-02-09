@@ -85,7 +85,7 @@ class Customer implements SerializableInterface
      * @Type("array<string, string>")
      * @SerializedName("DefaultTemplates")
      */
-	private $defaultTemplates = [];
+	private $defaultTemplates;
     /**
      * @var string
      * @Type("string")
