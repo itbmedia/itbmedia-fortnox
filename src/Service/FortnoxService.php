@@ -32,7 +32,7 @@ class FortnoxService{
     }
     public function getCustomer(Token $token, string $number, array $params = []) : Customer
     {
-        $response = $this->call($token, 'GET', "customers/$number", $params, true);
+        $response = $this->call($token, 'GET', "customers/$number", $params, true)['Customer'];
         return Customer::fromArray($response);
     }
     #endregion
