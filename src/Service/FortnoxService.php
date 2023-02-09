@@ -32,7 +32,7 @@ class FortnoxService{
     }
     public function createCustomer(Token $token, Customer $customer) : Customer
     {
-        $response = $this->call($token, 'POST', "customers", $customer->toArray(), true)['Customer'];
+        $response = $this->call($token, 'POST', "customers", array('Customer' => $customer->toArray()), true)['Customer'];
         return Customer::fromArray($response);
     }
     public function getCustomer(Token $token, string $number, array $params = []) : Customer
@@ -43,7 +43,7 @@ class FortnoxService{
     public function updateCustomer(Token $token, Customer $customer) : Customer
     {
         $number = $customer->getCustomerNumber();
-        $response = $this->call($token, 'PUT', "customers/$number", $customer->toArray(), true)['Customer'];
+        $response = $this->call($token, 'PUT', "customers/$number", array('Customer' => $customer->toArray()), true)['Customer'];
         return Customer::fromArray($response);
     }
     #endregion
