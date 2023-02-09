@@ -111,6 +111,12 @@ class FortnoxController extends AbstractController
                     throw new FortnoxException($statusCode, 0, json_decode($response, true)['error_description'] ?: "Unknown error");
                 }
             }
+            $state = array_merge(
+                $state,
+                array(
+                    'success' => true
+                )
+            );
             $this->eventDispatcher->dispatch(
                 new ConnectEvent(Token::deserialize($response), $state),
                 ConnectEvent::NAME
@@ -119,15 +125,9 @@ class FortnoxController extends AbstractController
             {
                 $callback = $state['success_callback'];
                 unset($state['success_callback']);
-                return $this->redirect($callback . '?' . http_build_query(array_merge($state, array('success' => true))));
+                return $this->redirect($callback . '?' . http_build_query($state));
             }else{
-                return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query(
-                    array_merge($state,
-                        array(
-                            'success' => true
-                        )
-                    )
-                ));
+                return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url').'?'.http_build_query($state));
             }      
         }else{
             return new JsonResponse(array("message" => "missing state"), 400);
