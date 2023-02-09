@@ -99,7 +99,7 @@ class FortnoxService{
      #region templates
      public function getPrintTemplates(Token $token, array $params = []) : PrintTemplatesResponse
      {
-         $response = $this->call($token, 'GET', 'invoices', $params, true);
+         $response = $this->call($token, 'GET', 'printtemplates', $params, true);
          return PrintTemplatesResponse::fromArray($response);
      }
      #endregion
