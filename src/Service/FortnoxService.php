@@ -12,6 +12,7 @@ use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
+use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -93,6 +94,13 @@ class FortnoxService{
      {
          $response = $this->call($token, 'GET', "invoices/$number", $params, true)['Order'];
          return Offer::fromArray($response);
+     }
+     #endregion
+     #region templates
+     public function getPrintTemplates(Token $token, array $params = []) : PrintTemplatesResponse
+     {
+         $response = $this->call($token, 'GET', 'invoices', $params, true);
+         return PrintTemplatesResponse::fromArray($response);
      }
      #endregion
     private function refreshToken(Token $token) : Token
