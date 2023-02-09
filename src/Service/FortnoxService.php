@@ -4,6 +4,7 @@ use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Model\Article;
+use ITBMedia\FortnoxBundle\Model\Customer;
 use ITBMedia\FortnoxBundle\Model\MetaInformation;
 use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
@@ -17,11 +18,8 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class FortnoxService{
-
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;
-    /**
-     */
     public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher) {
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
@@ -31,6 +29,11 @@ class FortnoxService{
     {
         $response = $this->call($token, 'GET', 'customers', $params, false);
         return CustomersResponse::deserialize($response);
+    }
+    public function getCustomer(Token $token, string $number, array $params = []) : Customer
+    {
+        $response = $this->call($token, 'GET', "customers/$number", $params, true);
+        return Customer::fromArray($response);
     }
     #endregion
     #region article
@@ -69,6 +72,18 @@ class FortnoxService{
         return Offer::fromArray($response);
     }
     #endregion
+    #region orders
+     public function getInvoices(Token $token, array $params = []) : OrdersResponse
+     {
+         $response = $this->call($token, 'GET', 'invoices', $params, false);
+         return OrdersResponse::deserialize($response);
+     }
+     public function getInvoice(Token $token, string $number, array $params = []) : Offer
+     {
+         $response = $this->call($token, 'GET', "invoices/$number", $params, true)['Order'];
+         return Offer::fromArray($response);
+     }
+     #endregion
     private function refreshToken(Token $token) : Token
     {
         $ch = curl_init();
