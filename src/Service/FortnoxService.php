@@ -30,9 +30,20 @@ class FortnoxService{
         $response = $this->call($token, 'GET', 'customers', $params, false);
         return CustomersResponse::deserialize($response);
     }
+    public function createCustomer(Token $token, Customer $customer) : Customer
+    {
+        $response = $this->call($token, 'POST', "customers", $customer->toArray(), true)['Customer'];
+        return Customer::fromArray($response);
+    }
     public function getCustomer(Token $token, string $number, array $params = []) : Customer
     {
         $response = $this->call($token, 'GET', "customers/$number", $params, true)['Customer'];
+        return Customer::fromArray($response);
+    }
+    public function updateCustomer(Token $token, Customer $customer) : Customer
+    {
+        $number = $customer->getCustomerNumber();
+        $response = $this->call($token, 'PUT', "customers/$number", $customer->toArray(), true)['Customer'];
         return Customer::fromArray($response);
     }
     #endregion
