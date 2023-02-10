@@ -319,13 +319,13 @@ class Order implements SerializableInterface
      * @Type("string")
      * @SerializedName("Project")
      */
-    private $project;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("WarehouseReady")
-     */
-    private $warehouseReady;
+    // private $project;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("WarehouseReady")
+    //  */
+    // private $warehouseReady;
     /**
      * @var string
      * @Type("string")
