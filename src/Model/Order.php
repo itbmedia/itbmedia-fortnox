@@ -431,7 +431,7 @@ class Order implements SerializableInterface
      * @SerializedName("Total")
      * @SkipWhenEmpty()
      */
-    private $total; = null
+    private $total = null;
     /**
      * @var string
      * @Type("string")
