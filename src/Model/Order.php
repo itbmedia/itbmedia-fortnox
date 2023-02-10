@@ -1909,7 +1909,7 @@ class Order implements SerializableInterface
 	 * @return array
 	 */
 	public function toArray(): array {
-		return SerializerBuilder::create()->build()->toArray($this);
+		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setSerializeNull(false));
 	}
 
 	/**
