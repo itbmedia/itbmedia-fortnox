@@ -1902,4 +1902,18 @@ class Order implements SerializableInterface
             ->build()
             ->deserialize($data, self::class, "json");
     }
+
+     /**
+	 * @return array
+	 */
+	public function toArray(): array {
+		return SerializerBuilder::create()->build()->toArray($this);
+	}
+
+	/**
+	 * @return self
+	 */
+	public static function fromArray(array $data) {
+		return SerializerBuilder::create()->build()->fromArray($data, self::class);
+	}
 }
