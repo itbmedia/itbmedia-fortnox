@@ -5,7 +5,6 @@ use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\SkipWhenEmpty;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 class OrderRow implements SerializableInterface
@@ -14,168 +13,154 @@ class OrderRow implements SerializableInterface
      * @var int
      * @Type("integer")
      * @SerializedName("AccountNumber")
-     * @Groups({"order"})
+     * @Groups({"order_row", "order"})
      */
     private $accountNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ArticleNumber")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $articleNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContributionPercent")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $contributionPercent;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContributionValue")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $contributionValue;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveredQuantity")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $deliveredQuantity;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Description")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $description;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Discount")
-     * @Groups({"order"})
+     * @Groups({"order_row", "order"})
      */
     private $discount;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DiscountType")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $discountType;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("HouseWork")
-     * @Groups({"order"})
+     * @Groups({"order_row", "order"})
      */
     private $houseWork;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("HouseWorkHoursToReport")
-     * @Groups({"order"})
+     * @Groups({"order_row", "order"})
      */
     private $houseWorkHoursToReport;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("HouseWorkType")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $houseWorkType;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OrderedQuantity")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $orderedQuantity;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Price")
-     * @Groups({"order"})
+     * @Groups({"order_row", "order"})
      */
     private $price;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Project")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $project;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ReservedQuantity")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $reservedQuantity;
     /**
      * @var int
      * @Type("int")
      * @SerializedName("RowId")
-     * @Groups({"order"})
+     * @Groups({"order_row", "order"})
      */
     private $rowId;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointCode")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $stockPointCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointId")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $stockPointId;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Total")
-     * @Groups({"order"})
+     * @Groups({"order_row", "order"})
      */
     private $total;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Unit")
-     * @Groups({"order"})
-     * @SkipWhenEmpty()
+     * @Groups({"order_row", "order"})
      */
     private $unit;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("VAT")
-     * @Groups({"order"})
+     * @Groups({"order_row", "order"})
      */
     private $vat;
 
@@ -642,8 +627,8 @@ class OrderRow implements SerializableInterface
     /**
 	 * @return array
 	 */
-	public function toArray(): array {
-		return SerializerBuilder::create()->build()->toArray($this);
+	public function toArray(array $groups = ["order_row"]): array {
+		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
 	}
 
 	/**
