@@ -154,9 +154,9 @@ class FortnoxService{
 
         if (in_array($method, array('POST', 'PUT'))) {
 			$headers[] = 'Content-Type: application/json';
-            print_r( json_encode(array_filter($data, function($var){return is_string($var) && !strlen(trim($var));})));
+            print_r( json_encode(array_filter($data, function($var){return is_string($var) ? strlen(trim($var)) : true;})));
             die;
-			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array_filter($data, function($var){return is_string($var) && !strlen(trim($var));})));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array_filter($data, function($var){return is_string($var) ? strlen(trim($var)) : true;})));
 		} else {
 			$path .= "?" . http_build_query($data);
 		}
