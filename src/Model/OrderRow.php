@@ -19,42 +19,42 @@ class OrderRow implements SerializableInterface
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("ArticleNumber")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $articleNumber;
     // /**
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("ContributionPercent")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $contributionPercent;
     // /**
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("ContributionValue")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $contributionValue;
     // /**
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("CostCenter")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $costCenter;
     // /**
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("DeliveredQuantity")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $deliveredQuantity;
     // /**
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("Description")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $description;
     // /**
@@ -67,7 +67,7 @@ class OrderRow implements SerializableInterface
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("DiscountType")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $discountType;
     // /**
@@ -86,14 +86,14 @@ class OrderRow implements SerializableInterface
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("HouseWorkType")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $houseWorkType;
     // /**
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("OrderedQuantity")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $orderedQuantity;
     // /**
@@ -106,14 +106,14 @@ class OrderRow implements SerializableInterface
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("Project")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $project;
     // /**
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("ReservedQuantity")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $reservedQuantity;
     // /**
@@ -126,14 +126,14 @@ class OrderRow implements SerializableInterface
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("StockPointCode")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $stockPointCode;
     // /**
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("StockPointId")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $stockPointId;
     // /**
@@ -146,7 +146,7 @@ class OrderRow implements SerializableInterface
     //  * @var string
     //  * @Type("string")
     //  * @SerializedName("Unit")
-    //  * SkipWhenEmpty
+    //  * @SkipWhenEmpty()
     //  */
     // private $unit;
     // /**
