@@ -2,6 +2,7 @@
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
@@ -1890,7 +1891,7 @@ class Order implements SerializableInterface
     {
         return SerializerBuilder::create()
             ->build()
-            ->serialize($this, "json");
+            ->serialize($this, "json", SerializationContext::create()->setSerializeNull(false));
     }
 
     /**
