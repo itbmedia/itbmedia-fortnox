@@ -621,7 +621,7 @@ class OrderRow implements SerializableInterface
 	 * @return array
 	 */
 	public function toArray(): array {
-		return array_filter(SerializerBuilder::create()->build()->toArray($this));
+		return SerializerBuilder::create()->build()->toArray($this);
 	}
 
 	/**
