@@ -19,4 +19,7 @@ services:
       $session: "@session"
     calls:
       - setContainer: ["@service_container"]
-    
+  
+  function_provider:
+    class: ITBMedia\FortnoxBundle\Providers\ProviderFunctions
+    tags: ['jms.expression.function_provider']
