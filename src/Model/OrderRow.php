@@ -4,6 +4,7 @@ namespace ITBMedia\FortnoxBundle\Model;
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\SkipWhenEmpty;
 use JMS\Serializer\Annotation\Type;
 
 class OrderRow implements SerializableInterface
@@ -18,36 +19,42 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("ArticleNumber")
+     * SkipWhenEmpty
      */
     private $articleNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContributionPercent")
+     * SkipWhenEmpty
      */
     private $contributionPercent;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContributionValue")
+     * SkipWhenEmpty
      */
     private $contributionValue;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
+     * SkipWhenEmpty
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveredQuantity")
+     * SkipWhenEmpty
      */
     private $deliveredQuantity;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Description")
+     * SkipWhenEmpty
      */
     private $description;
     /**
@@ -60,6 +67,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("DiscountType")
+     * SkipWhenEmpty
      */
     private $discountType;
     /**
@@ -78,12 +86,14 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("HouseWorkType")
+     * SkipWhenEmpty
      */
     private $houseWorkType;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OrderedQuantity")
+     * SkipWhenEmpty
      */
     private $orderedQuantity;
     /**
@@ -96,12 +106,14 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("Project")
+     * SkipWhenEmpty
      */
     private $project;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ReservedQuantity")
+     * SkipWhenEmpty
      */
     private $reservedQuantity;
     /**
@@ -114,12 +126,14 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("StockPointCode")
+     * SkipWhenEmpty
      */
     private $stockPointCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointId")
+     * SkipWhenEmpty
      */
     private $stockPointId;
     /**
@@ -132,6 +146,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("Unit")
+     * SkipWhenEmpty
      */
     private $unit;
     /**
