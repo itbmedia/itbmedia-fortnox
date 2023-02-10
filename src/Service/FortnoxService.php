@@ -154,6 +154,8 @@ class FortnoxService{
 
         if (in_array($method, array('POST', 'PUT'))) {
 			$headers[] = 'Content-Type: application/json';
+            print_r( json_encode(array_filter($data)));
+            die;
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array_filter($data)));
 		} else {
 			$path .= "?" . http_build_query($data);
