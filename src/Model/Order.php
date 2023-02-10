@@ -4,9 +4,6 @@ namespace ITBMedia\FortnoxBundle\Model;
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\SkipWhenEmpty;
-use JMS\Serializer\Annotation\Exclude;
-
 use JMS\Serializer\Annotation\Type;
 
 class Order implements SerializableInterface
@@ -15,14 +12,12 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("@url")
-     * @Exclude(if="empty")
      */
     private $url;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("@urlTaxReductionList")
-     * @Exclude(if="empty")
      */
     private $urlTaxReductionList;
     /**
@@ -41,14 +36,12 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("Address1")
-     * @Exclude(if="empty")
      */
     private $address1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Address2")
-     * @Exclude(if="empty")
      */
     private $address2;
     /**
@@ -67,14 +60,12 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("City")
-     * @Exclude(if="empty")
      */
     private $city;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Comments")
-     * @Exclude(if="empty")
      */
     private $comments;
     /**
@@ -99,21 +90,18 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("Country")
-     * @Exclude(if="empty")
      */
     private $country;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
-     * @Exclude(if="empty")
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Currency")
-     * @Exclude(if="empty")
      */
     private $currency;
     /**
@@ -132,77 +120,66 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("CustomerName")
-     * @Exclude(if="empty")
      */
     private $customerName;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CustomerNumber")
-     * @Exclude(if="empty")
      */
     private $customerNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryState")
-     * @Exclude(if="empty")
      */
     private $deliveryState;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryAddress1")
-     * @Exclude(if="empty")
      */
     private $deliveryAddress1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryAddress2")
-     * @Exclude(if="empty")
      */
     private $deliveryAddress2;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryCity")
-     * @Exclude(if="empty")
      */
     private $deliveryCity;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryCountry")
-     * @Exclude(if="empty")
      */
     private $deliveryCountry;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryDate")
-     * @Exclude(if="empty")
      */
     private $deliveryDate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryName")
-     * @Exclude(if="empty")
      */
     private $deliveryName;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryZipCode")
-     * @Exclude(if="empty")
      */
     private $deliveryZipCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DocumentNumber")
-     * @Exclude(if="empty")
      */
     private $documentNumber;
     /**
@@ -215,49 +192,42 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("ExternalInvoiceReference1")
-     * @Exclude(if="empty")
      */
     private $externalInvoiceReference1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ExternalInvoiceReference2")
-     * @Exclude(if="empty")
      */
     private $externalInvoiceReference2;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Freight")
-     * @Exclude(if="empty")
      */
     private $freight;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("FreightVAT")
-     * @Exclude(if="empty")
      */
     private $freightVAT;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Gross")
-     * @Exclude(if="empty")
      */
     private $gross;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("HouseWork")
-     * @Exclude(if="empty")
      */
     private $houseWork;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("InvoiceReference")
-     * @Exclude(if="empty")
      */
     private $invoiceReference;
     /**
@@ -270,35 +240,30 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("Language")
-     * @Exclude(if="empty")
      */
     private $language;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Net")
-     * @Exclude(if="empty")
      */
     private $net;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("NotCompleted")
-     * @Exclude(if="empty")
      */
     private $notCompleted;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OfferReference")
-     * @Exclude(if="empty")
      */
     private $offerReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OrderDate")
-     * @Exclude(if="empty")
      */
     private $orderDate;
     /**
@@ -311,196 +276,168 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("OrderType")
-     * @Exclude(if="empty")
      */
     private $orderType;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OrganisationNumber")
-     * @Exclude(if="empty")
      */
     private $organisationNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OurReference")
-     * @Exclude(if="empty")
      */
     private $ourReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Phone1")
-     * @Exclude(if="empty")
      */
     private $phone1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Phone2")
-     * @Exclude(if="empty")
      */
     private $phone2;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PriceList")
-     * @Exclude(if="empty")
      */
     private $priceList;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PrintTemplate")
-     * @Exclude(if="empty")
      */
     private $printTemplate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Project")
-     * @Exclude(if="empty")
      */
     private $project;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("WarehouseReady")
-     * @Exclude(if="empty")
      */
     private $warehouseReady;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OutboundDate")
-     * @Exclude(if="empty")
      */
     private $outboundDate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Remarks")
-     * @Exclude(if="empty")
      */
     private $remarks;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("RoundOff")
-     * @Exclude(if="empty")
      */
     private $roundOff;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Sent")
-     * @Exclude(if="empty")
      */
     private $sent;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TaxReduction")
-     * @Exclude(if="empty")
      */
     private $taxReduction;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TermsOfDelivery")
-     * @Exclude(if="empty")
      */
     private $termsOfDelivery;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TermsOfPayment")
-     * @Exclude(if="empty")
      */
     private $termsOfPayment;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TimeBasisReference")
-     * @Exclude(if="empty")
      */
     private $timeBasisReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Total")
-     * @Exclude(if="empty")
      */
     private $total;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TotalToPay")
-     * @Exclude(if="empty")
      */
     private $totalToPay;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TotalVAT")
-     * @Exclude(if="empty")
      */
     private $totalVAT;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("VATIncluded")
-     * @Exclude(if="empty")
      */
     private $vATIncluded;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("WayOfDelivery")
-     * @Exclude(if="empty")
      */
     private $wayOfDelivery;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("YourReference")
-     * @Exclude(if="empty")
      */
     private $yourReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("YourOrderNumber")
-     * @Exclude(if="empty")
      */
     private $yourOrderNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ZipCode")
-     * @Exclude(if="empty")
      */
     private $zipCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointCode")
-     * @Exclude(if="empty")
      */
     private $stockPointCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointId")
-     * @Exclude(if="empty")
      */
     private $stockPointId;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TaxReductionType")
-     * @Exclude(if="empty")
      */
     private $taxReductionType;
 
