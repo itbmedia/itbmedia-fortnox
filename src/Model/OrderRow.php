@@ -122,20 +122,20 @@ class OrderRow implements SerializableInterface
      * @SerializedName("RowId")
      */
     private $rowId;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("StockPointCode")
-     * SkipWhenEmpty
-     */
-    private $stockPointCode;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("StockPointId")
-     * SkipWhenEmpty
-     */
-    private $stockPointId;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("StockPointCode")
+    //  * SkipWhenEmpty
+    //  */
+    // private $stockPointCode;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("StockPointId")
+    //  * SkipWhenEmpty
+    //  */
+    // private $stockPointId;
     /**
      * @var double
      * @Type("double")

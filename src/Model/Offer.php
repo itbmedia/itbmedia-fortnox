@@ -1704,6 +1704,6 @@ class Offer implements SerializableInterface
 	 * @return self
 	 */
 	public static function fromArray(array $data) {
-		return SerializerBuilder::create()->build()->fromArray(array_filter($data), self::class);
+		return SerializerBuilder::create()->build()->fromArray($data, self::class);
 	}
 }
