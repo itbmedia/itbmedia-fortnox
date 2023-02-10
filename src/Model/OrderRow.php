@@ -109,13 +109,13 @@ class OrderRow implements SerializableInterface
      * SkipWhenEmpty
      */
     private $project;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("ReservedQuantity")
-     * SkipWhenEmpty
-     */
-    private $reservedQuantity;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("ReservedQuantity")
+    //  * SkipWhenEmpty
+    //  */
+    // private $reservedQuantity;
     /**
      * @var int
      * @Type("int")
