@@ -14,120 +14,140 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("@url")
+     * @Groups({"order"})
      */
     private $url;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("@urlTaxReductionList")
+     * @Groups({"order"})
      */
     private $urlTaxReductionList;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("AdministrationFee")
+     * @Groups({"order"})
      */
     private $administrationFee;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("AdministrationFeeVAT")
+     * @Groups({"order"})
      */
     private $administrationFeeVAT;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Address1")
+     * @Groups({"order"})
      */
     private $address1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Address2")
+     * @Groups({"order"})
      */
     private $address2;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("BasisTaxReduction")
+     * @Groups({"order"})
      */
     private $basisTaxReduction;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("Cancelled")
+     * @Groups({"order"})
      */
     private $cancelled;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("City")
+     * @Groups({"order"})
      */
     private $city;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Comments")
+     * @Groups({"order"})
      */
     private $comments;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("ContributionPercent")
+     * @Groups({"order"})
      */
     private $contributionPercent;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("ContributionValue")
+     * @Groups({"order"})
      */
     private $contributionValue;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("CopyRemarks")
+     * @Groups({"order"})
      */
     private $copyRemarks;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Country")
+     * @Groups({"order"})
      */
     private $country;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
+     * @Groups({"order"})
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Currency")
+     * @Groups({"order"})
      */
     private $currency;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("CurrencyRate")
+     * @Groups({"order"})
      */
     private $currencyRate;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("CurrencyUnit")
+     * @Groups({"order"})
      */
     private $currencyUnit;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CustomerName")
+     * @Groups({"order"})
      */
     private $customerName;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CustomerNumber")
+     * @Groups({"order"})
      */
     private $customerNumber;
     /**
@@ -141,138 +161,161 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryAddress1")
+     * @Groups({"order"})
      */
     private $deliveryAddress1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryAddress2")
+     * @Groups({"order"})
      */
     private $deliveryAddress2;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryCity")
+     * @Groups({"order"})
      */
     private $deliveryCity;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryCountry")
+     * @Groups({"order"})
      */
     private $deliveryCountry;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryDate")
+     * @Groups({"order"})
      */
     private $deliveryDate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryName")
+     * @Groups({"order"})
      */
     private $deliveryName;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryZipCode")
+     * @Groups({"order"})
      */
     private $deliveryZipCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DocumentNumber")
+     * @Groups({"order"})
      */
     private $documentNumber;
     /**
      * @var \ITBMedia\FortnoxBundle\Model\EmailInformation
      * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
      * @SerializedName("EmailInformation")
+     * @Groups({"order"})
      */
     private $emailInformation;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ExternalInvoiceReference1")
+     * @Groups({"order"})
      */
     private $externalInvoiceReference1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ExternalInvoiceReference2")
+     * @Groups({"order"})
      */
     private $externalInvoiceReference2;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Freight")
+     * @Groups({"order"})
      */
     private $freight;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("FreightVAT")
+     * @Groups({"order"})
      */
     private $freightVAT;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Gross")
+     * @Groups({"order"})
      */
     private $gross;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("HouseWork")
+     * @Groups({"order"})
      */
     private $houseWork;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("InvoiceReference")
+     * @Groups({"order"})
      */
     private $invoiceReference;
     /**
      * @var array
      * @Type("array")
      * @SerializedName("Labels")
+     * @Groups({"order"})
      */
     private $labels;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Language")
+     * @Groups({"order"})
      */
     private $language;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Net")
+     * @Groups({"order"})
      */
     private $net;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("NotCompleted")
+     * @Groups({"order"})
      */
     private $notCompleted;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OfferReference")
+     * @Groups({"order"})
      */
     private $offerReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OrderDate")
+     * @Groups({"order"})
      */
     private $orderDate;
     /**
      * @var array
      * @Type("array<ITBMedia\FortnoxBundle\Model\OrderRow>")
      * @SerializedName("OrderRows")
+     * @Groups({"order"})
      */
     private $orderRows;
     /**
@@ -286,162 +329,189 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("OrganisationNumber")
+     * @Groups({"order"})
      */
     private $organisationNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OurReference")
+     * @Groups({"order"})
      */
     private $ourReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Phone1")
+     * @Groups({"order"})
      */
     private $phone1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Phone2")
+     * @Groups({"order"})
      */
     private $phone2;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PriceList")
+     * @Groups({"order"})
      */
     private $priceList;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PrintTemplate")
+     * @Groups({"order"})
      */
     private $printTemplate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Project")
+     * @Groups({"order"})
      */
     private $project;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("WarehouseReady")
+     * @Groups({"order"})
      */
     private $warehouseReady;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OutboundDate")
+     * @Groups({"order"})
      */
     private $outboundDate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Remarks")
+     * @Groups({"order"})
      */
     private $remarks;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("RoundOff")
+     * @Groups({"order"})
      */
     private $roundOff;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Sent")
+     * @Groups({"order"})
      */
     private $sent;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TaxReduction")
+     * @Groups({"order"})
      */
     private $taxReduction;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TermsOfDelivery")
+     * @Groups({"order"})
      */
     private $termsOfDelivery;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TermsOfPayment")
+     * @Groups({"order"})
      */
     private $termsOfPayment;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TimeBasisReference")
+     * @Groups({"order"})
      */
     private $timeBasisReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Total")
+     * @Groups({"order"})
      */
     private $total;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TotalToPay")
+     * @Groups({"order"})
      */
     private $totalToPay;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TotalVAT")
+     * @Groups({"order"})
      */
     private $totalVAT;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("VATIncluded")
+     * @Groups({"order"})
      */
     private $vATIncluded;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("WayOfDelivery")
+     * @Groups({"order"})
      */
     private $wayOfDelivery;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("YourReference")
+     * @Groups({"order"})
      */
     private $yourReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("YourOrderNumber")
+     * @Groups({"order"})
      */
     private $yourOrderNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ZipCode")
+     * @Groups({"order"})
      */
     private $zipCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointCode")
+     * @Groups({"order"})
      */
     private $stockPointCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointId")
+     * @Groups({"order"})
      */
     private $stockPointId;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TaxReductionType")
+     * @Groups({"order"})
      */
     private $taxReductionType;
 
@@ -1910,8 +1980,8 @@ class Order implements SerializableInterface
      /**
 	 * @return array
 	 */
-	public function toArray(): array {
-		return array_filter(SerializerBuilder::create()->build()->toArray($this));
+	public function toArray(array $groups = ["order"]): array {
+		return array_filter(SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups)));
 	}
 
 	/**
