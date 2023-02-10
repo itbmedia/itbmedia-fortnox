@@ -1908,7 +1908,7 @@ class Order implements SerializableInterface
 	 * @return array
 	 */
 	public function toArray(): array {
-		return SerializerBuilder::create()->build()->toArray($this);
+		return array_filter(SerializerBuilder::create()->build()->toArray($this));
 	}
 
 	/**
