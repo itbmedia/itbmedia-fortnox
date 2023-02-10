@@ -7,6 +7,7 @@ use ITBMedia\FortnoxBundle\Model\Article;
 use ITBMedia\FortnoxBundle\Model\Customer;
 use ITBMedia\FortnoxBundle\Model\MetaInformation;
 use ITBMedia\FortnoxBundle\Model\Offer;
+use ITBMedia\FortnoxBundle\Model\Order;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
@@ -81,6 +82,11 @@ class FortnoxService{
     public function getOrder(Token $token, string $number, array $params = []) : Offer
     {
         $response = $this->call($token, 'GET', "orders/$number", $params, true)['Order'];
+        return Offer::fromArray($response);
+    }
+    public function createOrder(Token $token, Order $order) : Offer
+    {
+        $response = $this->call($token, 'POST', "orders", $order->toArray(), true)['Order'];
         return Offer::fromArray($response);
     }
     #endregion
