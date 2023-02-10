@@ -1889,6 +1889,7 @@ class Order implements SerializableInterface
      */
     public function serialize()
     {
+        die("ok");
         return SerializerBuilder::create()
             ->build()
             ->serialize($this, "json", SerializationContext::create()->setSerializeNull(false));
