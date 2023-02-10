@@ -1889,10 +1889,9 @@ class Order implements SerializableInterface
      */
     public function serialize()
     {
-        die("ok");
         return SerializerBuilder::create()
             ->build()
-            ->serialize($this, "json", SerializationContext::create()->setSerializeNull(false));
+            ->serialize($this, "json");
     }
 
     /**
@@ -1909,7 +1908,7 @@ class Order implements SerializableInterface
 	 * @return array
 	 */
 	public function toArray(): array {
-		return array_filter(SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setSerializeNull(false)));
+		return array_filter(SerializerBuilder::create()->build()->toArray($this));
 	}
 
 	/**
