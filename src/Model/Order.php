@@ -1914,7 +1914,6 @@ class Order implements SerializableInterface
 	 * @return self
 	 */
 	public static function fromArray(array $data) {
-        print_r($data);
 		return SerializerBuilder::create()->build()->fromArray($data, self::class);
 	}
 }
