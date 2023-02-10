@@ -9,106 +9,106 @@ use JMS\Serializer\Annotation\Type;
 
 class OrderRow implements SerializableInterface
 {
-    /**
-     * @var int
-     * @Type("integer")
-     * @SerializedName("AccountNumber")
-     */
-    private $accountNumber;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("ArticleNumber")
-     * SkipWhenEmpty
-     */
-    private $articleNumber;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("ContributionPercent")
-     * SkipWhenEmpty
-     */
-    private $contributionPercent;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("ContributionValue")
-     * SkipWhenEmpty
-     */
-    private $contributionValue;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("CostCenter")
-     * SkipWhenEmpty
-     */
-    private $costCenter;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("DeliveredQuantity")
-     * SkipWhenEmpty
-     */
-    private $deliveredQuantity;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("Description")
-     * SkipWhenEmpty
-     */
-    private $description;
-    /**
-     * @var double
-     * @Type("double")
-     * @SerializedName("Discount")
-     */
-    private $discount;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("DiscountType")
-     * SkipWhenEmpty
-     */
-    private $discountType;
-    /**
-     * @var bool
-     * @Type("boolean")
-     * @SerializedName("HouseWork")
-     */
-    private $houseWork;
-    /**
-     * @var int
-     * @Type("integer")
-     * @SerializedName("HouseWorkHoursToReport")
-     */
-    private $houseWorkHoursToReport;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("HouseWorkType")
-     * SkipWhenEmpty
-     */
-    private $houseWorkType;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("OrderedQuantity")
-     * SkipWhenEmpty
-     */
-    private $orderedQuantity;
-    /**
-     * @var double
-     * @Type("double")
-     * @SerializedName("Price")
-     */
-    private $price;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("Project")
-     * SkipWhenEmpty
-     */
-    private $project;
+    // /**
+    //  * @var int
+    //  * @Type("integer")
+    //  * @SerializedName("AccountNumber")
+    //  */
+    // private $accountNumber;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("ArticleNumber")
+    //  * SkipWhenEmpty
+    //  */
+    // private $articleNumber;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("ContributionPercent")
+    //  * SkipWhenEmpty
+    //  */
+    // private $contributionPercent;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("ContributionValue")
+    //  * SkipWhenEmpty
+    //  */
+    // private $contributionValue;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("CostCenter")
+    //  * SkipWhenEmpty
+    //  */
+    // private $costCenter;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("DeliveredQuantity")
+    //  * SkipWhenEmpty
+    //  */
+    // private $deliveredQuantity;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("Description")
+    //  * SkipWhenEmpty
+    //  */
+    // private $description;
+    // /**
+    //  * @var double
+    //  * @Type("double")
+    //  * @SerializedName("Discount")
+    //  */
+    // private $discount;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("DiscountType")
+    //  * SkipWhenEmpty
+    //  */
+    // private $discountType;
+    // /**
+    //  * @var bool
+    //  * @Type("boolean")
+    //  * @SerializedName("HouseWork")
+    //  */
+    // private $houseWork;
+    // /**
+    //  * @var int
+    //  * @Type("integer")
+    //  * @SerializedName("HouseWorkHoursToReport")
+    //  */
+    // private $houseWorkHoursToReport;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("HouseWorkType")
+    //  * SkipWhenEmpty
+    //  */
+    // private $houseWorkType;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("OrderedQuantity")
+    //  * SkipWhenEmpty
+    //  */
+    // private $orderedQuantity;
+    // /**
+    //  * @var double
+    //  * @Type("double")
+    //  * @SerializedName("Price")
+    //  */
+    // private $price;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("Project")
+    //  * SkipWhenEmpty
+    //  */
+    // private $project;
     // /**
     //  * @var string
     //  * @Type("string")
@@ -116,12 +116,12 @@ class OrderRow implements SerializableInterface
     //  * SkipWhenEmpty
     //  */
     // private $reservedQuantity;
-    /**
-     * @var int
-     * @Type("int")
-     * @SerializedName("RowId")
-     */
-    private $rowId;
+    // /**
+    //  * @var int
+    //  * @Type("int")
+    //  * @SerializedName("RowId")
+    //  */
+    // private $rowId;
     // /**
     //  * @var string
     //  * @Type("string")
@@ -136,25 +136,25 @@ class OrderRow implements SerializableInterface
     //  * SkipWhenEmpty
     //  */
     // private $stockPointId;
-    /**
-     * @var double
-     * @Type("double")
-     * @SerializedName("Total")
-     */
-    private $total;
-    /**
-     * @var string
-     * @Type("string")
-     * @SerializedName("Unit")
-     * SkipWhenEmpty
-     */
-    private $unit;
-    /**
-     * @var double
-     * @Type("double")
-     * @SerializedName("VAT")
-     */
-    private $vat;
+    // /**
+    //  * @var double
+    //  * @Type("double")
+    //  * @SerializedName("Total")
+    //  */
+    // private $total;
+    // /**
+    //  * @var string
+    //  * @Type("string")
+    //  * @SerializedName("Unit")
+    //  * SkipWhenEmpty
+    //  */
+    // private $unit;
+    // /**
+    //  * @var double
+    //  * @Type("double")
+    //  * @SerializedName("VAT")
+    //  */
+    // private $vat;
 
     /**
      *
