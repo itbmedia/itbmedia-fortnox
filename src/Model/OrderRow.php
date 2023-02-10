@@ -7,19 +7,21 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
 use JMS\Serializer\Annotation\Type;
-
+use JMS\Serializer\Annotation\Groups;
 class OrderRow implements SerializableInterface
 {
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("AccountNumber")
+     * @Groups({"order"})
      */
     private $accountNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ArticleNumber")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $articleNumber;
@@ -27,6 +29,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("ContributionPercent")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $contributionPercent;
@@ -34,6 +37,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("ContributionValue")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $contributionValue;
@@ -41,6 +45,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $costCenter;
@@ -48,6 +53,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("DeliveredQuantity")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $deliveredQuantity;
@@ -55,6 +61,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("Description")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $description;
@@ -62,12 +69,14 @@ class OrderRow implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("Discount")
+     * @Groups({"order"})
      */
     private $discount;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DiscountType")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $discountType;
@@ -75,18 +84,21 @@ class OrderRow implements SerializableInterface
      * @var bool
      * @Type("boolean")
      * @SerializedName("HouseWork")
+     * @Groups({"order"})
      */
     private $houseWork;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("HouseWorkHoursToReport")
+     * @Groups({"order"})
      */
     private $houseWorkHoursToReport;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("HouseWorkType")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $houseWorkType;
@@ -94,6 +106,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("OrderedQuantity")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $orderedQuantity;
@@ -101,12 +114,14 @@ class OrderRow implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("Price")
+     * @Groups({"order"})
      */
     private $price;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Project")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $project;
@@ -114,6 +129,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("ReservedQuantity")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $reservedQuantity;
@@ -121,12 +137,14 @@ class OrderRow implements SerializableInterface
      * @var int
      * @Type("int")
      * @SerializedName("RowId")
+     * @Groups({"order"})
      */
     private $rowId;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointCode")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $stockPointCode;
@@ -134,6 +152,7 @@ class OrderRow implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("StockPointId")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $stockPointId;
@@ -141,12 +160,14 @@ class OrderRow implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("Total")
+     * @Groups({"order"})
      */
     private $total;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Unit")
+     * @Groups({"order"})
      * @SkipWhenEmpty()
      */
     private $unit;
@@ -154,6 +175,7 @@ class OrderRow implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("VAT")
+     * @Groups({"order"})
      */
     private $vat;
 

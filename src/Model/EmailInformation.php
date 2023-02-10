@@ -5,42 +5,49 @@ use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Groups;
 class EmailInformation implements SerializableInterface
 {
     /**
      * @var string
      * @Type("string")
      * @SerializedName("EmailAddressFrom")
+	 * @Groups({"order"})
      */
     private $emailAddressFrom;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("EmailAddressTo")
+	 * @Groups({"order"})
      */
     private $emailAddressTo;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("EmailAddressCC")
+	 * @Groups({"order"})
      */
     private $emailAddressCC;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("EmailAddressBCC")
+	 * @Groups({"order"})
      */
     private $emailAddressBCC;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("EmailSubject")
+	 * @Groups({"order"})
      */
     private $emailSubject;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("EmailBody")
+	 * @Groups({"order"})
      */
     private $emailBody;
 
