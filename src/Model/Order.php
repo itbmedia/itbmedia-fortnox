@@ -6,6 +6,7 @@ use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Groups;
 
 class Order implements SerializableInterface
 {
@@ -133,6 +134,7 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryState")
+     * @Groups({"warehouse"})
      */
     private $deliveryState;
     /**
@@ -277,6 +279,7 @@ class Order implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("OrderType")
+     * @Groups({"warehouse"})
      */
     private $orderType;
     /**
