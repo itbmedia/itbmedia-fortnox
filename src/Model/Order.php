@@ -244,7 +244,7 @@ class Order implements SerializableInterface
      * @SerializedName("Gross")
      * @SkipWhenEmpty()
      */
-    private $gross; = null
+    private $gross = null;
     /**
      * @var string
      * @Type("string")
