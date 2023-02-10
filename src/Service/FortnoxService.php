@@ -89,6 +89,11 @@ class FortnoxService{
         $response = $this->call($token, 'POST', "orders", array('Order' => $order->toArray()), true)['Order'];
         return Order::fromArray($response);
     }
+    public function updateOrder(Token $token, Order $order) : Order
+    {
+        $response = $this->call($token, 'PUT', "orders/".$order->getDocumentNumber(), array('Order' => $order->toArray()), true)['Order'];
+        return Order::fromArray($response);
+    }
     #endregion
     #region orders
      public function getInvoices(Token $token, array $params = []) : OrdersResponse
