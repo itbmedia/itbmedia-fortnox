@@ -7,6 +7,7 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SkipWhenEmpty;
 
 class Offer implements SerializableInterface
 {
@@ -211,6 +212,7 @@ class Offer implements SerializableInterface
      * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
      * @SerializedName("EmailInformation")
      * @Groups({"offer"})
+     * @SkipWhenEmpty()
      */
     private $emailInformation;
     /**
