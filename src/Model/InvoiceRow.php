@@ -10,12 +10,12 @@ use JMS\Serializer\Annotation\Groups;
 
 class InvoiceRow implements SerializableInterface
 {
-    // /**
-    //  * @var integer
-    //  * @Type("integer")
-    //  * @SerializedName("AccountNumber")
-    //  */
-    // private $accountNumber;
+    /**
+     * @var integer
+     * @Type("integer")
+     * @SerializedName("AccountNumber")
+     */
+    private $accountNumber;
     /**
      * @var string
      * @Type("string")
