@@ -188,7 +188,6 @@ class Contract implements SerializableInterface
      * @var array
      * @Type("array<ITBMedia\FortnoxBundle\Model\InvoiceRow>")
      * @SerializedName("InvoiceRows")
-     * @Groups({"contract"})
      */
     private $invoiceRows;
     /**
