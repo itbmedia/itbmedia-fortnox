@@ -2,9 +2,11 @@
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Groups;
 
 class Offer implements SerializableInterface
 {
@@ -12,192 +14,224 @@ class Offer implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("@url")
+     * @Groups({"offer"})
      */
     private $url;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName ("@urlTaxReductionList")
+     * @SerializedName("@urlTaxReductionList")
+     * @Groups({"offer"})
      */
     private $urlTaxReductionList;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("AdministrationFee")
+     * @Groups({"offer"})
      */
     private $administrationFee;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("AdministrationFeeVAT")
+     * @Groups({"offer"})
      */
     private $administrationFeeVAT;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Address1")
+     * @Groups({"offer"})
      */
     private $address1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Address2")
+     * @Groups({"offer"})
      */
     private $address2;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("BasisTaxReduction")
+     * @Groups({"offer"})
      */
     private $basisTaxReduction;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("Cancelled")
+     * @Groups({"offer"})
      */
     private $cancelled;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("City")
+     * @Groups({"offer"})
      */
     private $city;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Comments")
+     * @Groups({"offer"})
      */
     private $comments;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("ContributionPercent")
+     * @Groups({"offer"})
      */
     private $contributionPercent;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("ContributionValue")
+     * @Groups({"offer"})
      */
     private $contributionValue;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("CopyRemarks")
+     * @Groups({"offer"})
      */
     private $copyRemarks;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Country")
+     * @Groups({"offer"})
      */
     private $country;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
+     * @Groups({"offer"})
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Currency")
+     * @Groups({"offer"})
      */
     private $currency;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("CurrencyRate")
+     * @Groups({"offer"})
      */
     private $currencyRate;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("CurrencyUnit")
+     * @Groups({"offer"})
      */
     private $currencyUnit;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CustomerName")
+     * @Groups({"offer"})
      */
     private $customerName;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CustomerNumber")
+     * @Groups({"offer"})
      */
     private $customerNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryAddress1")
+     * @Groups({"offer"})
      */
     private $deliveryAddress1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryAddress2")
+     * @Groups({"offer"})
      */
     private $deliveryAddress2;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryCity")
+     * @Groups({"offer"})
      */
     private $deliveryCity;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryCountry")
+     * @Groups({"offer"})
      */
     private $deliveryCountry;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryDate")
+     * @Groups({"offer"})
      */
     private $deliveryDate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryName")
+     * @Groups({"offer"})
      */
     private $deliveryName;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveryZipCode")
+     * @Groups({"offer"})
      */
     private $deliveryZipCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DocumentNumber")
+     * @Groups({"offer"})
      */
     private $documentNumber;
     /**
      * @var \ITBMedia\FortnoxBundle\Model\EmailInformation
      * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
      * @SerializedName("EmailInformation")
+     * @Groups({"offer"})
      */
     private $emailInformation;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ExpireDate")
+     * @Groups({"offer"})
      */
     private $expireDate;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Freight")
+     * @Groups({"offer"})
      */
     private $freight;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("FreightVAT")
+     * @Groups({"offer"})
      */
     private $freightVAT;
     /**
@@ -210,186 +244,217 @@ class Offer implements SerializableInterface
      * @var bool
      * @Type("boolean")
      * @SerializedName("HouseWork")
+     * @Groups({"offer"})
      */
     private $houseWork;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("InvoiceReference")
+     * @Groups({"offer"})
      */
     private $invoiceReference;
     /**
      * @var array
      * @Type("array")
      * @SerializedName("Labels")
+     * @Groups({"offer"})
      */
     private $labels;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Language")
+     * @Groups({"offer"})
      */
     private $language;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Net")
+     * @Groups({"offer"})
      */
     private $net;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("NotCompleted")
+     * @Groups({"offer"})
      */
     private $notCompleted;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OfferDate")
+     * @Groups({"offer"})
      */
     private $offerDate;
     /**
      * @var array
      * @Type("array<ITBMedia\FortnoxBundle\Model\OfferRow>")
      * @SerializedName("OfferRows")
+     * @Groups({"offer"})
      */
     private $offerRows;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OrderReference")
+     * @Groups({"offer"})
      */
     private $orderReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OrganisationNumber")
+     * @Groups({"offer"})
      */
     private $organisationNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OurReference")
+     * @Groups({"offer"})
      */
     private $ourReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Phone1")
+     * @Groups({"offer"})
      */
     private $phone1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Phone2")
+     * @Groups({"offer"})
      */
     private $phone2;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PriceList")
+     * @Groups({"offer"})
      */
     private $priceList;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PrintTemplate")
+     * @Groups({"offer"})
      */
     private $printTemplate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Project")
+     * @Groups({"offer"})
      */
     private $project;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Remarks")
+     * @Groups({"offer"})
      */
     private $remarks;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("RoundOff")
+     * @Groups({"offer"})
      */
     private $roundOff;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("Sent")
+     * @Groups({"offer"})
      */
     private $sent;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("TaxReduction")
+     * @Groups({"offer"})
      */
     private $taxReduction;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TermsOfDelivery")
+     * @Groups({"offer"})
      */
     private $termsOfDelivery;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TermsOfPayment")
+     * @Groups({"offer"})
      */
     private $termsOfPayment;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Total")
+     * @Groups({"offer"})
      */
     private $total;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("TotalToPay")
+     * @Groups({"offer"})
      */
     private $totalToPay;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("TotalVAT")
+     * @Groups({"offer"})
      */
     private $totalVAT;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("VATIncluded")
+     * @Groups({"offer"})
      */
     private $vATIncluded;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("WayOfDelivery")
+     * @Groups({"offer"})
      */
     private $wayOfDelivery;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("YourReference")
+     * @Groups({"offer"})
      */
     private $yourReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("YourReferenceNumber")
+     * @Groups({"offer"})
      */
     private $yourReferenceNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ZipCode")
+     * @Groups({"offer"})
      */
     private $zipCode;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TaxReductionType")
+     * @Groups({"offer"})
      */
     private $taxReductionType;
 
@@ -1696,8 +1761,8 @@ class Offer implements SerializableInterface
     /**
 	 * @return array
 	 */
-	public function toArray(): array {
-		return SerializerBuilder::create()->build()->toArray($this);
+	public function toArray(array $groups = ["order"]): array {
+		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
 	}
 
 	/**

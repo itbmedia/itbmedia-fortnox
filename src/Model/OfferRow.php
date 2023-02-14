@@ -5,6 +5,7 @@ use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Groups;
 
 class OfferRow implements SerializableInterface
 {
@@ -12,108 +13,126 @@ class OfferRow implements SerializableInterface
      * @var int
      * @Type("integer")
      * @SerializedName("AccountNumber")
+     * @Groups({"offer", "offerRow"})
      */
     private $accountNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ArticleNumber")
+     * @Groups({"offer", "offerRow"})
      */
     private $articleNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContributionPercent")
+     * @Groups({"offer", "offerRow"})
      */
     private $contributionPercent;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContributionValue")
+     * @Groups({"offer", "offerRow"})
      */
     private $contributionValue;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
+     * @Groups({"offer", "offerRow"})
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Description")
+     * @Groups({"offer", "offerRow"})
      */
     private $description;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Discount")
+     * @Groups({"offer", "offerRow"})
      */
     private $discount;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DiscountType")
+     * @Groups({"offer", "offerRow"})
      */
     private $discountType;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("HouseWork")
+     * @Groups({"offer", "offerRow"})
      */
     private $houseWork;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("HouseWorkHoursToReport")
+     * @Groups({"offer", "offerRow"})
      */
     private $houseWorkHoursToReport;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("HouseWorkType")
+     * @Groups({"offer", "offerRow"})
      */
     private $houseWorkType;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Price")
+     * @Groups({"offer", "offerRow"})
      */
     private $price;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Project")
+     * @Groups({"offer", "offerRow"})
      */
     private $project;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Quantity")
+     * @Groups({"offer", "offerRow"})
      */
     private $quantity;
     /**
      * @var integer
      * @Type("integer")
      * @SerializedName("RowId")
+     * @Groups({"offer", "offerRow"})
      */
     private $rowId;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Total")
+     * @Groups({"offer", "offerRow"})
      */
     private $total;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Unit")
+     * @Groups({"offer", "offerRow"})
      */
     private $unit;
     /**
      * @var integer
      * @Type("integer")
      * @SerializedName("VAT")
+     * @Groups({"offer", "offerRow"})
      */
     private $vat;
 
