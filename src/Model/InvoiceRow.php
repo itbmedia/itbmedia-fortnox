@@ -2,136 +2,138 @@
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Groups;
 
 class InvoiceRow implements SerializableInterface
 {
     /**
      * @var integer
      * @Type("integer")
-     * @Serialzname("AccountNumber")
+     * @SerializedName("AccountNumber")
      */
     private $accountNumber;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("ArticleNumber")
+     * @SerializedName("ArticleNumber")
      */
     private $articleNumber;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("ContributionPercent")
+     * @SerializedName("ContributionPercent")
      */
     private $contributionPercent;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("ContributionValue")
+     * @SerializedName("ContributionValue")
      */
     private $contributionValue;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("CostCenter")
+     * @SerializedName("CostCenter")
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("DeliveredQuantity")
+     * @SerializedName("DeliveredQuantity")
      */
     private $deliveredQuantity;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("Description")
+     * @SerializedName("Description")
      */
     private $description;
     /**
      * @var double
      * @Type("double")
-     * @Serialzname("Discount")
+     * @SerializedName("Discount")
      */
     private $discount;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("DiscountType")
+     * @SerializedName("DiscountType")
      */
     private $discountType;
     /**
      * @var bool
      * @Type("boolean")
-     * @Serialzname("HouseWork")
+     * @SerializedName("HouseWork")
      */
     private $houseWork;
     /**
      * @var int
      * @Type("integer")
-     * @Serialzname("HouseWorkHoursToReport")
+     * @SerializedName("HouseWorkHoursToReport")
      */
     private $houseWorkHoursToReport;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("HouseWorkType")
+     * @SerializedName("HouseWorkType")
      */
     private $houseWorkType;
     /**
      * @var double
      * @Type("double")
-     * @Serialzname("Price")
+     * @SerializedName("Price")
      */
     private $price;
     /**
      * @var double
      * @Type("double")
-     * @Serialzname("PriceExcludingVAT")
+     * @SerializedName("PriceExcludingVAT")
      */
     private $priceExcludingVAT;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("Project")
+     * @SerializedName("Project")
      */
     private $project;
     /**
      * @var int
      * @Type("integer")
-     * @Serialzname("RowId")
+     * @SerializedName("RowId")
      */
     private $rowId;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("StockPointCode")
+     * @SerializedName("StockPointCode")
      */
     private $stockPointCode;
     /**
      * @var double
      * @Type("double")
-     * @Serialzname("Total")
+     * @SerializedName("Total")
      */
     private $total;
     /**
      * @var double
      * @Type("double")
-     * @Serialzname("TotalExcludingVAT")
+     * @SerializedName("TotalExcludingVAT")
      */
     private $totalExcludingVAT;
     /**
      * @var string
      * @Type("string")
-     * @Serialzname("Unit")
+     * @SerializedName("Unit")
      */
     private $unit;
     /**
      * @var int
      * @Type("integer")
-     * @Serialzname("VAT")
+     * @SerializedName("VAT")
      */
     private $vat;
 
@@ -574,4 +576,18 @@ class InvoiceRow implements SerializableInterface
             ->build()
             ->deserialize($data, self::class, "json");
     }
+
+    /**
+	 * @return array
+	 */
+	public function toArray(array $groups = ["invoice_row"]): array {
+		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
+	}
+
+	/**
+	 * @return self
+	 */
+	public static function fromArray(array $data) {
+		return SerializerBuilder::create()->build()->fromArray($data, self::class);
+	}
 }
