@@ -70,7 +70,7 @@ class FortnoxService{
     public function getOffer(Token $token, string $number, array $params = []) : Offer
     {
         $response = $this->call($token, 'GET', "offers/$number", $params, true)['Offer'];
-        print_r($response);
+        print_r( Offer::fromArray($response));
         die;
         return Offer::fromArray($response);
     }
