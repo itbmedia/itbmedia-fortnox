@@ -1761,7 +1761,7 @@ class Offer implements SerializableInterface
     /**
 	 * @return array
 	 */
-	public function toArray(array $groups = ["order"]): array {
+	public function toArray(array $groups = ["offer"]): array {
 		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
 	}
 

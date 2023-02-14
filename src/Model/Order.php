@@ -1980,7 +1980,7 @@ class Order implements SerializableInterface
      /**
 	 * @return array
 	 */
-	public function toArray(array $groups = ["offer"]): array {
+	public function toArray(array $groups = ["order"]): array {
 		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
 	}
 
