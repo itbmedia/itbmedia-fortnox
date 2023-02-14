@@ -6,7 +6,6 @@ use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Model\Article;
 use ITBMedia\FortnoxBundle\Model\Contract;
 use ITBMedia\FortnoxBundle\Model\Customer;
-use ITBMedia\FortnoxBundle\Model\MetaInformation;
 use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Order;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
@@ -18,7 +17,6 @@ use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class FortnoxService{
@@ -110,7 +108,7 @@ class FortnoxService{
     }
     public function createContract(Token $token, Contract $contract) : Contract
     {
-        $response = $this->call($token, 'POST', "contracts", array('contract' => $contract->toArray()), true)['Contract'];
+        $response = $this->call($token, 'POST', "contracts", array('Contract' => $contract->toArray()), true)['Contract'];
         return Contract::fromArray($response);
     }
     public function updateContract(Token $token, Contract $contract) : Contract
