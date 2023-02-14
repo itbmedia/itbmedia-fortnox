@@ -13,175 +13,150 @@ class Contract implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("@url")
-     * @Groups({"contract"})
      */
     private $url;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("@urlTaxReductionList")
-     * @Groups({"contract"})
      */
     private $urlTaxReductionList;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("Active")
-     * @Groups({"contract"})
      */
     private $active;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("AdministrationFee")
-     * @Groups({"contract"})
      */
     private $administrationFee;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("BasisTaxReduction")
-     * @Groups({"contract"})
      */
     private $basisTaxReduction;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Comments")
-     * @Groups({"contract"})
      */
     private $comments;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("Continuous")
-     * @Groups({"contract"})
      */
     private $continuous;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContractDate")
-     * @Groups({"contract"})
      */
     private $contractDate;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("ContractLength")
-     * @Groups({"contract"})
      */
     private $contractLength;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("ContributionPercent")
-     * @Groups({"contract"})
      */
     private $contributionPercent;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("ContributionValue")
-     * @Groups({"contract"})
      */
     private $contributionValue;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
-     * @Groups({"contract"})
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Currency")
-     * @Groups({"contract"})
      */
     private $currency;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CustomerName")
-     * @Groups({"contract"})
      */
     private $customerName;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CustomerNumber")
-     * @Groups({"contract"})
      */
     private $customerNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DocumentNumber")
-     * @Groups({"contract"})
      */
     private $documentNumber;
     /**
      * @var \ITBMedia\FortnoxBundle\Model\EmailInformation
      * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
      * @SerializedName("EmailInformation")
-     * @Groups({"contract"})
      */
     private $emailInformation;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ExternalInvoiceReference1")
-     * @Groups({"contract"})
      */
     private $externalInvoiceReference1;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ExternalInvoiceReference2")
-     * @Groups({"contract"})
      */
     private $externalInvoiceReference2;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Freight")
-     * @Groups({"contract"})
      */
     private $freight;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Gross")
-     * @Groups({"contract"})
      */
     private $gross;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("HouseWork")
-     * @Groups({"contract"})
      */
     private $houseWork;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("InvoiceDiscount")
-     * @Groups({"contract"})
      */
     private $invoiceDiscount;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("InvoiceInterval")
-     * @Groups({"contract"})
      */
     private $invoiceInterval;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("InvoicesRemaining")
-     * @Groups({"contract"})
      */
     private $invoicesRemaining;
     /**
@@ -194,168 +169,144 @@ class Contract implements SerializableInterface
      * @var string
      * @Type("string")
      * @SerializedName("Language")
-     * @Groups({"contract"})
      */
     private $language;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("LastInvoiceDate")
-     * @Groups({"contract"})
      */
     private $lastInvoiceDate;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Net")
-     * @Groups({"contract"})
      */
     private $net;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("OurReference")
-     * @Groups({"contract"})
      */
     private $ourReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PeriodEnd")
-     * @Groups({"contract"})
      */
     private $periodEnd;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PeriodStart")
-     * @Groups({"contract"})
      */
     private $periodStart;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PriceList")
-     * @Groups({"contract"})
      */
     private $priceList;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("PrintTemplate")
-     * @Groups({"contract"})
      */
     private $printTemplate;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Project")
-     * @Groups({"contract"})
      */
     private $project;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Remarks")
-     * @Groups({"contract"})
      */
     private $remarks;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("RoundOff")
-     * @Groups({"contract"})
      */
     private $roundOff;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("TaxReduction")
-     * @Groups({"contract"})
      */
     private $taxReduction;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TemplateName")
-     * @Groups({"contract"})
      */
     private $templateName;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("TemplateNumber")
-     * @Groups({"contract"})
      */
     private $templateNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TermsOfDelivery")
-     * @Groups({"contract"})
      */
     private $termsOfDelivery;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TermsOfPayment")
-     * @Groups({"contract"})
      */
     private $termsOfPayment;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Total")
-     * @Groups({"contract"})
      */
     private $total;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("TotalToPay")
-     * @Groups({"contract"})
      */
     private $totalToPay;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("TotalVAT")
-     * @Groups({"contract"})
      */
     private $totalVAT;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("VatIncluded")
-     * @Groups({"contract"})
      */
     private $vatIncluded;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("WayOfDelivery")
-     * @Groups({"contract"})
      */
     private $wayOfDelivery;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("YourOrderNumber")
-     * @Groups({"contract"})
      */
     private $yourOrderNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("YourReference")
-     * @Groups({"contract"})
      */
     private $yourReference;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("TaxReductionType")
-     * @Groups({"contract"})
      */
     private $taxReductionType;
 
@@ -1378,8 +1329,8 @@ class Contract implements SerializableInterface
     /**
 	 * @return array
 	 */
-	public function toArray(array $groups = ["contract"]): array {
-		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
+	public function toArray(): array {
+		return SerializerBuilder::create()->build()->toArray($this);
 	}
 
 	/**
