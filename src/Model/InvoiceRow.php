@@ -15,7 +15,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("integer")
      * @SerializedName("AccountNumber")
      */
-    private $accountNumber;
+    private $accountNumber = 3001;
     /**
      * @var string
      * @Type("string")
