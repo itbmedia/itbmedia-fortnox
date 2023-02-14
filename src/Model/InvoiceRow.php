@@ -7,6 +7,7 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SkipWhenEmpty;
 
 class InvoiceRow implements SerializableInterface
 {
@@ -14,126 +15,147 @@ class InvoiceRow implements SerializableInterface
      * @var integer
      * @Type("integer")
      * @SerializedName("AccountNumber")
+     * @SkipWhenEmpty()
      */
-    private $accountNumber = 3001;
+    private $accountNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ArticleNumber")
+     * @SkipWhenEmpty()
      */
     private $articleNumber;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContributionPercent")
+     * @SkipWhenEmpty()
      */
     private $contributionPercent;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("ContributionValue")
+     * @SkipWhenEmpty()
      */
     private $contributionValue;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("CostCenter")
+     * @SkipWhenEmpty()
      */
     private $costCenter;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DeliveredQuantity")
+     * @SkipWhenEmpty()
      */
     private $deliveredQuantity;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Description")
+     * @SkipWhenEmpty()
      */
     private $description;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Discount")
+     * @SkipWhenEmpty()
      */
     private $discount;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("DiscountType")
+     * @SkipWhenEmpty()
      */
     private $discountType;
     /**
      * @var bool
      * @Type("boolean")
      * @SerializedName("HouseWork")
+     * @SkipWhenEmpty()
      */
     private $houseWork;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("HouseWorkHoursToReport")
+     * @SkipWhenEmpty()
      */
     private $houseWorkHoursToReport;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("HouseWorkType")
+     * @SkipWhenEmpty()
      */
     private $houseWorkType;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Price")
+     * @SkipWhenEmpty()
      */
     private $price;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("PriceExcludingVAT")
+     * @SkipWhenEmpty()
      */
     private $priceExcludingVAT;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Project")
+     * @SkipWhenEmpty()
      */
     private $project;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("RowId")
+     * @SkipWhenEmpty()
      */
     private $rowId;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("StockPointCode")
+     * @SkipWhenEmpty()
      */
     private $stockPointCode;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("Total")
+     * @SkipWhenEmpty()
      */
     private $total;
     /**
      * @var double
      * @Type("double")
      * @SerializedName("TotalExcludingVAT")
+     * @SkipWhenEmpty()
      */
     private $totalExcludingVAT;
     /**
      * @var string
      * @Type("string")
      * @SerializedName("Unit")
+     * @SkipWhenEmpty()
      */
     private $unit;
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("VAT")
+     * @SkipWhenEmpty()
      */
     private $vat;
 
