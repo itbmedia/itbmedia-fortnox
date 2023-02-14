@@ -323,7 +323,7 @@ class Contract implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("TotalVAT")
-     * @Groups({"contract", "toArray"})
+     * @Groups({"fromArray"})
      */
     private $totalVAT;
     /**
