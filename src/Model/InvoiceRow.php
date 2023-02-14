@@ -17,7 +17,7 @@ class InvoiceRow implements SerializableInterface
      * @SerializedName("AccountNumber")
      * @SkipWhenEmpty()
      */
-    private $accountNumber;
+    private $accountNumber = 3001;
     /**
      * @var string
      * @Type("string")
@@ -610,7 +610,7 @@ class InvoiceRow implements SerializableInterface
 	 * @return self
 	 */
 	public static function fromArray(array $data) {
-		return SerializerBuilder::create()->build()->fromArray($data, self::class)->setAccountNumber(3001);
+		return SerializerBuilder::create()->build()->fromArray($data, self::class);
 	}
 
     /**
