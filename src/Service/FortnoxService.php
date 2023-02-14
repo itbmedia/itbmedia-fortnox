@@ -108,8 +108,6 @@ class FortnoxService{
     }
     public function createContract(Token $token, Contract $contract) : Contract
     {
-        print_r( $contract->toArray());
-        die;
         $response = $this->call($token, 'POST', "contracts", array('Contract' => $contract->toArray()), true)['Contract'];
         return Contract::fromArray($response);
     }

@@ -16,6 +16,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("integer")
      * @SerializedName("AccountNumber")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $accountNumber = 3001;
     /**
@@ -23,6 +24,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("ArticleNumber")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $articleNumber;
     /**
@@ -30,6 +32,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("ContributionPercent")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $contributionPercent;
     /**
@@ -37,6 +40,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("ContributionValue")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $contributionValue;
     /**
@@ -44,6 +48,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("CostCenter")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $costCenter;
     /**
@@ -51,6 +56,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("DeliveredQuantity")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $deliveredQuantity;
     /**
@@ -58,6 +64,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("Description")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $description;
     /**
@@ -65,6 +72,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("Discount")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $discount;
     /**
@@ -72,6 +80,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("DiscountType")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $discountType;
     /**
@@ -79,6 +88,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("boolean")
      * @SerializedName("HouseWork")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $houseWork;
     /**
@@ -86,6 +96,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("integer")
      * @SerializedName("HouseWorkHoursToReport")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $houseWorkHoursToReport;
     /**
@@ -93,6 +104,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("HouseWorkType")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $houseWorkType;
     /**
@@ -100,6 +112,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("Price")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $price;
     /**
@@ -107,6 +120,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("PriceExcludingVAT")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $priceExcludingVAT;
     /**
@@ -114,6 +128,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("Project")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $project;
     /**
@@ -121,6 +136,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("integer")
      * @SerializedName("RowId")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $rowId;
     /**
@@ -128,6 +144,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("StockPointCode")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $stockPointCode;
     /**
@@ -135,6 +152,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("Total")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $total;
     /**
@@ -142,6 +160,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("TotalExcludingVAT")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $totalExcludingVAT;
     /**
@@ -149,6 +168,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("Unit")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $unit;
     /**
@@ -156,6 +176,7 @@ class InvoiceRow implements SerializableInterface
      * @Type("integer")
      * @SerializedName("VAT")
      * @SkipWhenEmpty()
+     * @Groups({"invoice", "contract"})
      */
     private $vat;
 
