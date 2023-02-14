@@ -4,12 +4,14 @@ use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Model\Article;
+use ITBMedia\FortnoxBundle\Model\Contract;
 use ITBMedia\FortnoxBundle\Model\Customer;
 use ITBMedia\FortnoxBundle\Model\MetaInformation;
 use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Order;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 
+use ITBMedia\FortnoxBundle\Model\Response\ContractsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
@@ -95,7 +97,29 @@ class FortnoxService{
         return Order::fromArray($response);
     }
     #endregion
-    #region orders
+    #region contracts
+    public function getContracts(Token $token, array $params = []) : ContractsResponse
+    {
+        $response = $this->call($token, 'GET', 'contracts', $params, false);
+        return ContractsResponse::deserialize($response);
+    }
+    public function getContract(Token $token, string $number, array $params = []) : Contract
+    {
+        $response = $this->call($token, 'GET', "contracts/$number", $params, true)['Contract'];
+        return Contract::fromArray($response);
+    }
+    public function createContract(Token $token, Contract $contract) : Contract
+    {
+        $response = $this->call($token, 'POST', "contracts", array('contract' => $contract->toArray()), true)['Contract'];
+        return Contract::fromArray($response);
+    }
+    public function updateContract(Token $token, Contract $contract) : Contract
+    {
+        $response = $this->call($token, 'PUT', "contracts/".$contract->getDocumentNumber(), array('Contract' => $contract->toArray()), true)['Contract'];
+        return Contract::fromArray($response);
+    }
+    #endregion
+    #region invoices
      public function getInvoices(Token $token, array $params = []) : OrdersResponse
      {
          $response = $this->call($token, 'GET', 'invoices', $params, false);
