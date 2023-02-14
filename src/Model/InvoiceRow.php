@@ -616,6 +616,6 @@ class InvoiceRow implements SerializableInterface
     /**
      */
     public function __construct() {
-        $this->accountNumber = null;
+        $this->accountNumber = 3001;
     }
 }
