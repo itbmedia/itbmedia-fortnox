@@ -610,7 +610,7 @@ class InvoiceRow implements SerializableInterface
 	 * @return self
 	 */
 	public static function fromArray(array $data) {
-		return SerializerBuilder::create()->build()->fromArray($data, self::class);
+		return SerializerBuilder::create()->build()->fromArray($data, self::class)->setAccountNumber(3001);
 	}
 
     /**
