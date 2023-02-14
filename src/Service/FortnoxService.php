@@ -79,7 +79,7 @@ class FortnoxService{
     }
     public function updateOffer(Token $token, Offer $offer) : Offer
     {
-        $response = $this->call($token, 'PUT', "offers/".$offer->getDocumentNumber(), array('Order' => $offer->toArray()), true)['Offer'];
+        $response = $this->call($token, 'PUT', "offers/".$offer->getDocumentNumber(), array('Offer' => $offer->toArray()), true)['Offer'];
         return Offer::fromArray($response);
     }
     #endregion
