@@ -72,6 +72,16 @@ class FortnoxService{
         $response = $this->call($token, 'GET', "offers/$number", $params, true)['Offer'];
         return Offer::fromArray($response);
     }
+    public function createOffer(Token $token, Offer $offer) : Offer
+    {
+        $response = $this->call($token, 'POST', "offers", array('Offer' => $offer->toArray()), true)['Offer'];
+        return Offer::fromArray($response);
+    }
+    public function updateOffer(Token $token, Offer $offer) : Offer
+    {
+        $response = $this->call($token, 'PUT', "offers/".$offer->getDocumentNumber(), array('Order' => $offer->toArray()), true)['Offer'];
+        return Offer::fromArray($response);
+    }
     #endregion
     #region orders
     public function getOrders(Token $token, array $params = []) : OrdersResponse
