@@ -211,7 +211,7 @@ class Contract implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("Net")
-     * @Groups({"contract"})
+     * @Groups({"contract_details"})
      */
     private $net;
     /**
