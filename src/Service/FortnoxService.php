@@ -135,10 +135,10 @@ class FortnoxService{
          $response = $this->call($token, 'GET', 'invoices', $params, false);
          return InvoicesResponse::deserialize($response);
      }
-     public function getInvoice(Token $token, string $number, array $params = []) : Offer
+     public function getInvoice(Token $token, string $number, array $params = []) : Invoice
      {
-         $response = $this->call($token, 'GET', "invoices/$number", $params, true)['Order'];
-         return Offer::fromArray($response);
+         $response = $this->call($token, 'GET', "invoices/$number", $params, true)['Invoice'];
+         return Invoice::fromArray($response);
      }
      public function createInvoice(Token $token, Invoice $invoice) : Invoice
     {
