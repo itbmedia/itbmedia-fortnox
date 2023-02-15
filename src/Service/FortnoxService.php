@@ -13,6 +13,7 @@ use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 
 use ITBMedia\FortnoxBundle\Model\Response\ContractsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
+use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
@@ -129,10 +130,10 @@ class FortnoxService{
     }
     #endregion
     #region invoices
-     public function getInvoices(Token $token, array $params = []) : InvoiceResponse
+     public function getInvoices(Token $token, array $params = []) : InvoicesResponse
      {
          $response = $this->call($token, 'GET', 'invoices', $params, false);
-         return InvoiceResponse::deserialize($response);
+         return InvoicesResponse::deserialize($response);
      }
      public function getInvoice(Token $token, string $number, array $params = []) : Offer
      {
