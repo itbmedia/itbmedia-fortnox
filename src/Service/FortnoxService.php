@@ -129,10 +129,10 @@ class FortnoxService{
     }
     #endregion
     #region invoices
-     public function getInvoices(Token $token, array $params = []) : OrdersResponse
+     public function getInvoices(Token $token, array $params = []) : InvoiceResponse
      {
          $response = $this->call($token, 'GET', 'invoices', $params, false);
-         return OrdersResponse::deserialize($response);
+         return InvoiceResponse::deserialize($response);
      }
      public function getInvoice(Token $token, string $number, array $params = []) : Offer
      {
