@@ -2,6 +2,7 @@
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
@@ -183,7 +184,7 @@ class Invoice implements SerializableInterface
      */
     private $invoiceDate;
     /**
-     *@var array
+     *@var InvoiceRow[]
      *@Type("array<ITBMedia\FortnoxBundle\Model\InvoiceRow>")
      *@SerializedName("InvoiceRows")
      */
@@ -905,7 +906,7 @@ class Invoice implements SerializableInterface
 
     /**
      *
-     * @return array
+     * @return InvoiceRow[]
      */
     public function getInvoiceRows()
     {
@@ -914,7 +915,7 @@ class Invoice implements SerializableInterface
 
     /**
      *
-     * @param array $invoiceRows
+     * @param InvoiceRow[] $invoiceRows
      * @return self
      */
     public function setInvoiceRows($invoiceRows): self
@@ -1382,4 +1383,18 @@ class Invoice implements SerializableInterface
             ->build()
             ->deserialize($data, self::class, "json");
     }
+
+    /**
+	 * @return array
+	 */
+	public function toArray(array $groups = ["contract"]): array {
+		return SerializerBuilder::create()->build()->toArray($this);
+	}
+
+	/**
+	 * @return self
+	 */
+	public static function fromArray(array $data) {
+		return SerializerBuilder::create()->build()->fromArray($data, self::class);
+	}
 }

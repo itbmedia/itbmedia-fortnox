@@ -6,6 +6,7 @@ use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Model\Article;
 use ITBMedia\FortnoxBundle\Model\Contract;
 use ITBMedia\FortnoxBundle\Model\Customer;
+use ITBMedia\FortnoxBundle\Model\Invoice;
 use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Order;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
@@ -26,7 +27,7 @@ class FortnoxService{
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
     }
-    #region article
+    #region customer
     public function getCustomers(Token $token, array $params = []) : CustomersResponse
     {
         $response = $this->call($token, 'GET', 'customers', $params, false);
@@ -138,6 +139,16 @@ class FortnoxService{
          $response = $this->call($token, 'GET', "invoices/$number", $params, true)['Order'];
          return Offer::fromArray($response);
      }
+     public function createInvoice(Token $token, Invoice $invoice) : Invoice
+    {
+        $response = $this->call($token, 'POST', "invoices", array('Invoice' => $invoice->toArray()), true)['Invoice'];
+        return Invoice::fromArray($response);
+    }
+    public function updateInvoice(Token $token, Invoice $invoice) : Invoice
+    {
+        $response = $this->call($token, 'PUT', "invoices/".$invoice->getDocumentNumber(), array('Invoice' => $invoice->toArray()), true)['Invoice'];
+        return Invoice::fromArray($response);
+    }
      #endregion
      #region templates
      public function getPrintTemplates(Token $token, array $params = []) : PrintTemplatesResponse
