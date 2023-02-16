@@ -90,10 +90,10 @@ class FortnoxService{
     {
         return $this->call($token, "GET", "offers/$number/preview", $params);
     }
-    public function createOrderFromOffer(Token $token, string $number, array $params = []) : Order
+    public function createOrderFromOffer(Token $token, string $number, array $params = []) : Offer
     {
-        $response = $this->call($token, 'PUT',"offers/$number/createorder", $params, true);
-        return Order::fromArray($response);
+        $response = $this->call($token, 'PUT',"offers/$number/createorder", $params, true)['Offer'];
+        return Offer::fromArray($response);
     }
     #endregion
     #region orders
