@@ -139,6 +139,10 @@ class FortnoxService{
         $response = $this->call($token, 'PUT', "contracts/".$contract->getDocumentNumber(), array('Contract' => $contract->toArray()), true)['Contract'];
         return Contract::fromArray($response);
     }
+    public function previewContract(Token $token, string $number, array $params = [])
+    {
+        return $this->call($token, "GET", "contracts/$number/preview", $params);
+    }
     #endregion
     #region invoices
      public function getInvoices(Token $token, array $params = []) : InvoicesResponse
