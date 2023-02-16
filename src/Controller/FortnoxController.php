@@ -39,14 +39,14 @@ class FortnoxController extends AbstractController
             if (is_array($request->query->all())) {
                 $state = $request->query->all();
             }
-            if (empty($this->session->get('fortnox_csrf_token'))) {
-                $csrfToken = bin2hex(random_bytes(32));
-                $this->session->set('fortnox_csrf_token', $csrfToken);
-            } else {
-                $csrfToken = $this->session->get('fortnox_csrf_token');
-            }
+            // if (empty($this->session->get('fortnox_csrf_token'))) {
+            //     $csrfToken = bin2hex(random_bytes(32));
+            //     $this->session->set('fortnox_csrf_token', $csrfToken);
+            // } else {
+            //     $csrfToken = $this->session->get('fortnox_csrf_token');
+            // }
 
-            $state['fortnox_csrf_token'] = $csrfToken;
+            // $state['fortnox_csrf_token'] = $csrfToken;
             $response = new RedirectResponse(
                 "https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
                     array(
@@ -73,16 +73,16 @@ class FortnoxController extends AbstractController
         if(is_array($request->query->get('state')))
         {
             $state = $request->query->get('state');
-            if(!isset($state['fortnox_csrf_token']) || empty($this->session->get('fortnox_csrf_token')))
-            {
-                throw new Exception("Missing csrf token");
-            }
+            // if(!isset($state['fortnox_csrf_token']) || empty($this->session->get('fortnox_csrf_token')))
+            // {
+            //     throw new Exception("Missing csrf token");
+            // }
     
-            if($state['fortnox_csrf_token'] !== $this->session->get('fortnox_csrf_token'))
-            {
-                throw new Exception("csrf token mismatch");
-            }
-            unset($state['fortnox_csrf_token']);
+            // if($state['fortnox_csrf_token'] !== $this->session->get('fortnox_csrf_token'))
+            // {
+            //     throw new Exception("csrf token mismatch");
+            // }
+            // unset($state['fortnox_csrf_token']);
             $auth = base64_encode($this->parameterBag->get('fortnox_bundle.client_id').':'.$this->parameterBag->get('fortnox_bundle.client_secret'));
             $ch = curl_init("https://apps.fortnox.se/oauth-v1/token");
     
