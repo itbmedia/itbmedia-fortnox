@@ -162,10 +162,10 @@ class FortnoxService{
         return Invoice::fromArray($response);
     }
     // lägg till preview pdf
-    public function createInvoiceFromOrder(Token $token, string $number, array $params = []) : Invoice
+    public function createInvoiceFromOrder(Token $token, string $number, array $params = []) : Order
     {
-        $response = $this->call($token, 'PUT',"orders/$number/createinvoice", $params, true)['Invoice'];
-        return Invoice::fromArray($response);
+        $response = $this->call($token, 'PUT',"orders/$number/createinvoice", $params, true)['Order'];
+        return Order::fromArray($response);
     }
      #endregion
      #region templates
