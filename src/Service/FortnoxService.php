@@ -92,7 +92,9 @@ class FortnoxService{
     }
     public function createOrderFromOffer(Token $token, string $number, array $params = []) : Order
     {
-        $response = $this->call($token, 'PUT',"offers/$number/createorder", $params, true)['Order'];
+        $response = $this->call($token, 'PUT',"offers/$number/createorder", $params, true);
+        print_r($response);
+        die();
         return Order::fromArray($response);
     }
     #endregion
