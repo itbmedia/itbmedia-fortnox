@@ -139,7 +139,7 @@ class FortnoxService{
         $response = $this->call($token, 'PUT', "contracts/".$contract->getDocumentNumber(), array('Contract' => $contract->toArray()), true)['Contract'];
         return Contract::fromArray($response);
     }
-    public function createInvoiceFromOrder(Token $token, string $number, array $params = []) : Contract
+    public function createInvoiceFromContract(Token $token, string $number, array $params = []) : Contract
     {
         $response = $this->call($token, 'PUT',"contracts/$number/createinvoice", $params, true)['Contract'];
         return Contract::fromArray($response);
