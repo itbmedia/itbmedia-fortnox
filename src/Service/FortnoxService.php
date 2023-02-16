@@ -161,6 +161,12 @@ class FortnoxService{
         $response = $this->call($token, 'PUT', "invoices/".$invoice->getDocumentNumber(), array('Invoice' => $invoice->toArray()), true)['Invoice'];
         return Invoice::fromArray($response);
     }
+    // lägg till preview pdf
+    public function createInvoiceFromOrder(Token $token, string $number, array $params = []) : Invoice
+    {
+        $response = $this->call($token, 'PUT',"orders/$number/createinvoice", $params, true)['Invoice'];
+        return Invoice::fromArray($response);
+    }
      #endregion
      #region templates
      public function getPrintTemplates(Token $token, array $params = []) : PrintTemplatesResponse
