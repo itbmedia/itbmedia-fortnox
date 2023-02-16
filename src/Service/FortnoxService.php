@@ -19,6 +19,8 @@ use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class FortnoxService{
@@ -83,6 +85,15 @@ class FortnoxService{
     {
         $response = $this->call($token, 'PUT', "offers/".$offer->getDocumentNumber(), array('Offer' => $offer->toArray()), true)['Offer'];
         return Offer::fromArray($response);
+    }
+    public function previewOffer(Token $token, string $number, array $params = [])
+    {
+        return $this->call($token, "GET", "offers/$number/preview", $params);
+    }
+    public function createOrderFromOffer(Token $token, string $number, array $params = []) : Order
+    {
+        $response = $this->call($token, 'PUT',"offers/$number/createorder", $params, true)['Order'];
+        return Order::fromArray($response);
     }
     #endregion
     #region orders
