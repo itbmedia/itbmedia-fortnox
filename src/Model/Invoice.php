@@ -321,6 +321,12 @@ class Invoice implements SerializableInterface
      *@SerializedName("TaxReductionType")
      */
     private $taxReductionType;
+    /**
+     * @var float
+     * @Type("string")
+     * @SerializedName("Total")
+     */
+    public float $total;
 
     /**
      *
@@ -1361,6 +1367,26 @@ class Invoice implements SerializableInterface
     public function setTaxReductionType($taxReductionType): self
     {
         $this->taxReductionType = $taxReductionType;
+        return $this;
+    }
+
+     /**
+     *
+     * @return float
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     *
+     * @param float $taxReductionType
+     * @return self
+     */
+    public function setTotal($total): self
+    {
+        $this->total = $total;
         return $this;
     }
 
