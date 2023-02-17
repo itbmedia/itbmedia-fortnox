@@ -323,7 +323,7 @@ class Invoice implements SerializableInterface
     private $taxReductionType;
     /**
      * @var float
-     * @Type("string")
+     * @Type("float")
      * @SerializedName("Total")
      */
     public float $total;
