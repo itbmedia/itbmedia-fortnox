@@ -495,13 +495,13 @@ class Invoice implements SerializableInterface
      * @Type("string")
      * @SerializedName("VoucherSeries")
      */
-	private string $voucherSeries;
+	private ?string $voucherSeries;
     /**
      * @var int
      * @Type("int")
      * @SerializedName("VoucherYear")
      */
-	private int $voucherYear;
+	private ?int $voucherYear;
     /**
      * @var string
      * @Type("string")
