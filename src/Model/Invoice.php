@@ -27,13 +27,13 @@ class Invoice implements SerializableInterface
      * @Type("float")
      * @SerializedName("AdministrationFee")
      */
-	private float $administrationFee;
+	private ?float $administrationFee;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("AdministrationFeeVAT")
      */
-	private float $administrationFeeVat;
+	private ?float $administrationFeeVat;
     /**
      * @var string
      * @Type("string")
@@ -51,13 +51,13 @@ class Invoice implements SerializableInterface
      * @Type("float")
      * @SerializedName("Balance")
      */
-	private float $balance;
+	private ?float $balance;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("BasisTaxReduction")
      */
-	private float $basisTaxReduction;
+	private ?float $basisTaxReduction;
     /**
      * @var bool
      * @Type("bool")
@@ -87,19 +87,19 @@ class Invoice implements SerializableInterface
      * @Type("int")
      * @SerializedName("ContractReference")
      */
-	private int $contractReference;
+	private ?int $contractReference;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("ContributionPercent")
      */
-	private float $contributionPercent;
+	private ?float $contributionPercent;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("ContributionValue")
      */
-	private float $contributionValue;
+	private ?float $contributionValue;
     /**
      * @var string
      * @Type("string")
@@ -135,13 +135,13 @@ class Invoice implements SerializableInterface
      * @Type("float")
      * @SerializedName("CurrencyRate")
      */
-	private float $currencyRate;
+	private ?float $currencyRate;
     /**
      * @var int
      * @Type("int")
      * @SerializedName("CurrencyUnit")
      */
-	private int $currencyUnit;
+	private ?int $currencyUnit;
     /**
      * @var string
      * @Type("string")
@@ -243,19 +243,19 @@ class Invoice implements SerializableInterface
      * @Type("float")
      * @SerializedName("Freight")
      */
-	private float $freight;
+	private ?float $freight;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("FreightVAT")
      */
-	private float $freightVat;
+	private ?float $freightVat;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("Gross")
      */
-	private float $gross;
+	private ?float $gross;
     /**
      * @var bool
      * @Type("bool")
@@ -321,7 +321,7 @@ class Invoice implements SerializableInterface
      * @Type("float")
      * @SerializedName("Net")
      */
-	private float $net;
+	private ?float $net;
     /**
      * @var bool
      * @Type("bool")
@@ -423,13 +423,13 @@ class Invoice implements SerializableInterface
      * @Type("int")
      * @SerializedName("Reminders")
      */
-	private int $reminders;
+	private ?int $reminders;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("RoundOff")
      */
-	private float $roundOff;
+	private ?float $roundOff;
     /**
      * @var bool
      * @Type("bool")
@@ -441,7 +441,7 @@ class Invoice implements SerializableInterface
      * @Type("int")
      * @SerializedName("TaxReduction")
      */
-	private int $taxReduction;
+	private ?int $taxReduction;
     /**
      * @var string
      * @Type("string")
@@ -459,25 +459,25 @@ class Invoice implements SerializableInterface
      * @Type("int")
      * @SerializedName("TimeBasisReference")
      */
-	private int $timeBasisReference;
+	private ?int $timeBasisReference;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("Total")
      */
-	private float $total;
+	private ?float $total;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("TotalToPay")
      */
-	private float $totalToPay;
+	private ?float $totalToPay;
     /**
      * @var float
      * @Type("float")
      * @SerializedName("TotalVAT")
      */
-	private float $totalVat;
+	private ?float $totalVat;
     /**
      * @var bool
      * @Type("bool")
