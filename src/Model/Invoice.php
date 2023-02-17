@@ -489,7 +489,7 @@ class Invoice implements SerializableInterface
      * @Type("int")
      * @SerializedName("VoucherNumber")
      */
-	private int $voucherNumber;
+	private ?int $voucherNumber;
     /**
      * @var string
      * @Type("string")
