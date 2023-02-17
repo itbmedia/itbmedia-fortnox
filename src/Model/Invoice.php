@@ -287,8 +287,8 @@ class Invoice implements SerializableInterface
      */
 	private ?string $invoicePeriodReference;
     /**
-     * @var Invoice[]
-     * @Type("array<ITBMedia\FortnoxBundle\Model\Invoice>")
+     * @var InvoiceRow[]
+     * @Type("array<ITBMedia\FortnoxBundle\Model\InvoiceRow>")
      * @SerializedName("InvoiceRows")
      */
 	private array $invoiceRows;
