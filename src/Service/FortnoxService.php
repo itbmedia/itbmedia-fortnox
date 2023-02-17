@@ -17,6 +17,7 @@ use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
+use ITBMedia\FortnoxBundle\Model\Response\UnitsResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,13 @@ class FortnoxService{
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
     }
+    #region customer
+    public function getUnits(Token $token, array $params = []) : UnitsResponse
+    {
+        $response = $this->call($token, 'GET', 'units', $params, false);
+        return UnitsResponse::deserialize($response);
+    }
+    #endregion
     #region customer
     public function getCustomers(Token $token, array $params = []) : CustomersResponse
     {

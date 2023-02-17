@@ -6,6 +6,7 @@ use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SkipWhenEmpty;
 use ITBMedia\FortnoxBundle\Model\EmailInformation;
 
 class Invoice implements SerializableInterface
@@ -13,540 +14,630 @@ class Invoice implements SerializableInterface
      /**
      * @var string
      * @Type("string")
-     * @SerializedName("@url")
+     * @SkipWhenEmpty()
+	 * @SerializedName("@url")
      */
     private ?string $url;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("@urlTaxReductionList")
+     * @SkipWhenEmpty()
+	 * @SerializedName("@urlTaxReductionList")
      */
 	private ?string $urlTaxReductionList;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("AdministrationFee")
+     * @SkipWhenEmpty()
+	 * @SerializedName("AdministrationFee")
      */
 	private ?float $administrationFee;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("AdministrationFeeVAT")
+     * @SkipWhenEmpty()
+	 * @SerializedName("AdministrationFeeVAT")
      */
 	private ?float $administrationFeeVat;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Address1")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Address1")
      */
 	private ?string $address1;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Address2")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Address2")
      */
 	private ?string $address2;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("Balance")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Balance")
      */
 	private ?float $balance;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("BasisTaxReduction")
+     * @SkipWhenEmpty()
+	 * @SerializedName("BasisTaxReduction")
      */
 	private ?float $basisTaxReduction;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("Booked")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Booked")
      */
 	private bool $booked;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("Cancelled")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Cancelled")
      */
 	private bool $cancelled;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("City")
+     * @SkipWhenEmpty()
+	 * @SerializedName("City")
      */
 	private ?string $city;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Comments")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Comments")
      */
 	private ?string $comments;
     /**
      * @var int
      * @Type("int")
-     * @SerializedName("ContractReference")
+     * @SkipWhenEmpty()
+	 * @SerializedName("ContractReference")
      */
 	private ?int $contractReference;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("ContributionPercent")
+     * @SkipWhenEmpty()
+	 * @SerializedName("ContributionPercent")
      */
 	private ?float $contributionPercent;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("ContributionValue")
+     * @SkipWhenEmpty()
+	 * @SerializedName("ContributionValue")
      */
 	private ?float $contributionValue;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Country")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Country")
      */
 	private ?string $country;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("CostCenter")
+     * @SkipWhenEmpty()
+	 * @SerializedName("CostCenter")
      */
 	private ?string $costCenter;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Credit")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Credit")
      */
 	private ?string $credit;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("CreditInvoiceReference")
+     * @SkipWhenEmpty()
+	 * @SerializedName("CreditInvoiceReference")
      */
 	private ?string $creditInvoiceReference;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Currency")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Currency")
      */
 	private ?string $currency;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("CurrencyRate")
+     * @SkipWhenEmpty()
+	 * @SerializedName("CurrencyRate")
      */
 	private ?float $currencyRate;
     /**
      * @var int
      * @Type("int")
-     * @SerializedName("CurrencyUnit")
+     * @SkipWhenEmpty()
+	 * @SerializedName("CurrencyUnit")
      */
 	private ?int $currencyUnit;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("CustomerName")
+     * @SkipWhenEmpty()
+	 * @SerializedName("CustomerName")
      */
 	private ?string $customerName;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("CustomerNumber")
+     * @SkipWhenEmpty()
+	 * @SerializedName("CustomerNumber")
      */
 	private ?string $customerNumber;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DeliveryAddress1")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DeliveryAddress1")
      */
 	private ?string $deliveryAddress1;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DeliveryAddress2")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DeliveryAddress2")
      */
 	private ?string $deliveryAddress2;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DeliveryCity")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DeliveryCity")
      */
 	private ?string $deliveryCity;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DeliveryCountry")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DeliveryCountry")
      */
 	private ?string $deliveryCountry;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DeliveryDate")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DeliveryDate")
      */
 	private ?string $deliveryDate;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DeliveryName")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DeliveryName")
      */
 	private ?string $deliveryName;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DeliveryZipCode")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DeliveryZipCode")
      */
 	private ?string $deliveryZipCode;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DocumentNumber")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DocumentNumber")
      */
 	private ?string $documentNumber;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("DueDate")
+     * @SkipWhenEmpty()
+	 * @SerializedName("DueDate")
      */
 	private ?string $dueDate;
     /**
      * @var EdiInformation
      * @Type("ITBMedia\FortnoxBundle\Model\EDIInformation")
-     * @SerializedName("EDIInformation")
+     * @SkipWhenEmpty()
+	 * @SerializedName("EDIInformation")
      */
 	private EdiInformation $ediInformation;
     /**
      * @var EmailInformation
      * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
-     * @SerializedName("EmailInformation")
+     * @SkipWhenEmpty()
+	 * @SerializedName("EmailInformation")
      */
 	private EmailInformation $emailInformation;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("EUQuarterlyReport")
+     * @SkipWhenEmpty()
+	 * @SerializedName("EUQuarterlyReport")
      */
 	private bool $euQuarterlyReport;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("ExternalInvoiceReference1")
+     * @SkipWhenEmpty()
+	 * @SerializedName("ExternalInvoiceReference1")
      */
 	private ?string $externalInvoiceReference1;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("ExternalInvoiceReference2")
+     * @SkipWhenEmpty()
+	 * @SerializedName("ExternalInvoiceReference2")
      */
 	private ?string $externalInvoiceReference2;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("Freight")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Freight")
      */
 	private ?float $freight;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("FreightVAT")
+     * @SkipWhenEmpty()
+	 * @SerializedName("FreightVAT")
      */
 	private ?float $freightVat;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("Gross")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Gross")
      */
 	private ?float $gross;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("HouseWork")
+     * @SkipWhenEmpty()
+	 * @SerializedName("HouseWork")
      */
 	private bool $houseWork;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("InvoiceDate")
+     * @SkipWhenEmpty()
+	 * @SerializedName("InvoiceDate")
      */
 	private ?string $invoiceDate;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("InvoicePeriodStart")
+     * @SkipWhenEmpty()
+	 * @SerializedName("InvoicePeriodStart")
      */
 	private ?string $invoicePeriodStart;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("InvoicePeriodEnd")
+     * @SkipWhenEmpty()
+	 * @SerializedName("InvoicePeriodEnd")
      */
 	private ?string $invoicePeriodEnd;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("InvoicePeriodReference")
+     * @SkipWhenEmpty()
+	 * @SerializedName("InvoicePeriodReference")
      */
 	private ?string $invoicePeriodReference;
     /**
      * @var InvoiceRow[]
      * @Type("array<ITBMedia\FortnoxBundle\Model\InvoiceRow>")
-     * @SerializedName("InvoiceRows")
+     * @SkipWhenEmpty()
+	 * @SerializedName("InvoiceRows")
      */
 	private array $invoiceRows;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("InvoiceType")
+     * @SkipWhenEmpty()
+	 * @SerializedName("InvoiceType")
      */
 	private ?string $invoiceType;
     /**
      * @var array
      * @Type("array<string, int>")
-     * @SerializedName("Labels")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Labels")
      */
 	private array $labels;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Language")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Language")
      */
 	private ?string $language;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("LastRemindDate")
+     * @SkipWhenEmpty()
+	 * @SerializedName("LastRemindDate")
      */
 	private ?string $lastRemindDate;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("Net")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Net")
      */
 	private ?float $net;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("NotCompleted")
+     * @SkipWhenEmpty()
+	 * @SerializedName("NotCompleted")
      */
 	private bool $notCompleted;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("NoxFinans")
+     * @SkipWhenEmpty()
+	 * @SerializedName("NoxFinans")
      */
 	private bool $noxFinans;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("OCR")
+     * @SkipWhenEmpty()
+	 * @SerializedName("OCR")
      */
 	private ?string $ocr;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("OfferReference")
+     * @SkipWhenEmpty()
+	 * @SerializedName("OfferReference")
      */
 	private ?string $offerReference;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("OrderReference")
+     * @SkipWhenEmpty()
+	 * @SerializedName("OrderReference")
      */
 	private ?string $orderReference;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("OrganisationNumber")
+     * @SkipWhenEmpty()
+	 * @SerializedName("OrganisationNumber")
      */
 	private ?string $organisationNumber;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("OurReference")
+     * @SkipWhenEmpty()
+	 * @SerializedName("OurReference")
      */
 	private ?string $ourReference;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("PaymentWay")
+     * @SkipWhenEmpty()
+	 * @SerializedName("PaymentWay")
      */
 	private ?string $paymentWay;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Phone1")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Phone1")
      */
 	private ?string $phone1;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Phone2")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Phone2")
      */
 	private ?string $phone2;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("PriceList")
+     * @SkipWhenEmpty()
+	 * @SerializedName("PriceList")
      */
 	private ?string $priceList;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("PrintTemplate")
+     * @SkipWhenEmpty()
+	 * @SerializedName("PrintTemplate")
      */
 	private ?string $printTemplate;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Project")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Project")
      */
 	private ?string $project;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("WarehouseReady")
+     * @SkipWhenEmpty()
+	 * @SerializedName("WarehouseReady")
      */
 	private bool $warehouseReady;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("OutboundDate")
+     * @SkipWhenEmpty()
+	 * @SerializedName("OutboundDate")
      */
 	private ?string $outboundDate;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("Remarks")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Remarks")
      */
 	private ?string $remarks;
     /**
      * @var int
      * @Type("int")
-     * @SerializedName("Reminders")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Reminders")
      */
 	private ?int $reminders;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("RoundOff")
+     * @SkipWhenEmpty()
+	 * @SerializedName("RoundOff")
      */
 	private ?float $roundOff;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("Sent")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Sent")
      */
 	private bool $sent;
     /**
      * @var int
      * @Type("int")
-     * @SerializedName("TaxReduction")
+     * @SkipWhenEmpty()
+	 * @SerializedName("TaxReduction")
      */
 	private ?int $taxReduction;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("TermsOfDelivery")
+     * @SkipWhenEmpty()
+	 * @SerializedName("TermsOfDelivery")
      */
 	private ?string $termsOfDelivery;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("TermsOfPayment")
+     * @SkipWhenEmpty()
+	 * @SerializedName("TermsOfPayment")
      */
 	private ?string $termsOfPayment;
     /**
      * @var int
      * @Type("int")
-     * @SerializedName("TimeBasisReference")
+     * @SkipWhenEmpty()
+	 * @SerializedName("TimeBasisReference")
      */
 	private ?int $timeBasisReference;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("Total")
+     * @SkipWhenEmpty()
+	 * @SerializedName("Total")
      */
 	private ?float $total;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("TotalToPay")
+     * @SkipWhenEmpty()
+	 * @SerializedName("TotalToPay")
      */
 	private ?float $totalToPay;
     /**
      * @var float
      * @Type("float")
-     * @SerializedName("TotalVAT")
+     * @SkipWhenEmpty()
+	 * @SerializedName("TotalVAT")
      */
 	private ?float $totalVat;
     /**
      * @var bool
      * @Type("bool")
-     * @SerializedName("VATIncluded")
+     * @SkipWhenEmpty()
+	 * @SerializedName("VATIncluded")
      */
 	private bool $vatIncluded;
     /**
      * @var int
      * @Type("int")
-     * @SerializedName("VoucherNumber")
+     * @SkipWhenEmpty()
+	 * @SerializedName("VoucherNumber")
      */
 	private ?int $voucherNumber;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("VoucherSeries")
+     * @SkipWhenEmpty()
+	 * @SerializedName("VoucherSeries")
      */
 	private ?string $voucherSeries;
     /**
      * @var int
      * @Type("int")
-     * @SerializedName("VoucherYear")
+     * @SkipWhenEmpty()
+	 * @SerializedName("VoucherYear")
      */
 	private ?int $voucherYear;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("WayOfDelivery")
+     * @SkipWhenEmpty()
+	 * @SerializedName("WayOfDelivery")
      */
 	private ?string $wayOfDelivery;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("YourOrderNumber")
+     * @SkipWhenEmpty()
+	 * @SerializedName("YourOrderNumber")
      */
 	private ?string $yourOrderNumber;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("YourReference")
+     * @SkipWhenEmpty()
+	 * @SerializedName("YourReference")
      */
 	private ?string $yourReference;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("ZipCode")
+     * @SkipWhenEmpty()
+	 * @SerializedName("ZipCode")
      */
 	private ?string $zipCode;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("AccountingMethod")
+     * @SkipWhenEmpty()
+	 * @SerializedName("AccountingMethod")
      */
 	private ?string $accountingMethod;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("TaxReductionType")
+     * @SkipWhenEmpty()
+	 * @SerializedName("TaxReductionType")
      */
 	private ?string $taxReductionType;
     /**
      * @var string
      * @Type("string")
-     * @SerializedName("FinalPayDate")
+     * @SkipWhenEmpty()
+	 * @SerializedName("FinalPayDate")
      */
 	private ?string $finalPayDate;
 
 	/**
 	 * 
+	 * @SkipWhenEmpty()
 	 * @return string
 	 */
 	public function getUrl(): string {
