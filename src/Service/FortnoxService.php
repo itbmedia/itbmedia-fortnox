@@ -125,6 +125,15 @@ class FortnoxService{
         $response = $this->call($token, 'PUT', "orders/".$order->getDocumentNumber(), array('Order' => $order->toArray()), true)['Order'];
         return Order::fromArray($response);
     }
+    public function previewOrder(Token $token, string $number, array $params = [])
+    {
+        return $this->call($token, "GET", "orders/$number/preview", $params);
+    }
+    public function createInvoiceFromOrder(Token $token, string $number, array $params = []) : Order
+    {
+        $response = $this->call($token, 'PUT',"orders/$number/createinvoice", $params, true)['Order'];
+        return Order::fromArray($response);
+    }
     #endregion
     #region contracts
     public function getContracts(Token $token, array $params = []) : ContractsResponse
