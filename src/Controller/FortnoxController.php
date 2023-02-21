@@ -51,7 +51,7 @@ class FortnoxController extends AbstractController
                 "https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
                     array(
                         'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                        'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
+                        'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.host")),
                         'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
                         'scope' => $scopes,
                         'state' => $state,
@@ -96,7 +96,7 @@ class FortnoxController extends AbstractController
                 array(
                     'grant_type' => 'authorization_code',
                     'code' => $request->query->get('code'),
-                    'redirect_uri' => $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL),
+                    'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.host")),
                 )
             ));
             $response = curl_exec($ch);
@@ -141,5 +141,15 @@ class FortnoxController extends AbstractController
             DisconnectEvent::NAME,            
         );
         return new Response("Success", 200);      
+    }
+
+    private function getRedirectUrl($host = null)
+    {
+        if($host){
+            return $host.$this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_PATH);
+        }else{
+            return $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL);
+        }
+        
     }
 }
