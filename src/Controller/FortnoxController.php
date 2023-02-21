@@ -45,13 +45,16 @@ class FortnoxController extends AbstractController
             // } else {
             //     $csrfToken = $this->session->get('fortnox_csrf_token');
             // }
-
+            if($this->parameterBag->get("fortnox_bundle.custom_redirect_url") !== 'default')
+            {
+                $state['internal_redirect_url'] = $this->getRedirectUrl();
+            }
             // $state['fortnox_csrf_token'] = $csrfToken;
             $response = new RedirectResponse(
                 "https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
                     array(
                         'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                        'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.host")),
+                        'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.custom_redirect_url")),
                         'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
                         'scope' => $scopes,
                         'state' => $state,
@@ -96,7 +99,7 @@ class FortnoxController extends AbstractController
                 array(
                     'grant_type' => 'authorization_code',
                     'code' => $request->query->get('code'),
-                    'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.host")),
+                    'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.custom_redirect_url")),
                 )
             ));
             $response = curl_exec($ch);
@@ -143,10 +146,10 @@ class FortnoxController extends AbstractController
         return new Response("Success", 200);      
     }
 
-    private function getRedirectUrl($host = null)
+    private function getRedirectUrl($customRedirectUrl = null)
     {
-        if($host !== 'default'){
-            return $host.$this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_PATH);
+        if($customRedirectUrl){
+            return $customRedirectUrl;
         }else{
             return $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL);
         }

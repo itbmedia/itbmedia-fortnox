@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface{
 
         $rootNode
             ->children()
-                ->scalarNode('host')
+                ->scalarNode('custom_redirect_url')
                     ->defaultValue('default')
                 ->end()
                 ->scalarNode('client_id')->end()
