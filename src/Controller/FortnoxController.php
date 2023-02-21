@@ -145,7 +145,7 @@ class FortnoxController extends AbstractController
 
     private function getRedirectUrl($host = null)
     {
-        if($host){
+        if($host !== 'default'){
             return $host.$this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_PATH);
         }else{
             return $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL);

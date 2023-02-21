@@ -20,7 +20,9 @@ class Configuration implements ConfigurationInterface{
 
         $rootNode
             ->children()
-                ->scalarNode('host')->end()
+                ->scalarNode('host')
+                    ->defaultValue('default')
+                ->end()
                 ->scalarNode('client_id')->end()
                 ->scalarNode('client_secret')->end()
                 ->scalarNode('type')->end()
