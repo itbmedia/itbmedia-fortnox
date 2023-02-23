@@ -232,6 +232,7 @@ class FortnoxService{
         $ch = curl_init();
         $headers = array();
 	    $headers[] = 'Authorization: Bearer ' . $token->getAccessToken();
+        $orignialPath = $path;
 
         if (in_array($method, array('POST', 'PUT'))) {
 			$headers[] = 'Content-Type: application/json';
@@ -257,7 +258,7 @@ class FortnoxService{
 
         if($firstRequest && $response_code === 401)
         {           
-            return $this->call($this->refreshToken($token), $method, $path, $data, $serialize, false);
+            return $this->call($this->refreshToken($token), $method, $orignialPath, $data, $serialize, false);
         }
 
         if ($content_type === "application/json") {
