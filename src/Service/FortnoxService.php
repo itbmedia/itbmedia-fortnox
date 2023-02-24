@@ -173,7 +173,7 @@ class FortnoxService{
          $response = $this->call($token, 'GET', "invoices/$number", $params, true)['Invoice'];
          return Invoice::fromArray($response);
      }
-     public function getWayOfDeliveries(Token $token, string $number, array $params = []) : Invoice
+     public function getWayOfDeliveries(Token $token, array $params = []) : Invoice
      {
          $response = $this->call($token, 'GET', "wayofdeliveries", $params, true)['WayOfDeliveries'];
          return Invoice::fromArray($response);
