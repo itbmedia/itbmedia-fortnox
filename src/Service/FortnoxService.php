@@ -173,6 +173,11 @@ class FortnoxService{
          $response = $this->call($token, 'GET', "invoices/$number", $params, true)['Invoice'];
          return Invoice::fromArray($response);
      }
+     public function getWayOfDeliveries(Token $token, string $number, array $params = []) : Invoice
+     {
+         $response = $this->call($token, 'GET', "wayofdeliveries", $params, true)['WayOfDeliveries'];
+         return Invoice::fromArray($response);
+     }
      public function createInvoice(Token $token, Invoice $invoice) : Invoice
     {
         $response = $this->call($token, 'POST', "invoices", array('Invoice' => $invoice->toArray()), true)['Invoice'];
@@ -240,7 +245,7 @@ class FortnoxService{
 		} else {
 			$path .= "?" . http_build_query($data);
 		}
-		
+
         curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/3/$path");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -257,7 +262,7 @@ class FortnoxService{
         curl_close($ch);
 
         if($firstRequest && $response_code === 401)
-        {           
+        {
             return $this->call($this->refreshToken($token), $method, $orignialPath, $data, $serialize, false);
         }
 
@@ -292,7 +297,7 @@ class FortnoxService{
 				$headers['http_code'] = $line;
 			} else {
 				list($key, $value) = explode(': ', $line);
-	
+
 				$headers[$key] = $value;
 			}
 		}
