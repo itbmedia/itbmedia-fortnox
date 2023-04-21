@@ -102,6 +102,13 @@ class Order implements SerializableInterface
      */
     private $copyRemarks;
     /**
+     * @var bool
+     * @Type("boolean")
+     * @SerializedName("InvoiceCreated")
+     * @Groups({"order"})
+     */
+    private $invoiceCreated;
+    /**
      * @var string
      * @Type("string")
      * @SerializedName("Country")
@@ -712,6 +719,26 @@ class Order implements SerializableInterface
     public function setComments($comments): self
     {
         $this->comments = $comments;
+        return $this;
+    }
+
+    /**
+     *
+     * @return boolean
+     */
+    public function getInvoiceCreated()
+    {
+        return $this->invoiceCreated;
+    }
+
+    /**
+     *
+     * @param boolean $invoiceCreated
+     * @return self
+     */
+    public function setInvoiceCreated($invoiceCreated): self
+    {
+        $this->invoiceCreated = $invoiceCreated;
         return $this;
     }
 

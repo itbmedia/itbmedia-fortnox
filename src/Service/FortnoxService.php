@@ -105,10 +105,30 @@ class FortnoxService{
     }
     #endregion
     #region orders
-    public function getOrders(Token $token, array $params = []) : OrdersResponse
+   public function getOrders(Token $token, array $params = []) : OrdersResponse
     {
         $response = $this->call($token, 'GET', 'orders', $params, false);
-        return OrdersResponse::deserialize($response);
+        $response2 = $this->call($token, 'GET', 'orders', array_merge($params,array("filter" => "invoicecreated")), false);
+        $orderResponse = OrdersResponse::deserialize($response);
+        $orderResponse2 = OrdersResponse::deserialize($response2);
+
+        $finalOrders = [];
+
+        foreach ($orderResponse->getOrders() as $order) {
+            foreach ($orderResponse2->getOrders() as $invoicedOrder) {
+                if($order->getDocumentNumber() == $invoicedOrder->getDocumentNumber()) {
+                    $order->setInvoiceCreated(true);
+                    break;
+                } else  {
+                    $order->setInvoiceCreated(false);
+                }
+            }
+            $finalOrders[] = $order;
+        }
+
+         $orderResponse->setOrders($finalOrders);
+
+         return $orderResponse;
     }
     public function getOrder(Token $token, string $number, array $params = []) : Order
     {
