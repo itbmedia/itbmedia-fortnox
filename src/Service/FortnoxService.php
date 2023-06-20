@@ -107,6 +107,8 @@ class FortnoxService{
     #region orders
    public function getOrders(Token $token, array $params = []) : OrdersResponse
     {
+        if(!isset($params["sortby"])) $params["sortby"] = "documentnumber";
+        if(!isset($params["sortorder"])) $params["sortorder"] = "descending";
         $response = $this->call($token, 'GET', 'orders', $params, false);
         $response2 = $this->call($token, 'GET', 'orders', array_merge($params,array("filter" => "invoicecreated")), false);
         $orderResponse = OrdersResponse::deserialize($response);
@@ -158,6 +160,8 @@ class FortnoxService{
     #region contracts
     public function getContracts(Token $token, array $params = []) : ContractsResponse
     {
+        if(!isset($params["sortby"])) $params["sortby"] = "documentnumber";
+        if(!isset($params["sortorder"])) $params["sortorder"] = "descending";
         $response = $this->call($token, 'GET', 'contracts', $params, false);
         return ContractsResponse::deserialize($response);
     }
@@ -185,6 +189,8 @@ class FortnoxService{
     #region invoices
      public function getInvoices(Token $token, array $params = []) : InvoicesResponse
      {
+        if(!isset($params["sortby"])) $params["sortby"] = "documentnumber";
+        if(!isset($params["sortorder"])) $params["sortorder"] = "descending";
          $response = $this->call($token, 'GET', 'invoices', $params, false);
          return InvoicesResponse::deserialize($response);
      }
