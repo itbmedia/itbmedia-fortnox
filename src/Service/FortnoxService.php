@@ -189,7 +189,7 @@ class FortnoxService{
     #region invoices
      public function getInvoices(Token $token, array $params = []) : InvoicesResponse
      {
-        if(!isset($params["sortby"])) $params["sortby"] = "documentnumber";
+        if(!isset($params["sortby"])) $params["sortby"] = "invoicedate";
         if(!isset($params["sortorder"])) $params["sortorder"] = "descending";
          $response = $this->call($token, 'GET', 'invoices', $params, false);
          return InvoicesResponse::deserialize($response);
