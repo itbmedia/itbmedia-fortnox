@@ -6,6 +6,13 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 class Token implements SerializableInterface
 {
+	 /**
+     * @var string
+     * @Type("string")
+     * @SerializedName("reference")
+     */
+    private $reference;
+
      /**
      * @var string
      * @Type("string")
@@ -37,6 +44,23 @@ class Token implements SerializableInterface
      */
     private $refreshToken;
 
+	/**
+	 * 
+	 * @return string
+	 */
+	public function getReference() {
+		return $this->referemce;
+	}
+	
+	/**
+	 * 
+	 * @param string $referemce 
+	 * @return self
+	 */
+	public function setReference($reference): self {
+		$this->reference = $reference;
+		return $this;
+	}
 
 	/**
 	 * 

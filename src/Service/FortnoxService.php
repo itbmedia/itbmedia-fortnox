@@ -253,9 +253,10 @@ class FortnoxService{
 		);
         $res = curl_exec($ch);
         curl_close($ch);
-        $token = Token::deserialize($res);
-        $this->eventDispatcher->dispatch(new TokenRefreshEvent($token), TokenRefreshEvent::NAME);
-        return $token;
+        $newToken = Token::deserialize($res);
+        $newToken->setReference($token->getReference());
+        $this->eventDispatcher->dispatch(new TokenRefreshEvent($newToken), TokenRefreshEvent::NAME);
+        return $newToken;
     }
 
     private function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true)
