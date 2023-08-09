@@ -49,12 +49,12 @@ class Token implements SerializableInterface
 	 * @return string
 	 */
 	public function getReference() {
-		return $this->referemce;
+		return $this->reference;
 	}
 	
 	/**
 	 * 
-	 * @param string $referemce 
+	 * @param string $reference 
 	 * @return self
 	 */
 	public function setReference($reference): self {
