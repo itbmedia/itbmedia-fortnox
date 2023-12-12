@@ -279,7 +279,7 @@ class FortnoxService {
         $refreshLock = $lockFactory->createLock('token_refresh_' . $refreshToken);
 
         try {
-            if ($refreshLock->acquire()) {
+            if ($refreshLock->acquire(true)) {
                 // Refresh the token
                 $this->lastRefreshResults[$refreshToken] = [
                     'result' => $this->refreshToken($token)->serialize(),
