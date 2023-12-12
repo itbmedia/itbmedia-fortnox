@@ -1,4 +1,5 @@
 <?php
+
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
@@ -8,8 +9,8 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
-class Contract implements SerializableInterface
-{
+
+class Contract implements SerializableInterface {
     /**
      * @var string
      * @Type("string")
@@ -361,13 +362,19 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      */
     private $taxReductionType;
+    /**
+     * @var string
+     * @Type("string")
+     * @SerializedName("Status")
+     * @Groups({"contract", "list"})
+     */
+    private $Status;
 
     /**
      *
      * @return string
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->url;
     }
 
@@ -376,8 +383,7 @@ class Contract implements SerializableInterface
      * @param string $url
      * @return self
      */
-    public function setUrl($url): self
-    {
+    public function setUrl($url): self {
         $this->url = $url;
         return $this;
     }
@@ -386,8 +392,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getUrlTaxReductionList()
-    {
+    public function getUrlTaxReductionList() {
         return $this->urlTaxReductionList;
     }
 
@@ -396,8 +401,7 @@ class Contract implements SerializableInterface
      * @param string $urlTaxReductionList
      * @return self
      */
-    public function setUrlTaxReductionList($urlTaxReductionList): self
-    {
+    public function setUrlTaxReductionList($urlTaxReductionList): self {
         $this->urlTaxReductionList = $urlTaxReductionList;
         return $this;
     }
@@ -406,8 +410,7 @@ class Contract implements SerializableInterface
      *
      * @return bool
      */
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 
@@ -416,8 +419,7 @@ class Contract implements SerializableInterface
      * @param bool $active
      * @return self
      */
-    public function setActive($active): self
-    {
+    public function setActive($active): self {
         $this->active = $active;
         return $this;
     }
@@ -426,8 +428,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getAdministrationFee()
-    {
+    public function getAdministrationFee() {
         return $this->administrationFee;
     }
 
@@ -436,8 +437,7 @@ class Contract implements SerializableInterface
      * @param double $administrationFee
      * @return self
      */
-    public function setAdministrationFee($administrationFee): self
-    {
+    public function setAdministrationFee($administrationFee): self {
         $this->administrationFee = $administrationFee;
         return $this;
     }
@@ -446,8 +446,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getBasisTaxReduction()
-    {
+    public function getBasisTaxReduction() {
         return $this->basisTaxReduction;
     }
 
@@ -456,8 +455,7 @@ class Contract implements SerializableInterface
      * @param double $basisTaxReduction
      * @return self
      */
-    public function setBasisTaxReduction($basisTaxReduction): self
-    {
+    public function setBasisTaxReduction($basisTaxReduction): self {
         $this->basisTaxReduction = $basisTaxReduction;
         return $this;
     }
@@ -466,8 +464,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getComments()
-    {
+    public function getComments() {
         return $this->comments;
     }
 
@@ -476,8 +473,7 @@ class Contract implements SerializableInterface
      * @param string $comments
      * @return self
      */
-    public function setComments($comments): self
-    {
+    public function setComments($comments): self {
         $this->comments = $comments;
         return $this;
     }
@@ -486,8 +482,7 @@ class Contract implements SerializableInterface
      *
      * @return bool
      */
-    public function getContinuous()
-    {
+    public function getContinuous() {
         return $this->continuous;
     }
 
@@ -496,8 +491,7 @@ class Contract implements SerializableInterface
      * @param bool $continuous
      * @return self
      */
-    public function setContinuous($continuous): self
-    {
+    public function setContinuous($continuous): self {
         $this->continuous = $continuous;
         return $this;
     }
@@ -506,8 +500,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getContractDate()
-    {
+    public function getContractDate() {
         return $this->contractDate;
     }
 
@@ -516,8 +509,7 @@ class Contract implements SerializableInterface
      * @param string $contractDate
      * @return self
      */
-    public function setContractDate($contractDate): self
-    {
+    public function setContractDate($contractDate): self {
         $this->contractDate = $contractDate;
         return $this;
     }
@@ -526,8 +518,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getContractLength()
-    {
+    public function getContractLength() {
         return $this->contractLength;
     }
 
@@ -536,8 +527,7 @@ class Contract implements SerializableInterface
      * @param double $contractLength
      * @return self
      */
-    public function setContractLength($contractLength): self
-    {
+    public function setContractLength($contractLength): self {
         $this->contractLength = $contractLength;
         return $this;
     }
@@ -546,8 +536,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getContributionPercent()
-    {
+    public function getContributionPercent() {
         return $this->contributionPercent;
     }
 
@@ -556,8 +545,7 @@ class Contract implements SerializableInterface
      * @param double $contributionPercent
      * @return self
      */
-    public function setContributionPercent($contributionPercent): self
-    {
+    public function setContributionPercent($contributionPercent): self {
         $this->contributionPercent = $contributionPercent;
         return $this;
     }
@@ -566,8 +554,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getContributionValue()
-    {
+    public function getContributionValue() {
         return $this->contributionValue;
     }
 
@@ -576,8 +563,7 @@ class Contract implements SerializableInterface
      * @param double $contributionValue
      * @return self
      */
-    public function setContributionValue($contributionValue): self
-    {
+    public function setContributionValue($contributionValue): self {
         $this->contributionValue = $contributionValue;
         return $this;
     }
@@ -586,8 +572,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getCostCenter()
-    {
+    public function getCostCenter() {
         return $this->costCenter;
     }
 
@@ -596,8 +581,7 @@ class Contract implements SerializableInterface
      * @param string $costCenter
      * @return self
      */
-    public function setCostCenter($costCenter): self
-    {
+    public function setCostCenter($costCenter): self {
         $this->costCenter = $costCenter;
         return $this;
     }
@@ -606,8 +590,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getCurrency()
-    {
+    public function getCurrency() {
         return $this->currency;
     }
 
@@ -616,8 +599,7 @@ class Contract implements SerializableInterface
      * @param string $currency
      * @return self
      */
-    public function setCurrency($currency): self
-    {
+    public function setCurrency($currency): self {
         $this->currency = $currency;
         return $this;
     }
@@ -626,8 +608,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getCustomerName()
-    {
+    public function getCustomerName() {
         return $this->customerName;
     }
 
@@ -636,8 +617,7 @@ class Contract implements SerializableInterface
      * @param string $customerName
      * @return self
      */
-    public function setCustomerName($customerName): self
-    {
+    public function setCustomerName($customerName): self {
         $this->customerName = $customerName;
         return $this;
     }
@@ -646,8 +626,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getCustomerNumber()
-    {
+    public function getCustomerNumber() {
         return $this->customerNumber;
     }
 
@@ -656,8 +635,7 @@ class Contract implements SerializableInterface
      * @param string $customerNumber
      * @return self
      */
-    public function setCustomerNumber($customerNumber): self
-    {
+    public function setCustomerNumber($customerNumber): self {
         $this->customerNumber = $customerNumber;
         return $this;
     }
@@ -666,8 +644,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getDocumentNumber()
-    {
+    public function getDocumentNumber() {
         return $this->documentNumber;
     }
 
@@ -676,8 +653,7 @@ class Contract implements SerializableInterface
      * @param string $documentNumber
      * @return self
      */
-    public function setDocumentNumber($documentNumber): self
-    {
+    public function setDocumentNumber($documentNumber): self {
         $this->documentNumber = $documentNumber;
         return $this;
     }
@@ -686,8 +662,7 @@ class Contract implements SerializableInterface
      *
      * @return \ITBMedia\FortnoxBundle\Model\EmailInformation
      */
-    public function getEmailInformation()
-    {
+    public function getEmailInformation() {
         return $this->emailInformation;
     }
 
@@ -696,8 +671,7 @@ class Contract implements SerializableInterface
      * @param \ITBMedia\FortnoxBundle\Model\EmailInformation $emailInformation
      * @return self
      */
-    public function setEmailInformation($emailInformation): self
-    {
+    public function setEmailInformation($emailInformation): self {
         $this->emailInformation = $emailInformation;
         return $this;
     }
@@ -706,8 +680,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getExternalInvoiceReference1()
-    {
+    public function getExternalInvoiceReference1() {
         return $this->externalInvoiceReference1;
     }
 
@@ -727,8 +700,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getExternalInvoiceReference2()
-    {
+    public function getExternalInvoiceReference2() {
         return $this->externalInvoiceReference2;
     }
 
@@ -748,8 +720,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getFreight()
-    {
+    public function getFreight() {
         return $this->freight;
     }
 
@@ -758,8 +729,7 @@ class Contract implements SerializableInterface
      * @param double $freight
      * @return self
      */
-    public function setFreight($freight): self
-    {
+    public function setFreight($freight): self {
         $this->freight = $freight;
         return $this;
     }
@@ -768,8 +738,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getGross()
-    {
+    public function getGross() {
         return $this->gross;
     }
 
@@ -778,8 +747,7 @@ class Contract implements SerializableInterface
      * @param double $gross
      * @return self
      */
-    public function setGross($gross): self
-    {
+    public function setGross($gross): self {
         $this->gross = $gross;
         return $this;
     }
@@ -788,8 +756,7 @@ class Contract implements SerializableInterface
      *
      * @return bool
      */
-    public function getHouseWork()
-    {
+    public function getHouseWork() {
         return $this->houseWork;
     }
 
@@ -798,8 +765,7 @@ class Contract implements SerializableInterface
      * @param bool $houseWork
      * @return self
      */
-    public function setHouseWork($houseWork): self
-    {
+    public function setHouseWork($houseWork): self {
         $this->houseWork = $houseWork;
         return $this;
     }
@@ -808,8 +774,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getInvoiceDiscount()
-    {
+    public function getInvoiceDiscount() {
         return $this->invoiceDiscount;
     }
 
@@ -818,8 +783,7 @@ class Contract implements SerializableInterface
      * @param double $invoiceDiscount
      * @return self
      */
-    public function setInvoiceDiscount($invoiceDiscount): self
-    {
+    public function setInvoiceDiscount($invoiceDiscount): self {
         $this->invoiceDiscount = $invoiceDiscount;
         return $this;
     }
@@ -828,8 +792,7 @@ class Contract implements SerializableInterface
      *
      * @return int
      */
-    public function getInvoiceInterval()
-    {
+    public function getInvoiceInterval() {
         return $this->invoiceInterval;
     }
 
@@ -838,8 +801,7 @@ class Contract implements SerializableInterface
      * @param int $invoiceInterval
      * @return self
      */
-    public function setInvoiceInterval($invoiceInterval): self
-    {
+    public function setInvoiceInterval($invoiceInterval): self {
         $this->invoiceInterval = $invoiceInterval;
         return $this;
     }
@@ -848,8 +810,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getInvoicesRemaining()
-    {
+    public function getInvoicesRemaining() {
         return $this->invoicesRemaining;
     }
 
@@ -858,8 +819,7 @@ class Contract implements SerializableInterface
      * @param string $invoicesRemaining
      * @return self
      */
-    public function setInvoicesRemaining($invoicesRemaining): self
-    {
+    public function setInvoicesRemaining($invoicesRemaining): self {
         $this->invoicesRemaining = $invoicesRemaining;
         return $this;
     }
@@ -868,8 +828,7 @@ class Contract implements SerializableInterface
      *
      * @return array
      */
-    public function getInvoiceRows()
-    {
+    public function getInvoiceRows() {
         return $this->invoiceRows;
     }
 
@@ -878,8 +837,7 @@ class Contract implements SerializableInterface
      * @param array $invoiceRows
      * @return self
      */
-    public function setInvoiceRows($invoiceRows): self
-    {
+    public function setInvoiceRows($invoiceRows): self {
         $this->invoiceRows = $invoiceRows;
         return $this;
     }
@@ -888,8 +846,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getLanguage()
-    {
+    public function getLanguage() {
         return $this->language;
     }
 
@@ -898,8 +855,7 @@ class Contract implements SerializableInterface
      * @param string $language
      * @return self
      */
-    public function setLanguage($language): self
-    {
+    public function setLanguage($language): self {
         $this->language = $language;
         return $this;
     }
@@ -908,8 +864,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getLastInvoiceDate()
-    {
+    public function getLastInvoiceDate() {
         return $this->lastInvoiceDate;
     }
 
@@ -918,8 +873,7 @@ class Contract implements SerializableInterface
      * @param string $lastInvoiceDate
      * @return self
      */
-    public function setLastInvoiceDate($lastInvoiceDate): self
-    {
+    public function setLastInvoiceDate($lastInvoiceDate): self {
         $this->lastInvoiceDate = $lastInvoiceDate;
         return $this;
     }
@@ -928,8 +882,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getNet()
-    {
+    public function getNet() {
         return $this->net;
     }
 
@@ -938,8 +891,7 @@ class Contract implements SerializableInterface
      * @param double $net
      * @return self
      */
-    public function setNet($net): self
-    {
+    public function setNet($net): self {
         $this->net = $net;
         return $this;
     }
@@ -948,8 +900,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getOurReference()
-    {
+    public function getOurReference() {
         return $this->ourReference;
     }
 
@@ -958,8 +909,7 @@ class Contract implements SerializableInterface
      * @param string $ourReference
      * @return self
      */
-    public function setOurReference($ourReference): self
-    {
+    public function setOurReference($ourReference): self {
         $this->ourReference = $ourReference;
         return $this;
     }
@@ -968,8 +918,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getPeriodEnd()
-    {
+    public function getPeriodEnd() {
         return $this->periodEnd;
     }
 
@@ -978,8 +927,7 @@ class Contract implements SerializableInterface
      * @param string $periodEnd
      * @return self
      */
-    public function setPeriodEnd($periodEnd): self
-    {
+    public function setPeriodEnd($periodEnd): self {
         $this->periodEnd = $periodEnd;
         return $this;
     }
@@ -988,8 +936,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getPeriodStart()
-    {
+    public function getPeriodStart() {
         return $this->periodStart;
     }
 
@@ -998,8 +945,7 @@ class Contract implements SerializableInterface
      * @param string $periodStart
      * @return self
      */
-    public function setPeriodStart($periodStart): self
-    {
+    public function setPeriodStart($periodStart): self {
         $this->periodStart = $periodStart;
         return $this;
     }
@@ -1008,8 +954,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getPriceList()
-    {
+    public function getPriceList() {
         return $this->priceList;
     }
 
@@ -1018,8 +963,7 @@ class Contract implements SerializableInterface
      * @param string $priceList
      * @return self
      */
-    public function setPriceList($priceList): self
-    {
+    public function setPriceList($priceList): self {
         $this->priceList = $priceList;
         return $this;
     }
@@ -1028,8 +972,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getPrintTemplate()
-    {
+    public function getPrintTemplate() {
         return $this->printTemplate;
     }
 
@@ -1038,8 +981,7 @@ class Contract implements SerializableInterface
      * @param string $printTemplate
      * @return self
      */
-    public function setPrintTemplate($printTemplate): self
-    {
+    public function setPrintTemplate($printTemplate): self {
         $this->printTemplate = $printTemplate;
         return $this;
     }
@@ -1048,8 +990,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getProject()
-    {
+    public function getProject() {
         return $this->project;
     }
 
@@ -1058,8 +999,7 @@ class Contract implements SerializableInterface
      * @param string $project
      * @return self
      */
-    public function setProject($project): self
-    {
+    public function setProject($project): self {
         $this->project = $project;
         return $this;
     }
@@ -1068,8 +1008,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getRemarks()
-    {
+    public function getRemarks() {
         return $this->remarks;
     }
 
@@ -1078,8 +1017,7 @@ class Contract implements SerializableInterface
      * @param string $remarks
      * @return self
      */
-    public function setRemarks($remarks): self
-    {
+    public function setRemarks($remarks): self {
         $this->remarks = $remarks;
         return $this;
     }
@@ -1088,8 +1026,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getRoundOff()
-    {
+    public function getRoundOff() {
         return $this->roundOff;
     }
 
@@ -1098,8 +1035,7 @@ class Contract implements SerializableInterface
      * @param double $roundOff
      * @return self
      */
-    public function setRoundOff($roundOff): self
-    {
+    public function setRoundOff($roundOff): self {
         $this->roundOff = $roundOff;
         return $this;
     }
@@ -1108,8 +1044,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getTaxReduction()
-    {
+    public function getTaxReduction() {
         return $this->taxReduction;
     }
 
@@ -1118,8 +1053,7 @@ class Contract implements SerializableInterface
      * @param double $taxReduction
      * @return self
      */
-    public function setTaxReduction($taxReduction): self
-    {
+    public function setTaxReduction($taxReduction): self {
         $this->taxReduction = $taxReduction;
         return $this;
     }
@@ -1128,8 +1062,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getTemplateName()
-    {
+    public function getTemplateName() {
         return $this->templateName;
     }
 
@@ -1138,8 +1071,7 @@ class Contract implements SerializableInterface
      * @param string $templateName
      * @return self
      */
-    public function setTemplateName($templateName): self
-    {
+    public function setTemplateName($templateName): self {
         $this->templateName = $templateName;
         return $this;
     }
@@ -1148,8 +1080,7 @@ class Contract implements SerializableInterface
      *
      * @return int
      */
-    public function getTemplateNumber()
-    {
+    public function getTemplateNumber() {
         return $this->templateNumber;
     }
 
@@ -1158,8 +1089,7 @@ class Contract implements SerializableInterface
      * @param int $templateNumber
      * @return self
      */
-    public function setTemplateNumber($templateNumber): self
-    {
+    public function setTemplateNumber($templateNumber): self {
         $this->templateNumber = $templateNumber;
         return $this;
     }
@@ -1168,8 +1098,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getTermsOfDelivery()
-    {
+    public function getTermsOfDelivery() {
         return $this->termsOfDelivery;
     }
 
@@ -1178,8 +1107,7 @@ class Contract implements SerializableInterface
      * @param string $termsOfDelivery
      * @return self
      */
-    public function setTermsOfDelivery($termsOfDelivery): self
-    {
+    public function setTermsOfDelivery($termsOfDelivery): self {
         $this->termsOfDelivery = $termsOfDelivery;
         return $this;
     }
@@ -1188,8 +1116,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getTermsOfPayment()
-    {
+    public function getTermsOfPayment() {
         return $this->termsOfPayment;
     }
 
@@ -1198,8 +1125,7 @@ class Contract implements SerializableInterface
      * @param string $termsOfPayment
      * @return self
      */
-    public function setTermsOfPayment($termsOfPayment): self
-    {
+    public function setTermsOfPayment($termsOfPayment): self {
         $this->termsOfPayment = $termsOfPayment;
         return $this;
     }
@@ -1208,8 +1134,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getTotal()
-    {
+    public function getTotal() {
         return $this->total;
     }
 
@@ -1218,8 +1143,7 @@ class Contract implements SerializableInterface
      * @param double $total
      * @return self
      */
-    public function setTotal($total): self
-    {
+    public function setTotal($total): self {
         $this->total = $total;
         return $this;
     }
@@ -1228,8 +1152,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getTotalToPay()
-    {
+    public function getTotalToPay() {
         return $this->totalToPay;
     }
 
@@ -1238,8 +1161,7 @@ class Contract implements SerializableInterface
      * @param double $totalToPay
      * @return self
      */
-    public function setTotalToPay($totalToPay): self
-    {
+    public function setTotalToPay($totalToPay): self {
         $this->totalToPay = $totalToPay;
         return $this;
     }
@@ -1248,8 +1170,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getTotalVAT()
-    {
+    public function getTotalVAT() {
         return $this->totalVAT;
     }
 
@@ -1258,8 +1179,7 @@ class Contract implements SerializableInterface
      * @param double $totalVAT
      * @return self
      */
-    public function setTotalVAT($totalVAT): self
-    {
+    public function setTotalVAT($totalVAT): self {
         $this->totalVAT = $totalVAT;
         return $this;
     }
@@ -1268,8 +1188,7 @@ class Contract implements SerializableInterface
      *
      * @return bool
      */
-    public function getVatIncluded()
-    {
+    public function getVatIncluded() {
         return $this->vatIncluded;
     }
 
@@ -1278,8 +1197,7 @@ class Contract implements SerializableInterface
      * @param bool $vatIncluded
      * @return self
      */
-    public function setVatIncluded($vatIncluded): self
-    {
+    public function setVatIncluded($vatIncluded): self {
         $this->vatIncluded = $vatIncluded;
         return $this;
     }
@@ -1288,8 +1206,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getWayOfDelivery()
-    {
+    public function getWayOfDelivery() {
         return $this->wayOfDelivery;
     }
 
@@ -1298,8 +1215,7 @@ class Contract implements SerializableInterface
      * @param string $wayOfDelivery
      * @return self
      */
-    public function setWayOfDelivery($wayOfDelivery): self
-    {
+    public function setWayOfDelivery($wayOfDelivery): self {
         $this->wayOfDelivery = $wayOfDelivery;
         return $this;
     }
@@ -1308,8 +1224,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getYourOrderNumber()
-    {
+    public function getYourOrderNumber() {
         return $this->yourOrderNumber;
     }
 
@@ -1318,8 +1233,7 @@ class Contract implements SerializableInterface
      * @param string $yourOrderNumber
      * @return self
      */
-    public function setYourOrderNumber($yourOrderNumber): self
-    {
+    public function setYourOrderNumber($yourOrderNumber): self {
         $this->yourOrderNumber = $yourOrderNumber;
         return $this;
     }
@@ -1328,8 +1242,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getYourReference()
-    {
+    public function getYourReference() {
         return $this->yourReference;
     }
 
@@ -1338,8 +1251,7 @@ class Contract implements SerializableInterface
      * @param string $yourReference
      * @return self
      */
-    public function setYourReference($yourReference): self
-    {
+    public function setYourReference($yourReference): self {
         $this->yourReference = $yourReference;
         return $this;
     }
@@ -1348,8 +1260,7 @@ class Contract implements SerializableInterface
      *
      * @return string
      */
-    public function getTaxReductionType()
-    {
+    public function getTaxReductionType() {
         return $this->taxReductionType;
     }
 
@@ -1358,37 +1269,55 @@ class Contract implements SerializableInterface
      * @param string $taxReductionType
      * @return self
      */
-    public function setTaxReductionType($taxReductionType): self
-    {
+    public function setTaxReductionType($taxReductionType): self {
         $this->taxReductionType = $taxReductionType;
         return $this;
     }
 
     /**
-	 * @return string
-	 */
-	public function serialize() {
-		return SerializerBuilder::create()->build()->serialize($this, 'json');
-	}
-	
-	/**
-	 * @return Contract
-	 */
-	public static function deserialize(string $data) {
-		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
-	}
+     *
+     * @return string
+     */
+    public function getStatus() {
+        return $this->Status;
+    }
 
     /**
-	 * @return array
-	 */
-	public function toArray(array $groups = ["contract"]): array {
-		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
-	}
+     *
+     * @param string $Status
+     * @return self
+     */
+    public function setStatus($Status): self {
+        $this->Status = $Status;
+        return $this;
+    }
 
-	/**
-	 * @return self
-	 */
-	public static function fromArray(array $data) {
-		return SerializerBuilder::create()->build()->fromArray($data, self::class);
-	}
+    /**
+     * @return string
+     */
+    public function serialize() {
+        return SerializerBuilder::create()->build()->serialize($this, 'json');
+    }
+
+    /**
+     * @return Contract
+     */
+    public static function deserialize(string $data) {
+        return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(array $groups = ["contract"]): array {
+        // return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
+        return SerializerBuilder::create()->build()->toArray($this);
+    }
+
+    /**
+     * @return self
+     */
+    public static function fromArray(array $data) {
+        return SerializerBuilder::create()->build()->fromArray($data, self::class);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
@@ -8,9 +9,9 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
+use ITBMedia\FortnoxBundle\Model\EmailInformation;
 
-class Offer implements SerializableInterface
-{
+class Offer implements SerializableInterface {
     /**
      * @var string
      * @Type("string")
@@ -208,13 +209,12 @@ class Offer implements SerializableInterface
      */
     private $documentNumber;
     /**
-     * @var \ITBMedia\FortnoxBundle\Model\EmailInformation
+     * @var EmailInformation
      * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
-     * @SerializedName("EmailInformation")
-     * @Groups({"offer"})
      * @SkipWhenEmpty()
+     * @SerializedName("EmailInformation")
      */
-    private $emailInformation;
+    private EmailInformation $emailInformation;
     /**
      * @var string
      * @Type("string")
@@ -464,8 +464,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->url;
     }
 
@@ -474,8 +473,7 @@ class Offer implements SerializableInterface
      * @param string $url
      * @return self
      */
-    public function setUrl($url): self
-    {
+    public function setUrl($url): self {
         $this->url = $url;
         return $this;
     }
@@ -484,8 +482,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getUrlTaxReductionList()
-    {
+    public function getUrlTaxReductionList() {
         return $this->urlTaxReductionList;
     }
 
@@ -494,8 +491,7 @@ class Offer implements SerializableInterface
      * @param string $urlTaxReductionList
      * @return self
      */
-    public function setUrlTaxReductionList($urlTaxReductionList): self
-    {
+    public function setUrlTaxReductionList($urlTaxReductionList): self {
         $this->urlTaxReductionList = $urlTaxReductionList;
         return $this;
     }
@@ -504,8 +500,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getAdministrationFee()
-    {
+    public function getAdministrationFee() {
         return $this->administrationFee;
     }
 
@@ -514,8 +509,7 @@ class Offer implements SerializableInterface
      * @param double $administrationFee
      * @return self
      */
-    public function setAdministrationFee($administrationFee): self
-    {
+    public function setAdministrationFee($administrationFee): self {
         $this->administrationFee = $administrationFee;
         return $this;
     }
@@ -524,8 +518,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getAdministrationFeeVAT()
-    {
+    public function getAdministrationFeeVAT() {
         return $this->administrationFeeVAT;
     }
 
@@ -534,8 +527,7 @@ class Offer implements SerializableInterface
      * @param double $administrationFeeVAT
      * @return self
      */
-    public function setAdministrationFeeVAT($administrationFeeVAT): self
-    {
+    public function setAdministrationFeeVAT($administrationFeeVAT): self {
         $this->administrationFeeVAT = $administrationFeeVAT;
         return $this;
     }
@@ -544,8 +536,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getAddress1()
-    {
+    public function getAddress1() {
         return $this->address1;
     }
 
@@ -554,8 +545,7 @@ class Offer implements SerializableInterface
      * @param string $address1
      * @return self
      */
-    public function setAddress1($address1): self
-    {
+    public function setAddress1($address1): self {
         $this->address1 = $address1;
         return $this;
     }
@@ -564,8 +554,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getAddress2()
-    {
+    public function getAddress2() {
         return $this->address2;
     }
 
@@ -574,8 +563,7 @@ class Offer implements SerializableInterface
      * @param string $address2
      * @return self
      */
-    public function setAddress2($address2): self
-    {
+    public function setAddress2($address2): self {
         $this->address2 = $address2;
         return $this;
     }
@@ -584,8 +572,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getBasisTaxReduction()
-    {
+    public function getBasisTaxReduction() {
         return $this->basisTaxReduction;
     }
 
@@ -594,8 +581,7 @@ class Offer implements SerializableInterface
      * @param double $basisTaxReduction
      * @return self
      */
-    public function setBasisTaxReduction($basisTaxReduction): self
-    {
+    public function setBasisTaxReduction($basisTaxReduction): self {
         $this->basisTaxReduction = $basisTaxReduction;
         return $this;
     }
@@ -604,8 +590,7 @@ class Offer implements SerializableInterface
      *
      * @return bool
      */
-    public function getCancelled()
-    {
+    public function getCancelled() {
         return $this->cancelled;
     }
 
@@ -614,8 +599,7 @@ class Offer implements SerializableInterface
      * @param bool $cancelled
      * @return self
      */
-    public function setCancelled($cancelled): self
-    {
+    public function setCancelled($cancelled): self {
         $this->cancelled = $cancelled;
         return $this;
     }
@@ -624,8 +608,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getCity()
-    {
+    public function getCity() {
         return $this->city;
     }
 
@@ -634,8 +617,7 @@ class Offer implements SerializableInterface
      * @param string $city
      * @return self
      */
-    public function setCity($city): self
-    {
+    public function setCity($city): self {
         $this->city = $city;
         return $this;
     }
@@ -644,8 +626,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getComments()
-    {
+    public function getComments() {
         return $this->comments;
     }
 
@@ -654,8 +635,7 @@ class Offer implements SerializableInterface
      * @param string $comments
      * @return self
      */
-    public function setComments($comments): self
-    {
+    public function setComments($comments): self {
         $this->comments = $comments;
         return $this;
     }
@@ -664,8 +644,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getContributionPercent()
-    {
+    public function getContributionPercent() {
         return $this->contributionPercent;
     }
 
@@ -674,8 +653,7 @@ class Offer implements SerializableInterface
      * @param double $contributionPercent
      * @return self
      */
-    public function setContributionPercent($contributionPercent): self
-    {
+    public function setContributionPercent($contributionPercent): self {
         $this->contributionPercent = $contributionPercent;
         return $this;
     }
@@ -684,8 +662,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getContributionValue()
-    {
+    public function getContributionValue() {
         return $this->contributionValue;
     }
 
@@ -694,8 +671,7 @@ class Offer implements SerializableInterface
      * @param double $contributionValue
      * @return self
      */
-    public function setContributionValue($contributionValue): self
-    {
+    public function setContributionValue($contributionValue): self {
         $this->contributionValue = $contributionValue;
         return $this;
     }
@@ -704,8 +680,7 @@ class Offer implements SerializableInterface
      *
      * @return bool
      */
-    public function getCopyRemarks()
-    {
+    public function getCopyRemarks() {
         return $this->copyRemarks;
     }
 
@@ -714,8 +689,7 @@ class Offer implements SerializableInterface
      * @param bool $copyRemarks
      * @return self
      */
-    public function setCopyRemarks($copyRemarks): self
-    {
+    public function setCopyRemarks($copyRemarks): self {
         $this->copyRemarks = $copyRemarks;
         return $this;
     }
@@ -724,8 +698,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getCountry()
-    {
+    public function getCountry() {
         return $this->country;
     }
 
@@ -734,8 +707,7 @@ class Offer implements SerializableInterface
      * @param string $country
      * @return self
      */
-    public function setCountry($country): self
-    {
+    public function setCountry($country): self {
         $this->country = $country;
         return $this;
     }
@@ -744,8 +716,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getCostCenter()
-    {
+    public function getCostCenter() {
         return $this->costCenter;
     }
 
@@ -754,8 +725,7 @@ class Offer implements SerializableInterface
      * @param string $costCenter
      * @return self
      */
-    public function setCostCenter($costCenter): self
-    {
+    public function setCostCenter($costCenter): self {
         $this->costCenter = $costCenter;
         return $this;
     }
@@ -764,8 +734,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getCurrency()
-    {
+    public function getCurrency() {
         return $this->currency;
     }
 
@@ -774,8 +743,7 @@ class Offer implements SerializableInterface
      * @param string $currency
      * @return self
      */
-    public function setCurrency($currency): self
-    {
+    public function setCurrency($currency): self {
         $this->currency = $currency;
         return $this;
     }
@@ -784,8 +752,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getCurrencyRate()
-    {
+    public function getCurrencyRate() {
         return $this->currencyRate;
     }
 
@@ -794,8 +761,7 @@ class Offer implements SerializableInterface
      * @param double $currencyRate
      * @return self
      */
-    public function setCurrencyRate($currencyRate): self
-    {
+    public function setCurrencyRate($currencyRate): self {
         $this->currencyRate = $currencyRate;
         return $this;
     }
@@ -804,8 +770,7 @@ class Offer implements SerializableInterface
      *
      * @return int
      */
-    public function getCurrencyUnit()
-    {
+    public function getCurrencyUnit() {
         return $this->currencyUnit;
     }
 
@@ -814,8 +779,7 @@ class Offer implements SerializableInterface
      * @param int $currencyUnit
      * @return self
      */
-    public function setCurrencyUnit($currencyUnit): self
-    {
+    public function setCurrencyUnit($currencyUnit): self {
         $this->currencyUnit = $currencyUnit;
         return $this;
     }
@@ -824,8 +788,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getCustomerName()
-    {
+    public function getCustomerName() {
         return $this->customerName;
     }
 
@@ -834,8 +797,7 @@ class Offer implements SerializableInterface
      * @param string $customerName
      * @return self
      */
-    public function setCustomerName($customerName): self
-    {
+    public function setCustomerName($customerName): self {
         $this->customerName = $customerName;
         return $this;
     }
@@ -844,8 +806,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getCustomerNumber()
-    {
+    public function getCustomerNumber() {
         return $this->customerNumber;
     }
 
@@ -854,8 +815,7 @@ class Offer implements SerializableInterface
      * @param string $customerNumber
      * @return self
      */
-    public function setCustomerNumber($customerNumber): self
-    {
+    public function setCustomerNumber($customerNumber): self {
         $this->customerNumber = $customerNumber;
         return $this;
     }
@@ -864,8 +824,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getDeliveryAddress1()
-    {
+    public function getDeliveryAddress1() {
         return $this->deliveryAddress1;
     }
 
@@ -874,8 +833,7 @@ class Offer implements SerializableInterface
      * @param string $deliveryAddress1
      * @return self
      */
-    public function setDeliveryAddress1($deliveryAddress1): self
-    {
+    public function setDeliveryAddress1($deliveryAddress1): self {
         $this->deliveryAddress1 = $deliveryAddress1;
         return $this;
     }
@@ -884,8 +842,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getDeliveryAddress2()
-    {
+    public function getDeliveryAddress2() {
         return $this->deliveryAddress2;
     }
 
@@ -894,8 +851,7 @@ class Offer implements SerializableInterface
      * @param string $deliveryAddress2
      * @return self
      */
-    public function setDeliveryAddress2($deliveryAddress2): self
-    {
+    public function setDeliveryAddress2($deliveryAddress2): self {
         $this->deliveryAddress2 = $deliveryAddress2;
         return $this;
     }
@@ -904,8 +860,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getDeliveryCity()
-    {
+    public function getDeliveryCity() {
         return $this->deliveryCity;
     }
 
@@ -914,8 +869,7 @@ class Offer implements SerializableInterface
      * @param string $deliveryCity
      * @return self
      */
-    public function setDeliveryCity($deliveryCity): self
-    {
+    public function setDeliveryCity($deliveryCity): self {
         $this->deliveryCity = $deliveryCity;
         return $this;
     }
@@ -924,8 +878,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getDeliveryCountry()
-    {
+    public function getDeliveryCountry() {
         return $this->deliveryCountry;
     }
 
@@ -934,8 +887,7 @@ class Offer implements SerializableInterface
      * @param string $deliveryCountry
      * @return self
      */
-    public function setDeliveryCountry($deliveryCountry): self
-    {
+    public function setDeliveryCountry($deliveryCountry): self {
         $this->deliveryCountry = $deliveryCountry;
         return $this;
     }
@@ -944,8 +896,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getDeliveryDate()
-    {
+    public function getDeliveryDate() {
         return $this->deliveryDate;
     }
 
@@ -954,8 +905,7 @@ class Offer implements SerializableInterface
      * @param string $deliveryDate
      * @return self
      */
-    public function setDeliveryDate($deliveryDate): self
-    {
+    public function setDeliveryDate($deliveryDate): self {
         $this->deliveryDate = $deliveryDate;
         return $this;
     }
@@ -964,8 +914,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getDeliveryName()
-    {
+    public function getDeliveryName() {
         return $this->deliveryName;
     }
 
@@ -974,8 +923,7 @@ class Offer implements SerializableInterface
      * @param string $deliveryName
      * @return self
      */
-    public function setDeliveryName($deliveryName): self
-    {
+    public function setDeliveryName($deliveryName): self {
         $this->deliveryName = $deliveryName;
         return $this;
     }
@@ -984,8 +932,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getDeliveryZipCode()
-    {
+    public function getDeliveryZipCode() {
         return $this->deliveryZipCode;
     }
 
@@ -994,8 +941,7 @@ class Offer implements SerializableInterface
      * @param string $deliveryZipCode
      * @return self
      */
-    public function setDeliveryZipCode($deliveryZipCode): self
-    {
+    public function setDeliveryZipCode($deliveryZipCode): self {
         $this->deliveryZipCode = $deliveryZipCode;
         return $this;
     }
@@ -1004,8 +950,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getDocumentNumber()
-    {
+    public function getDocumentNumber() {
         return $this->documentNumber;
     }
 
@@ -1014,28 +959,25 @@ class Offer implements SerializableInterface
      * @param string $documentNumber
      * @return self
      */
-    public function setDocumentNumber($documentNumber): self
-    {
+    public function setDocumentNumber($documentNumber): self {
         $this->documentNumber = $documentNumber;
         return $this;
     }
 
     /**
      *
-     * @return \ITBMedia\FortnoxBundle\Model\EmailInformation
+     * @return EmailInformation
      */
-    public function getEmailInformation()
-    {
+    public function getEmailInformation(): EmailInformation {
         return $this->emailInformation;
     }
 
     /**
      *
-     * @param \ITBMedia\FortnoxBundle\Model\EmailInformation $emailInformation
+     * @param EmailInformation $emailInformation
      * @return self
      */
-    public function setEmailInformation($emailInformation): self
-    {
+    public function setEmailInformation(EmailInformation $emailInformation): self {
         $this->emailInformation = $emailInformation;
         return $this;
     }
@@ -1044,8 +986,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getExpireDate()
-    {
+    public function getExpireDate() {
         return $this->expireDate;
     }
 
@@ -1054,8 +995,7 @@ class Offer implements SerializableInterface
      * @param string $expireDate
      * @return self
      */
-    public function setExpireDate($expireDate): self
-    {
+    public function setExpireDate($expireDate): self {
         $this->expireDate = $expireDate;
         return $this;
     }
@@ -1064,8 +1004,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getFreight()
-    {
+    public function getFreight() {
         return $this->freight;
     }
 
@@ -1074,8 +1013,7 @@ class Offer implements SerializableInterface
      * @param double $freight
      * @return self
      */
-    public function setFreight($freight): self
-    {
+    public function setFreight($freight): self {
         $this->freight = $freight;
         return $this;
     }
@@ -1084,8 +1022,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getFreightVAT()
-    {
+    public function getFreightVAT() {
         return $this->freightVAT;
     }
 
@@ -1094,8 +1031,7 @@ class Offer implements SerializableInterface
      * @param double $freightVAT
      * @return self
      */
-    public function setFreightVAT($freightVAT): self
-    {
+    public function setFreightVAT($freightVAT): self {
         $this->freightVAT = $freightVAT;
         return $this;
     }
@@ -1104,8 +1040,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getGross()
-    {
+    public function getGross() {
         return $this->gross;
     }
 
@@ -1114,8 +1049,7 @@ class Offer implements SerializableInterface
      * @param double $gross
      * @return self
      */
-    public function setGross($gross): self
-    {
+    public function setGross($gross): self {
         $this->gross = $gross;
         return $this;
     }
@@ -1124,8 +1058,7 @@ class Offer implements SerializableInterface
      *
      * @return bool
      */
-    public function getHouseWork()
-    {
+    public function getHouseWork() {
         return $this->houseWork;
     }
 
@@ -1134,8 +1067,7 @@ class Offer implements SerializableInterface
      * @param bool $houseWork
      * @return self
      */
-    public function setHouseWork($houseWork): self
-    {
+    public function setHouseWork($houseWork): self {
         $this->houseWork = $houseWork;
         return $this;
     }
@@ -1144,8 +1076,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getInvoiceReference()
-    {
+    public function getInvoiceReference() {
         return $this->invoiceReference;
     }
 
@@ -1154,8 +1085,7 @@ class Offer implements SerializableInterface
      * @param string $invoiceReference
      * @return self
      */
-    public function setInvoiceReference($invoiceReference): self
-    {
+    public function setInvoiceReference($invoiceReference): self {
         $this->invoiceReference = $invoiceReference;
         return $this;
     }
@@ -1164,8 +1094,7 @@ class Offer implements SerializableInterface
      *
      * @return array
      */
-    public function getLabels()
-    {
+    public function getLabels() {
         return $this->labels;
     }
 
@@ -1174,8 +1103,7 @@ class Offer implements SerializableInterface
      * @param array $labels
      * @return self
      */
-    public function setLabels($labels): self
-    {
+    public function setLabels($labels): self {
         $this->labels = $labels;
         return $this;
     }
@@ -1184,8 +1112,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getLanguage()
-    {
+    public function getLanguage() {
         return $this->language;
     }
 
@@ -1194,8 +1121,7 @@ class Offer implements SerializableInterface
      * @param string $language
      * @return self
      */
-    public function setLanguage($language): self
-    {
+    public function setLanguage($language): self {
         $this->language = $language;
         return $this;
     }
@@ -1204,8 +1130,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getNet()
-    {
+    public function getNet() {
         return $this->net;
     }
 
@@ -1214,8 +1139,7 @@ class Offer implements SerializableInterface
      * @param double $net
      * @return self
      */
-    public function setNet($net): self
-    {
+    public function setNet($net): self {
         $this->net = $net;
         return $this;
     }
@@ -1224,8 +1148,7 @@ class Offer implements SerializableInterface
      *
      * @return bool
      */
-    public function getNotCompleted()
-    {
+    public function getNotCompleted() {
         return $this->notCompleted;
     }
 
@@ -1234,8 +1157,7 @@ class Offer implements SerializableInterface
      * @param bool $notCompleted
      * @return self
      */
-    public function setNotCompleted($notCompleted): self
-    {
+    public function setNotCompleted($notCompleted): self {
         $this->notCompleted = $notCompleted;
         return $this;
     }
@@ -1244,8 +1166,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getOfferDate()
-    {
+    public function getOfferDate() {
         return $this->offerDate;
     }
 
@@ -1254,8 +1175,7 @@ class Offer implements SerializableInterface
      * @param string $offerDate
      * @return self
      */
-    public function setOfferDate($offerDate): self
-    {
+    public function setOfferDate($offerDate): self {
         $this->offerDate = $offerDate;
         return $this;
     }
@@ -1264,8 +1184,7 @@ class Offer implements SerializableInterface
      *
      * @return array
      */
-    public function getOfferRows()
-    {
+    public function getOfferRows() {
         return $this->offerRows;
     }
 
@@ -1274,8 +1193,7 @@ class Offer implements SerializableInterface
      * @param array $offerRows
      * @return self
      */
-    public function setOfferRows($offerRows): self
-    {
+    public function setOfferRows($offerRows): self {
         $this->offerRows = $offerRows;
         return $this;
     }
@@ -1284,8 +1202,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getOrderReference()
-    {
+    public function getOrderReference() {
         return $this->orderReference;
     }
 
@@ -1294,8 +1211,7 @@ class Offer implements SerializableInterface
      * @param string $orderReference
      * @return self
      */
-    public function setOrderReference($orderReference): self
-    {
+    public function setOrderReference($orderReference): self {
         $this->orderReference = $orderReference;
         return $this;
     }
@@ -1304,8 +1220,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getOrganisationNumber()
-    {
+    public function getOrganisationNumber() {
         return $this->organisationNumber;
     }
 
@@ -1314,8 +1229,7 @@ class Offer implements SerializableInterface
      * @param string $organisationNumber
      * @return self
      */
-    public function setOrganisationNumber($organisationNumber): self
-    {
+    public function setOrganisationNumber($organisationNumber): self {
         $this->organisationNumber = $organisationNumber;
         return $this;
     }
@@ -1324,8 +1238,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getOurReference()
-    {
+    public function getOurReference() {
         return $this->ourReference;
     }
 
@@ -1334,8 +1247,7 @@ class Offer implements SerializableInterface
      * @param string $ourReference
      * @return self
      */
-    public function setOurReference($ourReference): self
-    {
+    public function setOurReference($ourReference): self {
         $this->ourReference = $ourReference;
         return $this;
     }
@@ -1344,8 +1256,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getPhone1()
-    {
+    public function getPhone1() {
         return $this->phone1;
     }
 
@@ -1354,8 +1265,7 @@ class Offer implements SerializableInterface
      * @param string $phone1
      * @return self
      */
-    public function setPhone1($phone1): self
-    {
+    public function setPhone1($phone1): self {
         $this->phone1 = $phone1;
         return $this;
     }
@@ -1364,8 +1274,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getPhone2()
-    {
+    public function getPhone2() {
         return $this->phone2;
     }
 
@@ -1374,8 +1283,7 @@ class Offer implements SerializableInterface
      * @param string $phone2
      * @return self
      */
-    public function setPhone2($phone2): self
-    {
+    public function setPhone2($phone2): self {
         $this->phone2 = $phone2;
         return $this;
     }
@@ -1384,8 +1292,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getPriceList()
-    {
+    public function getPriceList() {
         return $this->priceList;
     }
 
@@ -1394,8 +1301,7 @@ class Offer implements SerializableInterface
      * @param string $priceList
      * @return self
      */
-    public function setPriceList($priceList): self
-    {
+    public function setPriceList($priceList): self {
         $this->priceList = $priceList;
         return $this;
     }
@@ -1404,8 +1310,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getPrintTemplate()
-    {
+    public function getPrintTemplate() {
         return $this->printTemplate;
     }
 
@@ -1414,8 +1319,7 @@ class Offer implements SerializableInterface
      * @param string $printTemplate
      * @return self
      */
-    public function setPrintTemplate($printTemplate): self
-    {
+    public function setPrintTemplate($printTemplate): self {
         $this->printTemplate = $printTemplate;
         return $this;
     }
@@ -1424,8 +1328,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getProject()
-    {
+    public function getProject() {
         return $this->project;
     }
 
@@ -1434,8 +1337,7 @@ class Offer implements SerializableInterface
      * @param string $project
      * @return self
      */
-    public function setProject($project): self
-    {
+    public function setProject($project): self {
         $this->project = $project;
         return $this;
     }
@@ -1444,8 +1346,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getRemarks()
-    {
+    public function getRemarks() {
         return $this->remarks;
     }
 
@@ -1454,8 +1355,7 @@ class Offer implements SerializableInterface
      * @param string $remarks
      * @return self
      */
-    public function setRemarks($remarks): self
-    {
+    public function setRemarks($remarks): self {
         $this->remarks = $remarks;
         return $this;
     }
@@ -1464,8 +1364,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getRoundOff()
-    {
+    public function getRoundOff() {
         return $this->roundOff;
     }
 
@@ -1474,8 +1373,7 @@ class Offer implements SerializableInterface
      * @param double $roundOff
      * @return self
      */
-    public function setRoundOff($roundOff): self
-    {
+    public function setRoundOff($roundOff): self {
         $this->roundOff = $roundOff;
         return $this;
     }
@@ -1484,8 +1382,7 @@ class Offer implements SerializableInterface
      *
      * @return bool
      */
-    public function getSent()
-    {
+    public function getSent() {
         return $this->sent;
     }
 
@@ -1494,8 +1391,7 @@ class Offer implements SerializableInterface
      * @param bool $sent
      * @return self
      */
-    public function setSent($sent): self
-    {
+    public function setSent($sent): self {
         $this->sent = $sent;
         return $this;
     }
@@ -1504,8 +1400,7 @@ class Offer implements SerializableInterface
      *
      * @return int
      */
-    public function getTaxReduction()
-    {
+    public function getTaxReduction() {
         return $this->taxReduction;
     }
 
@@ -1514,8 +1409,7 @@ class Offer implements SerializableInterface
      * @param int $taxReduction
      * @return self
      */
-    public function setTaxReduction($taxReduction): self
-    {
+    public function setTaxReduction($taxReduction): self {
         $this->taxReduction = $taxReduction;
         return $this;
     }
@@ -1524,8 +1418,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getTermsOfDelivery()
-    {
+    public function getTermsOfDelivery() {
         return $this->termsOfDelivery;
     }
 
@@ -1534,8 +1427,7 @@ class Offer implements SerializableInterface
      * @param string $termsOfDelivery
      * @return self
      */
-    public function setTermsOfDelivery($termsOfDelivery): self
-    {
+    public function setTermsOfDelivery($termsOfDelivery): self {
         $this->termsOfDelivery = $termsOfDelivery;
         return $this;
     }
@@ -1544,8 +1436,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getTermsOfPayment()
-    {
+    public function getTermsOfPayment() {
         return $this->termsOfPayment;
     }
 
@@ -1554,8 +1445,7 @@ class Offer implements SerializableInterface
      * @param string $termsOfPayment
      * @return self
      */
-    public function setTermsOfPayment($termsOfPayment): self
-    {
+    public function setTermsOfPayment($termsOfPayment): self {
         $this->termsOfPayment = $termsOfPayment;
         return $this;
     }
@@ -1564,8 +1454,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getTotal()
-    {
+    public function getTotal() {
         return $this->total;
     }
 
@@ -1574,8 +1463,7 @@ class Offer implements SerializableInterface
      * @param double $total
      * @return self
      */
-    public function setTotal($total): self
-    {
+    public function setTotal($total): self {
         $this->total = $total;
         return $this;
     }
@@ -1584,8 +1472,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getTotalToPay()
-    {
+    public function getTotalToPay() {
         return $this->totalToPay;
     }
 
@@ -1594,8 +1481,7 @@ class Offer implements SerializableInterface
      * @param double $totalToPay
      * @return self
      */
-    public function setTotalToPay($totalToPay): self
-    {
+    public function setTotalToPay($totalToPay): self {
         $this->totalToPay = $totalToPay;
         return $this;
     }
@@ -1604,8 +1490,7 @@ class Offer implements SerializableInterface
      *
      * @return double
      */
-    public function getTotalVAT()
-    {
+    public function getTotalVAT() {
         return $this->totalVAT;
     }
 
@@ -1614,8 +1499,7 @@ class Offer implements SerializableInterface
      * @param double $totalVAT
      * @return self
      */
-    public function setTotalVAT($totalVAT): self
-    {
+    public function setTotalVAT($totalVAT): self {
         $this->totalVAT = $totalVAT;
         return $this;
     }
@@ -1624,8 +1508,7 @@ class Offer implements SerializableInterface
      *
      * @return bool
      */
-    public function getVATIncluded()
-    {
+    public function getVATIncluded() {
         return $this->vATIncluded;
     }
 
@@ -1634,8 +1517,7 @@ class Offer implements SerializableInterface
      * @param bool $vATIncluded
      * @return self
      */
-    public function setVATIncluded($vATIncluded): self
-    {
+    public function setVATIncluded($vATIncluded): self {
         $this->vATIncluded = $vATIncluded;
         return $this;
     }
@@ -1644,8 +1526,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getWayOfDelivery()
-    {
+    public function getWayOfDelivery() {
         return $this->wayOfDelivery;
     }
 
@@ -1654,8 +1535,7 @@ class Offer implements SerializableInterface
      * @param string $wayOfDelivery
      * @return self
      */
-    public function setWayOfDelivery($wayOfDelivery): self
-    {
+    public function setWayOfDelivery($wayOfDelivery): self {
         $this->wayOfDelivery = $wayOfDelivery;
         return $this;
     }
@@ -1664,8 +1544,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getYourReference()
-    {
+    public function getYourReference() {
         return $this->yourReference;
     }
 
@@ -1674,8 +1553,7 @@ class Offer implements SerializableInterface
      * @param string $yourReference
      * @return self
      */
-    public function setYourReference($yourReference): self
-    {
+    public function setYourReference($yourReference): self {
         $this->yourReference = $yourReference;
         return $this;
     }
@@ -1684,8 +1562,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getYourReferenceNumber()
-    {
+    public function getYourReferenceNumber() {
         return $this->yourReferenceNumber;
     }
 
@@ -1694,8 +1571,7 @@ class Offer implements SerializableInterface
      * @param string $yourReferenceNumber
      * @return self
      */
-    public function setYourReferenceNumber($yourReferenceNumber): self
-    {
+    public function setYourReferenceNumber($yourReferenceNumber): self {
         $this->yourReferenceNumber = $yourReferenceNumber;
         return $this;
     }
@@ -1704,8 +1580,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getZipCode()
-    {
+    public function getZipCode() {
         return $this->zipCode;
     }
 
@@ -1714,8 +1589,7 @@ class Offer implements SerializableInterface
      * @param string $zipCode
      * @return self
      */
-    public function setZipCode($zipCode): self
-    {
+    public function setZipCode($zipCode): self {
         $this->zipCode = $zipCode;
         return $this;
     }
@@ -1724,8 +1598,7 @@ class Offer implements SerializableInterface
      *
      * @return string
      */
-    public function getTaxReductionType()
-    {
+    public function getTaxReductionType() {
         return $this->taxReductionType;
     }
 
@@ -1734,8 +1607,7 @@ class Offer implements SerializableInterface
      * @param string $taxReductionType
      * @return self
      */
-    public function setTaxReductionType($taxReductionType): self
-    {
+    public function setTaxReductionType($taxReductionType): self {
         $this->taxReductionType = $taxReductionType;
         return $this;
     }
@@ -1743,8 +1615,7 @@ class Offer implements SerializableInterface
     /**
      * @return string
      */
-    public function serialize()
-    {
+    public function serialize() {
         return SerializerBuilder::create()
             ->build()
             ->serialize($this, "json");
@@ -1753,24 +1624,24 @@ class Offer implements SerializableInterface
     /**
      * @return Offer
      */
-    public static function deserialize(string $data)
-    {
+    public static function deserialize(string $data) {
         return SerializerBuilder::create()
             ->build()
             ->deserialize($data, self::class, "json");
     }
 
     /**
-	 * @return array
-	 */
-	public function toArray(array $groups = ["offer"]): array {
-		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
-	}
+     * @return array
+     */
+    public function toArray(array $groups = ["offer"]): array {
+        return SerializerBuilder::create()->build()->toArray($this);
+        // return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
+    }
 
-	/**
-	 * @return self
-	 */
-	public static function fromArray(array $data) {
-		return SerializerBuilder::create()->build()->fromArray($data, self::class);
-	}
+    /**
+     * @return self
+     */
+    public static function fromArray(array $data) {
+        return SerializerBuilder::create()->build()->fromArray($data, self::class);
+    }
 }

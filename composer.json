@@ -18,6 +18,7 @@
     "require": {
         "symfony/framework-bundle": "*",
         "jms/serializer-bundle": "*",
-        "symfony/expression-language": "*"
+        "symfony/expression-language": "*",
+        "symfony/lock": "5.4.x-dev"
     }
 }
