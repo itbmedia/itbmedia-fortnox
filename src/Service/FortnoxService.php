@@ -28,17 +28,34 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\FlockStore;
 
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
+
 class FortnoxService {
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;
     const DEFAULT_RETRY_ATTEMPTS = 5;
-    private $lastRefreshResults = [];
-    const MAX_REFRESH_RESULTS = 1000; // Set your desired maximum number of entries
-    const MAX_REFRESH_RESULT_AGE = 3600; // Set the maximum age of an entry in seconds (e.g., 1 hour)
+    const DEFAULT_CACHE_EXPIRY = 3600;
+    const LOG_FILE = "fortnoxServiceLogs.txt";
+    const CACHE_NAMESPACE = "FortnoxRefreshKeys";
+    private $cache;
+
+    private function addLog($text) {
+        if (!file_exists(self::LOG_FILE)) touch(self::LOG_FILE);
+        $t = microtime(true);
+        $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+        $d = new \DateTime(date('Y-m-d H:i:s.' . $micro, $t));
+        $current = file_get_contents(self::LOG_FILE);
+        $currentDate = $d->format("Y-m-d H:i:s.u");
+        $current .= "-------------" . $currentDate . "-------------\n";
+        $current .= $text . "\n\n";
+        file_put_contents(self::LOG_FILE, $current);
+    }
 
     public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher) {
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
+        $this->cache = new FilesystemAdapter(self::CACHE_NAMESPACE, 0, __DIR__ . '/cache');
     }
     #region customer
     public function getUnits(Token $token, array $params = []): UnitsResponse {
@@ -244,52 +261,41 @@ class FortnoxService {
         $response = $this->call($token, 'GET', 'printtemplates', $params, true);
         return PrintTemplatesResponse::fromArray($response);
     }
-    #endregion
-    private function cleanupLastRefreshResults() {
-        // Remove entries with an 'expire_at' timestamp older than the specified threshold
-        $now = time();
-        $this->lastRefreshResults = array_filter(
-            $this->lastRefreshResults,
-            function ($entry) use ($now) {
-                return $entry['expire_at'] > $now;
-            }
-        );
-
-        // Check if the number of entries exceeds the maximum
-        if (count($this->lastRefreshResults) > self::MAX_REFRESH_RESULTS) {
-            // Remove the oldest entries
-            usort($this->lastRefreshResults, function ($a, $b) {
-                return $a['expire_at'] <=> $b['expire_at'];
-            });
-            $this->lastRefreshResults = array_slice($this->lastRefreshResults, -self::MAX_REFRESH_RESULTS, null, true);
-        }
-    }
-
     private function refreshTokenWithLock(Token $token) {
         $refreshToken = $token->getRefreshToken();
 
-        if (isset($this->lastRefreshResults[$refreshToken]) && $this->lastRefreshResults[$refreshToken]['expire_at'] > time()) {
-            $token = $this->lastRefreshResults[$refreshToken]["result"];
-            return Token::deserialize($token);
+        if (empty($refreshToken) || !$refreshToken) {
+            throw new \Exception('Missing refresh token.');
+        }
+
+        $cacheItem = $this->cache->getItem($refreshToken);
+        if ($cacheItem->isHit()) {
+            return Token::deserialize($cacheItem->get());
         }
 
         $store = new FlockStore();
         $lockFactory = new LockFactory($store);
-
         $refreshLock = $lockFactory->createLock('token_refresh_' . $refreshToken);
 
         try {
             if ($refreshLock->acquire(true)) {
-                // Refresh the token
-                $this->lastRefreshResults[$refreshToken] = [
-                    'result' => $this->refreshToken($token)->serialize(),
-                    'expire_at' => time() + self::MAX_REFRESH_RESULT_AGE
-                ];
+                $cacheItem = $this->cache->getItem($refreshToken);
+                if ($cacheItem->isHit()) {
+                    return Token::deserialize($cacheItem->get());
+                }
 
-                // Clean up old entries if necessary
-                $this->cleanupLastRefreshResults();
+                $newRefreshToken = $this->refreshToken($token)->serialize();
 
-                return Token::deserialize($this->lastRefreshResults[$refreshToken]['result']);
+                $expiresIn = $newRefreshToken["expires_in"] ?? self::DEFAULT_CACHE_EXPIRY;
+                if (!is_int($expiresIn) || $expiresIn <= 0) {
+                    $expiresIn = self::DEFAULT_CACHE_EXPIRY;
+                }
+
+                $cacheItem->set($newRefreshToken);
+                $cacheItem->expiresAfter($expiresIn + 60); // Add 60 seconds to make sure the token is not expired when we use it
+                $this->cache->save($cacheItem);
+
+                return Token::deserialize($newRefreshToken);
             } else {
                 throw new \Exception('Failed to acquire lock for token refresh.');
             }

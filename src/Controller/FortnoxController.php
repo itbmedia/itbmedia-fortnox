@@ -114,7 +114,6 @@ class FortnoxController extends AbstractController {
                     'success' => true
                 )
             );
-
             $this->eventDispatcher->dispatch(
                 new ConnectEvent(Token::deserialize($response), $state),
                 ConnectEvent::NAME
@@ -140,6 +139,7 @@ class FortnoxController extends AbstractController {
     }
 
     private function getRedirectUrl($customRedirectUrl = null) {
+        // return "http://127.0.0.1:8000/api/fortnox/callback"; //! Remove
         if ($customRedirectUrl) {
             return $customRedirectUrl;
         } else {
