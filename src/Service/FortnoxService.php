@@ -265,7 +265,7 @@ class FortnoxService {
         $refreshToken = $token->getRefreshToken();
 
         if (empty($refreshToken) || !$refreshToken) {
-            throw new \Exception('Missing refresh token.');
+            throw new \Exception('Missing refresh token..');
         }
 
         $cacheItem = $this->cache->getItem($refreshToken);
