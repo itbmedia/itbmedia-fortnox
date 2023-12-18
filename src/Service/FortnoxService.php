@@ -265,7 +265,7 @@ class FortnoxService {
         $refreshToken = $token->getRefreshToken();
 
         if (empty($refreshToken) || !$refreshToken) {
-            throw new \Exception('Missing refresh token..');
+            throw new \Exception('Fortnox: Missing refresh token..');
         }
 
         $cacheItem = $this->cache->getItem($refreshToken);
@@ -292,7 +292,7 @@ class FortnoxService {
                 }
 
                 $cacheItem->set($newRefreshToken);
-                $cacheItem->expiresAfter($expiresIn + 60); // Add 60 seconds to make sure the token is not expired when we use it
+                $cacheItem->expiresAfter($expiresIn - 60); // Remove 60 seconds to make sure the token is not expired when we use it
                 $this->cache->save($cacheItem);
 
                 return Token::deserialize($newRefreshToken);
