@@ -264,9 +264,9 @@ class FortnoxService {
     private function refreshTokenWithLock(Token $token) {
         $refreshToken = $token->getRefreshToken();
 
-        if (empty($refreshToken) || !$refreshToken) {
-            throw new \Exception('Fortnox: Missing refresh token..');
-        }
+        // if (empty($refreshToken) || !$refreshToken) {
+        //     throw new \Exception('Fortnox: Missing refresh token..');
+        // }
 
         $cacheItem = $this->cache->getItem($refreshToken);
         if ($cacheItem->isHit()) {
