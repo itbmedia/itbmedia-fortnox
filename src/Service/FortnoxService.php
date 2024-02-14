@@ -266,14 +266,16 @@ class FortnoxService
      */
     public function getAllInvoices(
         Token $token,
-        array $params = []
+        array $params = [],
+        int $limit = 500
     ): InvoicesResponse {
 
         $allInvoices = [];
+        $params['limit'] = $limit; 
 
         do {
             $invoicesResponse = $this->getInvoices($token, array_merge($params, ['offset' => count($allInvoices)]));
-            array_merge($allInvoices, $invoicesResponse->getInvoices());
+            $allInvoices = array_merge($allInvoices, $invoicesResponse->getInvoices());
         } while (count($allInvoices) < $invoicesResponse->getMetaInformation()->getTotalResources());
 
         return $invoicesResponse->setInvoices($allInvoices);
