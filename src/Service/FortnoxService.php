@@ -258,6 +258,27 @@ class FortnoxService
         $response = $this->call($token, 'PUT', "contracts/$number/finish", $params, true)['Contract']; //Should'nt it return Invoice?
         return Contract::fromArray($response);
     }
+
+    /**
+     * @param Token $token
+     * @param array $params
+     * @return InvoicesResponse
+     */
+    public function getAllInvoices(
+        Token $token,
+        array $params = []
+    ): InvoicesResponse {
+
+        $allInvoices = [];
+
+        do {
+            $invoicesResponse = $this->getInvoices($token, array_merge($params, ['offset' => count($allInvoices)]));
+            array_merge($allInvoices, $invoicesResponse->getInvoices());
+        } while (count($allInvoices) < $invoicesResponse->getMetaInformation()->getTotalResources());
+
+        return $invoicesResponse->setInvoices($allInvoices);
+    }
+
     #endregion
     #region invoices
     public function getInvoices(Token $token, array $params = []): InvoicesResponse
