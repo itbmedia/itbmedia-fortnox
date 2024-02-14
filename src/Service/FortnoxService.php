@@ -31,7 +31,8 @@ use Symfony\Component\Lock\Store\FlockStore;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class FortnoxService {
+class FortnoxService
+{
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;
     const DEFAULT_RETRY_ATTEMPTS = 5;
@@ -40,7 +41,8 @@ class FortnoxService {
     const CACHE_NAMESPACE = "FortnoxRefreshKeys";
     private $cache;
 
-    private function addLog($text) {
+    private function addLog($text)
+    {
         if (!file_exists(self::LOG_FILE)) touch(self::LOG_FILE);
         $t = microtime(true);
         $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
@@ -52,216 +54,283 @@ class FortnoxService {
         file_put_contents(self::LOG_FILE, $current);
     }
 
-    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher) {
+    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher)
+    {
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
         $this->cache = new FilesystemAdapter(self::CACHE_NAMESPACE, 0, __DIR__ . '/cache');
     }
+
+    /**
+     * @param Token $token
+     * @return string
+     */
+    public function getMe(Token $token): string
+    {
+        return $this->call($token, 'GET', 'me', []);
+    }
+
+    /**
+     * @param Token $token
+     * @return object
+     */
+    public function getCompanyInformation(Token $token): object
+    {
+        return json_decode($this->call($token, 'GET', 'companyinformation', []))->CompanyInformation;
+    }
+
+
     #region customer
-    public function getUnits(Token $token, array $params = []): UnitsResponse {
+    public function getUnits(Token $token, array $params = []): UnitsResponse
+    {
         $response = $this->call($token, 'GET', 'units', $params, false);
         return UnitsResponse::deserialize($response);
     }
     #endregion
     #region customer
-    public function getCustomers(Token $token, array $params = []): CustomersResponse {
+    public function getCustomers(Token $token, array $params = []): CustomersResponse
+    {
         $response = $this->call($token, 'GET', 'customers', $params, false);
         return CustomersResponse::deserialize($response);
     }
-    public function createCustomer(Token $token, Customer $customer): Customer {
+    public function createCustomer(Token $token, Customer $customer): Customer
+    {
         $response = $this->call($token, 'POST', "customers", array('Customer' => $customer->toArray()), true)['Customer'];
         return Customer::fromArray($response);
     }
-    public function getCustomer(Token $token, string $number, array $params = []): Customer {
+    public function getCustomer(Token $token, string $number, array $params = []): Customer
+    {
         $response = $this->call($token, 'GET', "customers/$number", $params, true)['Customer'];
         return Customer::fromArray($response);
     }
-    public function updateCustomer(Token $token, Customer $customer): Customer {
+    public function updateCustomer(Token $token, Customer $customer): Customer
+    {
         $number = $customer->getCustomerNumber();
         $response = $this->call($token, 'PUT', "customers/$number", array('Customer' => $customer->toArray()), true)['Customer'];
         return Customer::fromArray($response);
     }
     #endregion
     #region article
-    public function getArticles(Token $token, array $params = []): ArticlesResponse {
+    public function getArticles(Token $token, array $params = []): ArticlesResponse
+    {
         $response = $this->call($token, 'GET', 'articles', array_merge($params, array("filter" => "active")), false);
         return ArticlesResponse::deserialize($response);
     }
-    public function getArticle(Token $token, string $number, array $params = []): Article {
+    public function getArticle(Token $token, string $number, array $params = []): Article
+    {
         $response = $this->call($token, 'GET', "articles/$number", $params, true)['Article'];
         return Article::fromArray($response);
     }
     #endregion
     #region offers
-    public function getOffers(Token $token, array $params = []): OffersResponse {
+    public function getOffers(Token $token, array $params = []): OffersResponse
+    {
         if (!isset($params["sortby"])) $params["sortby"] = "documentnumber";
         if (!isset($params["sortorder"])) $params["sortorder"] = "descending";
         $response = $this->call($token, 'GET', 'offers', $params, false);
         return OffersResponse::deserialize($response);
     }
-    public function getOffer(Token $token, string $number, array $params = []): Offer {
+    public function getOffer(Token $token, string $number, array $params = []): Offer
+    {
         $response = $this->call($token, 'GET', "offers/$number", $params, true)['Offer'];
         return Offer::fromArray($response);
     }
-    public function createOffer(Token $token, Offer $offer): Offer {
+    public function createOffer(Token $token, Offer $offer): Offer
+    {
         $response = $this->call($token, 'POST', "offers", array('Offer' => $offer->toArray()), true)['Offer'];
         return Offer::fromArray($response);
     }
-    public function updateOffer(Token $token, Offer $offer): Offer {
+    public function updateOffer(Token $token, Offer $offer): Offer
+    {
         $response = $this->call($token, 'PUT', "offers/" . $offer->getDocumentNumber(), array('Offer' => $offer->toArray()), true)['Offer'];
         return Offer::fromArray($response);
     }
-    public function previewOffer(Token $token, string $number, array $params = []) {
+    public function previewOffer(Token $token, string $number, array $params = [])
+    {
         return $this->call($token, "GET", "offers/$number/preview", $params);
     }
-    public function createOrderFromOffer(Token $token, string $number, array $params = []): Offer {
+    public function createOrderFromOffer(Token $token, string $number, array $params = []): Offer
+    {
         $response = $this->call($token, 'PUT', "offers/$number/createorder", $params, true)['Offer']; // Fortnox docs says this should return a Order, but it returns a Offer??
         return Offer::fromArray($response);
     }
-    public function createInvoiceFromOffer(Token $token, string $number, array $params = []): Offer {
+    public function createInvoiceFromOffer(Token $token, string $number, array $params = []): Offer
+    {
         $response = $this->call($token, 'PUT', "offers/$number/createinvoice", $params, true)['Offer']; // Fortnox docs says this should return a Order, but it returns a Offer??
         return Offer::fromArray($response);
     }
-    public function cancelOffer(Token $token, string $number, array $params = []): Offer {
+    public function cancelOffer(Token $token, string $number, array $params = []): Offer
+    {
         $response = $this->call($token, 'PUT', "offers/$number/cancel", $params, true)['Offer'];
         return Offer::fromArray($response);
     }
-    public function setOfferAsSent(Token $token, string $number, array $params = []): Offer {
+    public function setOfferAsSent(Token $token, string $number, array $params = []): Offer
+    {
         $response = $this->call($token, "PUT", "offers/$number/externalprint", $params, true)['Offer'];
         return Offer::fromArray($response);
     }
-    public function sendOfferAsEmail(Token $token, string $number, array $params = []): Offer {
+    public function sendOfferAsEmail(Token $token, string $number, array $params = []): Offer
+    {
         $response = $this->call($token, "GET", "offers/$number/email", $params, true)['Offer'];
         return Offer::fromArray($response);
     }
     #endregion
     #region orders
-    public function getOrders(Token $token, array $params = []): OrdersResponse {
+    public function getOrders(Token $token, array $params = []): OrdersResponse
+    {
         if (!isset($params["sortby"])) $params["sortby"] = "documentnumber";
         if (!isset($params["sortorder"])) $params["sortorder"] = "descending";
         $response = $this->call($token, 'GET', 'orders', $params, false);
         return OrdersResponse::deserialize($response);
     }
-    public function getOrder(Token $token, string $number, array $params = []): Order {
+    public function getOrder(Token $token, string $number, array $params = []): Order
+    {
         $response = $this->call($token, 'GET', "orders/$number", $params, true)['Order'];
         return Order::fromArray($response);
     }
-    public function createOrder(Token $token, Order $order): Order {
+    public function createOrder(Token $token, Order $order): Order
+    {
         $response = $this->call($token, 'POST', "orders", array('Order' => $order->toArray()), true)['Order'];
         return Order::fromArray($response);
     }
-    public function updateOrder(Token $token, Order $order): Order {
+    public function updateOrder(Token $token, Order $order): Order
+    {
         $response = $this->call($token, 'PUT', "orders/" . $order->getDocumentNumber(), array('Order' => $order->toArray()), true)['Order'];
         return Order::fromArray($response);
     }
-    public function previewOrder(Token $token, string $number, array $params = []) {
+    public function previewOrder(Token $token, string $number, array $params = [])
+    {
         return $this->call($token, "GET", "orders/$number/preview", $params);
     }
-    public function createInvoiceFromOrder(Token $token, string $number, array $params = []): Order {
+    public function createInvoiceFromOrder(Token $token, string $number, array $params = []): Order
+    {
         $response = $this->call($token, 'PUT', "orders/$number/createinvoice", $params, true)['Order'];
         return Order::fromArray($response);
     }
-    public function cancelOrder(Token $token, string $number, array $params = []): Order {
+    public function cancelOrder(Token $token, string $number, array $params = []): Order
+    {
         $response = $this->call($token, 'PUT', "orders/$number/cancel", $params, true)['Order'];
         return Order::fromArray($response);
     }
-    public function setOrderAsSent(Token $token, string $number, array $params = []): Order {
+    public function setOrderAsSent(Token $token, string $number, array $params = []): Order
+    {
         $response = $this->call($token, "PUT", "orders/$number/externalprint", $params, true)['Order'];
         return Order::fromArray($response);
     }
-    public function sendOrderAsEmail(Token $token, string $number, array $params = []): Order {
+    public function sendOrderAsEmail(Token $token, string $number, array $params = []): Order
+    {
         $response = $this->call($token, "GET", "orders/$number/email", $params, true)['Order'];
         return Order::fromArray($response);
     }
     #endregion
     #region contracts
-    public function getContracts(Token $token, array $params = []): ContractsResponse {
+    public function getContracts(Token $token, array $params = []): ContractsResponse
+    {
         if (!isset($params["sortby"])) $params["sortby"] = "documentnumber";
         if (!isset($params["sortorder"])) $params["sortorder"] = "descending";
         $response = $this->call($token, 'GET', 'contracts', $params, false);
         return ContractsResponse::deserialize($response);
     }
-    public function getContract(Token $token, string $number, array $params = []): Contract {
+    public function getContract(Token $token, string $number, array $params = []): Contract
+    {
         if (!isset($params["sortby"])) $params["sortby"] = "documentnumber";
         if (!isset($params["sortorder"])) $params["sortorder"] = "descending";
         $response = $this->call($token, 'GET', "contracts/$number", $params, true)['Contract'];
         return Contract::fromArray($response);
     }
-    public function createContract(Token $token, Contract $contract): Contract {
+    public function createContract(Token $token, Contract $contract): Contract
+    {
         $response = $this->call($token, 'POST', "contracts", array('Contract' => $contract->toArray()), true)['Contract'];
         return Contract::fromArray($response);
     }
-    public function updateContract(Token $token, Contract $contract): Contract {
+    public function updateContract(Token $token, Contract $contract): Contract
+    {
         $response = $this->call($token, 'PUT', "contracts/" . $contract->getDocumentNumber(), array('Contract' => $contract->toArray()), true)['Contract'];
         return Contract::fromArray($response);
     }
-    public function createInvoiceFromContract(Token $token, string $number, array $params = []): Contract {
+    public function createInvoiceFromContract(Token $token, string $number, array $params = []): Contract
+    {
         $response = $this->call($token, 'PUT', "contracts/$number/createinvoice", $params, true)['Contract']; //Should'nt it return Invoice?
         return Contract::fromArray($response);
     }
-    public function setContractAsFinished(Token $token, string $number, array $params = []): Contract {
+    public function setContractAsFinished(Token $token, string $number, array $params = []): Contract
+    {
         $response = $this->call($token, 'PUT', "contracts/$number/finish", $params, true)['Contract']; //Should'nt it return Invoice?
         return Contract::fromArray($response);
     }
     #endregion
     #region invoices
-    public function getInvoices(Token $token, array $params = []): InvoicesResponse {
+    public function getInvoices(Token $token, array $params = []): InvoicesResponse
+    {
         if (!isset($params["sortby"])) $params["sortby"] = "documentnumber";
         if (!isset($params["sortorder"])) $params["sortorder"] = "descending";
         $response = $this->call($token, 'GET', 'invoices', $params, false);
         return InvoicesResponse::deserialize($response);
     }
-    public function getInvoice(Token $token, string $number, array $params = []): Invoice {
+    public function getInvoice(Token $token, string $number, array $params = []): Invoice
+    {
         $response = $this->call($token, 'GET', "invoices/$number", $params, true);
 
         return Invoice::fromArray($response['Invoice']);
     }
-    public function getWayOfDeliveries(Token $token, array $params = []): Invoice {
+    public function getWayOfDeliveries(Token $token, array $params = []): Invoice
+    {
         $response = $this->call($token, 'GET', "wayofdeliveries", $params, true)['WayOfDeliveries'];
         return Invoice::fromArray($response);
     }
-    public function createInvoice(Token $token, Invoice $invoice): Invoice {
+    public function createInvoice(Token $token, Invoice $invoice): Invoice
+    {
         $response = $this->call($token, 'POST', "invoices", array('Invoice' => $invoice->toArray()), true)['Invoice'];
         return Invoice::fromArray($response);
     }
-    public function updateInvoice(Token $token, Invoice $invoice): Invoice {
+    public function updateInvoice(Token $token, Invoice $invoice): Invoice
+    {
         $response = $this->call($token, 'PUT', "invoices/" . $invoice->getDocumentNumber(), array('Invoice' => $invoice->toArray()), true)['Invoice'];
         return Invoice::fromArray($response);
     }
-    public function previewInvoice(Token $token, string $number, array $params = []) {
+    public function previewInvoice(Token $token, string $number, array $params = [])
+    {
         return $this->call($token, "GET", "invoices/$number/preview", $params);
     }
-    public function cancelInvoice(Token $token, string $number, array $params = []): Invoice {
+    public function cancelInvoice(Token $token, string $number, array $params = []): Invoice
+    {
         $response = $this->call($token, 'PUT', "invoices/$number/cancel", $params, true)['Invoice'];
         return Invoice::fromArray($response);
     }
-    public function creditInvoice(Token $token, string $number, array $params = []): Invoice {
+    public function creditInvoice(Token $token, string $number, array $params = []): Invoice
+    {
         $response = $this->call($token, 'PUT', "invoices/$number/credit", $params, true)['Invoice'];
         return Invoice::fromArray($response);
     }
-    public function bookkeepInvoice(Token $token, string $number, array $params = []): Invoice {
+    public function bookkeepInvoice(Token $token, string $number, array $params = []): Invoice
+    {
         $response = $this->call($token, 'PUT', "invoices/$number/bookkeep", $params, true)['Invoice'];
         return Invoice::fromArray($response);
     }
-    public function setInvoiceAsSent(Token $token, string $number, array $params = []): Invoice {
+    public function setInvoiceAsSent(Token $token, string $number, array $params = []): Invoice
+    {
         $response = $this->call($token, "PUT", "invoices/$number/externalprint", $params, true)['Invoice'];
         return Invoice::fromArray($response);
     }
-    public function sendInvoiceAsEmail(Token $token, string $number, array $params = []): Invoice {
+    public function sendInvoiceAsEmail(Token $token, string $number, array $params = []): Invoice
+    {
         $response = $this->call($token, "GET", "invoices/$number/email", $params, true)['Invoice'];
         return Invoice::fromArray($response);
     }
-    public function sendInvoiceAsEInvoice(Token $token, string $number, array $params = []): Invoice {
+    public function sendInvoiceAsEInvoice(Token $token, string $number, array $params = []): Invoice
+    {
         $response = $this->call($token, "GET", "invoices/$number/einvoice", $params, true)['Invoice'];
         return Invoice::fromArray($response);
     }
     #endregion
     #region templates
-    public function getPrintTemplates(Token $token, array $params = []): PrintTemplatesResponse {
+    public function getPrintTemplates(Token $token, array $params = []): PrintTemplatesResponse
+    {
         $response = $this->call($token, 'GET', 'printtemplates', $params, true);
         return PrintTemplatesResponse::fromArray($response);
     }
-    private function refreshTokenWithLock(Token $token) {
+    private function refreshTokenWithLock(Token $token)
+    {
         $refreshToken = $token->getRefreshToken();
 
         if (empty($refreshToken) || !$refreshToken) {
@@ -303,7 +372,8 @@ class FortnoxService {
             $refreshLock->release();
         }
     }
-    private function refreshToken(Token $token): Token {
+    private function refreshToken(Token $token): Token
+    {
         $ch = curl_init();
         $secret = base64_encode($this->parameterBag->get('fortnox_bundle.client_id') . ':' . $this->parameterBag->get('fortnox_bundle.client_secret'));
 
@@ -337,7 +407,8 @@ class FortnoxService {
         return $newToken;
     }
 
-    private function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS) {
+    private function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
+    {
         $ch = curl_init();
         $headers = array();
         $headers[] = 'Authorization: Bearer ' . $token->getAccessToken();
@@ -407,7 +478,8 @@ class FortnoxService {
         }
     }
 
-    public function get_headers_from_curl_response(string $responseHeaders) {
+    public function get_headers_from_curl_response(string $responseHeaders)
+    {
         $headers = array();
         $header_text = substr($responseHeaders, 0, strpos($responseHeaders, "\r\n\r\n"));
         foreach (explode("\r\n", $header_text) as $i => $line) {
