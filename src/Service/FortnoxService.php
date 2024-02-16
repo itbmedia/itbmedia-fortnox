@@ -121,6 +121,32 @@ class FortnoxService
         $response = $this->call($token, 'GET', "articles/$number", $params, true)['Article'];
         return Article::fromArray($response);
     }
+
+
+    /**
+     * @param Token $token
+     * @param array $params
+     * @param int $limit
+     * @return OffersResponse
+     */
+    public function getAllOffers(
+        Token $token,
+        array $params = [],
+        int $limit = 500
+    ): OffersResponse {
+
+        $allOffers = [];
+        $params['limit'] = $limit; 
+
+        do {
+            $offersResponse = $this->getOffers($token, array_merge($params, ['offset' => count($allOffers)]));
+            $allOffers = array_merge($allOffers, $offersResponse->getOffers());
+        } while (count($allOffers) < $offersResponse->getMetaInformation()->getTotalResources());
+
+        return $offersResponse->setOffers($allOffers);
+    }
+
+
     #endregion
     #region offers
     public function getOffers(Token $token, array $params = []): OffersResponse
@@ -266,14 +292,16 @@ class FortnoxService
      */
     public function getAllInvoices(
         Token $token,
-        array $params = []
+        array $params = [],
+        int $limit = 500
     ): InvoicesResponse {
 
         $allInvoices = [];
+        $params['limit'] = $limit; 
 
         do {
             $invoicesResponse = $this->getInvoices($token, array_merge($params, ['offset' => count($allInvoices)]));
-            array_merge($allInvoices, $invoicesResponse->getInvoices());
+            $allInvoices = array_merge($allInvoices, $invoicesResponse->getInvoices());
         } while (count($allInvoices) < $invoicesResponse->getMetaInformation()->getTotalResources());
 
         return $invoicesResponse->setInvoices($allInvoices);
@@ -485,9 +513,10 @@ class FortnoxService
                     $message = $body || "Fortnox API rate limit reached";
                     throw new HttpException($response_code, $message);
                 }
+                print_r($token->getRefreshToken() . " retryCount left " . $retryCount . "/" . FortnoxService::DEFAULT_RETRY_ATTEMPTS. "\n");
                 // $this->logger->info($token->getRefreshToken() . " retryCount left " . $retryCount . "/" . FortnoxService::DEFAULT_RETRY_ATTEMPTS);
                 $sleepSeconds = 1 << (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount);
-                // $this->logger->info($token->getRefreshToken() . " Fortnox API rate limit reached, sleeping for " . $sleepSeconds . " seconds");
+                print_r($token->getRefreshToken() . " Fortnox API rate limit reached, sleeping for " . $sleepSeconds . " seconds" . "\n");
 
                 sleep($sleepSeconds);
 
