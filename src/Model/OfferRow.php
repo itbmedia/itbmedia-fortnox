@@ -1,4 +1,5 @@
 <?php
+
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
@@ -6,14 +7,18 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\ReadOnly;
+use JMS\Serializer\Annotation\SkipWhenEmpty;
 
 class OfferRow implements SerializableInterface
+
 {
     /**
      * @var int
      * @Type("integer")
      * @SerializedName("AccountNumber")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $accountNumber;
     /**
@@ -21,6 +26,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("ArticleNumber")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $articleNumber;
     /**
@@ -28,6 +34,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("ContributionPercent")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $contributionPercent;
     /**
@@ -35,6 +42,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("ContributionValue")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $contributionValue;
     /**
@@ -42,6 +50,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("CostCenter")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $costCenter;
     /**
@@ -49,6 +58,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("Description")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $description;
     /**
@@ -56,6 +66,7 @@ class OfferRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("Discount")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $discount;
     /**
@@ -63,6 +74,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("DiscountType")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $discountType;
     /**
@@ -70,6 +82,7 @@ class OfferRow implements SerializableInterface
      * @Type("boolean")
      * @SerializedName("HouseWork")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $houseWork;
     /**
@@ -77,6 +90,7 @@ class OfferRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("HouseWorkHoursToReport")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $houseWorkHoursToReport;
     /**
@@ -84,6 +98,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("HouseWorkType")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $houseWorkType;
     /**
@@ -91,6 +106,7 @@ class OfferRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("Price")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $price;
     /**
@@ -98,6 +114,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("Project")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $project;
     /**
@@ -105,6 +122,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("Quantity")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $quantity;
     /**
@@ -112,6 +130,7 @@ class OfferRow implements SerializableInterface
      * @Type("integer")
      * @SerializedName("RowId")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $rowId;
     /**
@@ -119,6 +138,8 @@ class OfferRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("Total")
      * @Groups({"offer", "offerRow"})
+     * @ReadOnly()
+     * @SkipWhenEmpty()
      */
     private $total;
     /**
@@ -126,6 +147,7 @@ class OfferRow implements SerializableInterface
      * @Type("string")
      * @SerializedName("Unit")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $unit;
     /**
@@ -133,6 +155,7 @@ class OfferRow implements SerializableInterface
      * @Type("integer")
      * @SerializedName("VAT")
      * @Groups({"offer", "offerRow"})
+     * @SkipWhenEmpty()
      */
     private $vat;
 
@@ -516,17 +539,19 @@ class OfferRow implements SerializableInterface
             ->deserialize($data, self::class, "json");
     }
 
-     /**
-	 * @return array
-	 */
-	public function toArray(): array {
-		return SerializerBuilder::create()->build()->toArray($this);
-	}
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return SerializerBuilder::create()->build()->toArray($this);
+    }
 
-	/**
-	 * @return self
-	 */
-	public static function fromArray(array $data) {
-		return SerializerBuilder::create()->build()->fromArray($data, self::class);
-	}
+    /**
+     * @return self
+     */
+    public static function fromArray(array $data)
+    {
+        return SerializerBuilder::create()->build()->fromArray($data, self::class);
+    }
 }

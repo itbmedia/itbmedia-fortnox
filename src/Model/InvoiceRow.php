@@ -1,4 +1,5 @@
 <?php
+
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Model\SerializableInterface;
@@ -8,6 +9,7 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
+use JMS\Serializer\Annotation\ReadOnly;
 
 class InvoiceRow implements SerializableInterface
 {
@@ -121,6 +123,7 @@ class InvoiceRow implements SerializableInterface
      * @SerializedName("PriceExcludingVAT")
      * @SkipWhenEmpty()
      * @Groups({"invoice", "contract"})
+     * @ReadOnly()
      */
     private $priceExcludingVAT;
     /**
@@ -153,6 +156,7 @@ class InvoiceRow implements SerializableInterface
      * @SerializedName("Total")
      * @SkipWhenEmpty()
      * @Groups({"invoice", "contract"})
+     * @ReadOnly()
      */
     private $total;
     /**
@@ -161,6 +165,7 @@ class InvoiceRow implements SerializableInterface
      * @SerializedName("TotalExcludingVAT")
      * @SkipWhenEmpty()
      * @Groups({"invoice", "contract"})
+     * @ReadOnly()
      */
     private $totalExcludingVAT;
     /**
@@ -621,16 +626,18 @@ class InvoiceRow implements SerializableInterface
     }
 
     /**
-	 * @return array
-	 */
-	public function toArray(array $groups = ["invoice_row"]): array {
-		return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
-	}
+     * @return array
+     */
+    public function toArray(array $groups = ["invoice_row"]): array
+    {
+        return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
+    }
 
-	/**
-	 * @return self
-	 */
-	public static function fromArray(array $data) {
-		return SerializerBuilder::create()->build()->fromArray($data, self::class);
-	}
+    /**
+     * @return self
+     */
+    public static function fromArray(array $data)
+    {
+        return SerializerBuilder::create()->build()->fromArray($data, self::class);
+    }
 }
