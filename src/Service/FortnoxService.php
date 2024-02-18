@@ -136,7 +136,7 @@ class FortnoxService
     ): OffersResponse {
 
         $allOffers = [];
-        $params['limit'] = $limit; 
+        $params['limit'] = $limit;
 
         do {
             $offersResponse = $this->getOffers($token, array_merge($params, ['offset' => count($allOffers)]));
@@ -297,7 +297,7 @@ class FortnoxService
     ): InvoicesResponse {
 
         $allInvoices = [];
-        $params['limit'] = $limit; 
+        $params['limit'] = $limit;
 
         do {
             $invoicesResponse = $this->getInvoices($token, array_merge($params, ['offset' => count($allInvoices)]));
@@ -306,7 +306,6 @@ class FortnoxService
 
         return $invoicesResponse->setInvoices($allInvoices);
     }
-
     #endregion
     #region invoices
     public function getInvoices(Token $token, array $params = []): InvoicesResponse
@@ -378,17 +377,19 @@ class FortnoxService
         $response = $this->call($token, 'GET', 'printtemplates', $params, true);
         return PrintTemplatesResponse::fromArray($response);
     }
-    private function refreshTokenWithLock(Token $token)
+    private function refreshTokenWithLock(Token $token): Token
     {
         $refreshToken = $token->getRefreshToken();
 
-        if (empty($refreshToken) || !$refreshToken) {
-            throw new \Exception('Fortnox: Missing refresh token');
-        }
+        if (!$refreshToken) throw new \Exception('Fortnox: Missing refresh token');
+
 
         $cacheItem = $this->cache->getItem($refreshToken);
-        if ($cacheItem->isHit()) {
-            return Token::deserialize($cacheItem->get());
+        $cacheItemData = $cacheItem->get();
+        $cacheItemDataIsValid = $cacheItem->isHit() && !empty((array) json_decode($cacheItemData));
+
+        if ($cacheItemDataIsValid) {
+            return Token::deserialize($cacheItemData);
         }
 
         $store = new FlockStore();
@@ -398,11 +399,15 @@ class FortnoxService
         try {
             if ($refreshLock->acquire(true)) {
                 $cacheItem = $this->cache->getItem($refreshToken);
-                if ($cacheItem->isHit()) {
-                    return Token::deserialize($cacheItem->get());
+
+                $cacheItemData = $cacheItem->get();
+                $cacheItemDataIsValid = $cacheItem->isHit() && !empty((array) json_decode($cacheItemData));
+                if ($cacheItem->isHit() && empty((array) json_decode($cacheItemData))) {
+                    return Token::deserialize($cacheItemData);
                 }
 
                 $newRefreshToken = $this->refreshToken($token)->serialize();
+                if (!$newRefreshToken) return null;
 
                 $expiresIn = $newRefreshToken["expires_in"] ?? self::DEFAULT_CACHE_EXPIRY;
                 if (!is_int($expiresIn) || $expiresIn <= 0) {
@@ -448,7 +453,27 @@ class FortnoxService
             )
         );
         $res = curl_exec($ch);
+        $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        $response_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $body = substr($res, $header_size);
         curl_close($ch);
+
+        if ($content_type === "application/json") {
+            if ($response_code < 200 || $response_code > 299) {
+                $response = json_decode($body, true);
+                $response['status_code'] = $response_code;
+                array_walk_recursive($response, function ($item, $key) use (&$error) {
+                    $error[strtolower($key)] = $item;
+                });
+                if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
+                    throw new FortnoxException($error['status_code'], $error['code'], $error['message']);
+                } else {
+                    throw new HttpException($response['status_code'], json_encode(array_merge($response, $error)));
+                }
+            }
+        }
+
 
         $newToken = Token::deserialize($res);
         $newToken->setReference($token->getReference());
@@ -456,7 +481,7 @@ class FortnoxService
         return $newToken;
     }
 
-    private function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
+    public function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
     {
         $ch = curl_init();
         $headers = array();
@@ -486,7 +511,8 @@ class FortnoxService
         curl_close($ch);
 
         if ($firstRequest && ($response_code === 401 || $response_code === 403)) {
-            return $this->call($this->refreshTokenWithLock($token), $method, $orignialPath, $data, $serialize, false);
+            $newRefreshToken = $this->refreshTokenWithLock($token);
+            return $this->call($newRefreshToken, $method, $orignialPath, $data, $serialize, false);
         }
 
         if ($content_type === "application/json") {
@@ -513,10 +539,9 @@ class FortnoxService
                     $message = $body || "Fortnox API rate limit reached";
                     throw new HttpException($response_code, $message);
                 }
-                print_r($token->getRefreshToken() . " retryCount left " . $retryCount . "/" . FortnoxService::DEFAULT_RETRY_ATTEMPTS. "\n");
                 // $this->logger->info($token->getRefreshToken() . " retryCount left " . $retryCount . "/" . FortnoxService::DEFAULT_RETRY_ATTEMPTS);
                 $sleepSeconds = 1 << (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount);
-                print_r($token->getRefreshToken() . " Fortnox API rate limit reached, sleeping for " . $sleepSeconds . " seconds" . "\n");
+                // $this->logger->info($token->getRefreshToken() . " Fortnox API rate limit reached, sleeping for " . $sleepSeconds . " seconds");
 
                 sleep($sleepSeconds);
 
