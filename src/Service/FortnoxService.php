@@ -379,16 +379,18 @@ class FortnoxService
     }
     private function refreshTokenWithLock(Token $token): Token
     {
+        header('X-Refresh-Token: ' . "true");
         $refreshToken = $token->getRefreshToken();
 
         if (!$refreshToken) throw new \Exception('Fortnox: Missing refresh token');
-
 
         $cacheItem = $this->cache->getItem($refreshToken);
         $cacheItemData = $cacheItem->get();
         $cacheItemDataIsValid = $cacheItem->isHit() && !empty((array) json_decode($cacheItemData));
 
         if ($cacheItemDataIsValid) {
+            header('X-Refresh-Token-Cache-Without-Lock: ' . "true");
+            header('X-Refresh-Token-Cache: ' . "true");
             return Token::deserialize($cacheItemData);
         }
 
@@ -403,6 +405,7 @@ class FortnoxService
                 $cacheItemData = $cacheItem->get();
                 $cacheItemDataIsValid = $cacheItem->isHit() && !empty((array) json_decode($cacheItemData));
                 if ($cacheItem->isHit() && empty((array) json_decode($cacheItemData))) {
+                    header('X-Refresh-Token-Cache: ' . "true");
                     return Token::deserialize($cacheItemData);
                 }
 
@@ -514,6 +517,8 @@ class FortnoxService
             $newRefreshToken = $this->refreshTokenWithLock($token);
             return $this->call($newRefreshToken, $method, $orignialPath, $data, $serialize, false);
         }
+
+        header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
 
         if ($content_type === "application/json") {
             if ($response_code < 200 || $response_code > 299) {
