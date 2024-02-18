@@ -248,6 +248,29 @@ class FortnoxService
         $response = $this->call($token, "GET", "orders/$number/email", $params, true)['Order'];
         return Order::fromArray($response);
     }
+
+        /**
+     * @param Token $token
+     * @param array $params
+     * @return ContractsResponse
+     */
+    public function getAllContracts(
+        Token $token,
+        array $params = [],
+        int $limit = 500
+    ): ContractsResponse {
+
+        $allContracts = [];
+        $params['limit'] = $limit; 
+
+        do {
+            $contractsResponse = $this->getContracts($token, array_merge($params, ['offset' => count($allContracts)]));
+            $allContracts = array_merge($allContracts, $contractsResponse->getContracts());
+        } while (count($allContracts) < $contractsResponse->getMetaInformation()->getTotalResources());
+
+        return $contractsResponse->setContracts($allContracts);
+    }
+
     #endregion
     #region contracts
     public function getContracts(Token $token, array $params = []): ContractsResponse
