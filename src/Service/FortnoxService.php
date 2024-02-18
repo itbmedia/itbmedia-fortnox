@@ -407,7 +407,7 @@ class FortnoxService
                 }
 
                 $newRefreshToken = $this->refreshToken($token)->serialize();
-                if (!$newRefreshToken) return null;
+                if (!$newRefreshToken) throw new \Exception('Fortnox: Missing refresh token');
 
                 $expiresIn = $newRefreshToken["expires_in"] ?? self::DEFAULT_CACHE_EXPIRY;
                 if (!is_int($expiresIn) || $expiresIn <= 0) {
