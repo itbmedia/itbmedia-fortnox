@@ -400,6 +400,21 @@ class FortnoxService
         $response = $this->call($token, 'GET', 'printtemplates', $params, true);
         return PrintTemplatesResponse::fromArray($response);
     }
+
+    private function checkIfCacheIsValid($cacheItem)
+    {
+        if (!$cacheItem->isHit()) return false;
+
+        $cacheItemData = $cacheItem->get();
+        if (!$cacheItemData) return false;
+
+        $data = gettype($cacheItemData) === 'string' ? json_decode($cacheItemData) : $cacheItemData;
+        if (!$data) return false;
+        if (empty((array) $data)) return false;
+
+        return  true;
+    }
+
     private function refreshTokenWithLock(Token $token): Token
     {
         header('X-Refresh-Token: ' . "true");
@@ -409,7 +424,7 @@ class FortnoxService
 
         $cacheItem = $this->cache->getItem($refreshToken);
         $cacheItemData = $cacheItem->get();
-        $cacheItemDataIsValid = $cacheItem->isHit() && !empty((array) json_decode($cacheItemData));
+        $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
 
         if ($cacheItemDataIsValid) {
             header('X-Refresh-Token-Cache-Without-Lock: ' . "true");
@@ -426,7 +441,7 @@ class FortnoxService
                 $cacheItem = $this->cache->getItem($refreshToken);
 
                 $cacheItemData = $cacheItem->get();
-                $cacheItemDataIsValid = $cacheItem->isHit() && !empty((array) json_decode($cacheItemData));
+                $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
                 if ($cacheItem->isHit() && empty((array) json_decode($cacheItemData))) {
                     header('X-Refresh-Token-Cache: ' . "true");
                     return Token::deserialize($cacheItemData);
