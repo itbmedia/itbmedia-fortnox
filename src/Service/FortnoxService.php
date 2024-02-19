@@ -200,6 +200,27 @@ class FortnoxService
         $response = $this->call($token, "GET", "offers/$number/email", $params, true)['Offer'];
         return Offer::fromArray($response);
     }
+        /**
+     * @param Token $token
+     * @param array $params
+     * @return OrdersResponse
+     */
+    public function getAllOrders(
+        Token $token,
+        array $params = [],
+        int $limit = 500
+    ): OrdersResponse {
+
+        $allOrders = [];
+        $params['limit'] = $limit;
+
+        do {
+            $ordersReOrdersResponse = $this->getOrders($token, array_merge($params, ['offset' => count($allOrders)]));
+            $allOrders = array_merge($allOrders, $ordersReOrdersResponse->getOrders());
+        } while (count($allOrders) < $ordersReOrdersResponse->getMetaInformation()->getTotalResources());
+
+        return $ordersReOrdersResponse->setOrders($allOrders);
+    }
     #endregion
     #region orders
     public function getOrders(Token $token, array $params = []): OrdersResponse
@@ -542,7 +563,7 @@ class FortnoxService
         }
 
         header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
-
+        
         if ($content_type === "application/json") {
             if ($response_code < 200 || $response_code > 299) {
                 $response = json_decode($body, true);
