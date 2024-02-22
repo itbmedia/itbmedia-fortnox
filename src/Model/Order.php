@@ -386,7 +386,7 @@ class Order implements SerializableInterface
      * @Groups({"warehouse"})
      * @ReadOnly()
      */
-    private ?string $orderType;
+    private ?string $orderType = null;
     /**
      * @var string
      * @Type("string")
@@ -1512,19 +1512,19 @@ class Order implements SerializableInterface
 
     /**
      *
-     * @return string
+     * @return null|string
      */
-    public function getOrderType()
+    public function getOrderType(): ?string
     {
         return $this->orderType;
     }
 
     /**
      *
-     * @param string $orderType
+     * @param null|string $orderType
      * @return self
      */
-    public function setOrderType($orderType): self
+    public function setOrderType(?string $orderType): self
     {
         $this->orderType = $orderType;
         return $this;
