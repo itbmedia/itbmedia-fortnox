@@ -12,7 +12,7 @@ use ITBMedia\FortnoxBundle\Model\Invoice;
 use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Order;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
-
+use ITBMedia\FortnoxBundle\Model\Response\CompanyInformationResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ContractsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
@@ -72,11 +72,12 @@ class FortnoxService
 
     /**
      * @param Token $token
-     * @return object
+     * @return CompanyInformationResponse
      */
-    public function getCompanyInformation(Token $token): object
+    public function getCompanyInformation(Token $token): CompanyInformationResponse
     {
-        return json_decode($this->call($token, 'GET', 'companyinformation', []))->CompanyInformation;
+        $response = $this->call($token, 'GET', 'companyinformation', [], false);
+        return CompanyInformationResponse::deserialize($response);
     }
 
 
@@ -200,7 +201,7 @@ class FortnoxService
         $response = $this->call($token, "GET", "offers/$number/email", $params, true)['Offer'];
         return Offer::fromArray($response);
     }
-        /**
+    /**
      * @param Token $token
      * @param array $params
      * @return OrdersResponse
@@ -270,7 +271,7 @@ class FortnoxService
         return Order::fromArray($response);
     }
 
-        /**
+    /**
      * @param Token $token
      * @param array $params
      * @return ContractsResponse
@@ -282,7 +283,7 @@ class FortnoxService
     ): ContractsResponse {
 
         $allContracts = [];
-        $params['limit'] = $limit; 
+        $params['limit'] = $limit;
 
         do {
             $contractsResponse = $this->getContracts($token, array_merge($params, ['offset' => count($allContracts)]));
@@ -578,7 +579,7 @@ class FortnoxService
         }
 
         header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
-        
+
         if ($content_type === "application/json") {
             if ($response_code < 200 || $response_code > 299) {
                 $response = json_decode($body, true);
