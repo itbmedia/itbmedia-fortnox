@@ -1,4 +1,5 @@
 <?php
+
 namespace ITBMedia\FortnoxBundle\Model;
 
 use ITBMedia\FortnoxBundle\Event\PropertyAccessEvent;
@@ -8,1088 +9,1225 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use ITBMedia\FortnoxBundle\Annotation\View;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use JMS\Serializer\Annotation\SkipWhenEmpty;
 
-class Article implements SerializableInterface{
+class Article implements SerializableInterface
+{
 
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("@url")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("@url")
+	 * @SkipWhenEmpty()
+	 */
 	private $url;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("ArticleNumber")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("ArticleNumber")
+	 * @SkipWhenEmpty()
+	 */
 	private $articleNumber;
 	/**
-	* @var bool
-	* @Type("boolean")
-	* @SerializedName("Bulky")
-	*/
+	 * @var bool
+	 * @Type("boolean")
+	 * @SerializedName("Bulky")
+	 * @SkipWhenEmpty()
+	 */
 	private $bulky;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("ConstructionAccount")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("ConstructionAccount")
+	 * @SkipWhenEmpty()
+	 */
 	private $constructionAccount;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("Depth")
-	* @View("[list, details]")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("Depth")
+	 * @View("[list, details]")
+	 * @SkipWhenEmpty()
+	 */
 	private $depth;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("Description")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("Description")
+	 * @SkipWhenEmpty()
+	 */
 	private $description;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("DisposableQuantity")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("DisposableQuantity")
+	 * @SkipWhenEmpty()
+	 */
 	private $disposableQuantity;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("EAN")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("EAN")
+	 * @SkipWhenEmpty()
+	 */
 	private $ean;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("EUAccount")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("EUAccount")
+	 * @SkipWhenEmpty()
+	 */
 	private $euAccount;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("EUVATAccount")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("EUVATAccount")
+	 * @SkipWhenEmpty()
+	 */
 	private $euVatAccount;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("ExportAccount")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("ExportAccount")
+	 * @SkipWhenEmpty()
+	 */
 	private $exportAccount;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("Height")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("Height")
+	 * @SkipWhenEmpty()
+	 */
 	private $height;
 	/**
-	* @var bool
-	* @Type("boolean")
-	* @SerializedName("Housework")
-	*/
+	 * @var bool
+	 * @Type("boolean")
+	 * @SerializedName("Housework")
+	 * @SkipWhenEmpty()
+	 */
 	private $housework;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("HouseworkType")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("HouseworkType")
+	 * @SkipWhenEmpty()
+	 */
 	private $houseworkType;
 	/**
-	* @var bool
-	* @Type("boolean")
-	* @SerializedName("Active")
-	*/
+	 * @var bool
+	 * @Type("boolean")
+	 * @SerializedName("Active")
+	 * @SkipWhenEmpty()
+	 */
 	private $active;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("Manufacturer")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("Manufacturer")
+	 * @SkipWhenEmpty()
+	 */
 	private $manufacturer;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("ManufacturerArticleNumber")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("ManufacturerArticleNumber")
+	 * @SkipWhenEmpty()
+	 */
 	private $manufacturerArticleNumber;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("Note")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("Note")
+	 * @SkipWhenEmpty()
+	 */
 	private $note;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("PurchaseAccount")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("PurchaseAccount")
+	 * @SkipWhenEmpty()
+	 */
 	private $purchaseAccount;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("PurchasePrice")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("PurchasePrice")
+	 * @SkipWhenEmpty()
+	 */
 	private $purchasePrice;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("QuantityInStock")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("QuantityInStock")
+	 * @SkipWhenEmpty()
+	 */
 	private $quantityInStock;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("ReservedQuantity")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("ReservedQuantity")
+	 * @SkipWhenEmpty()
+	 */
 	private $reservedQuantity;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("SalesAccount")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("SalesAccount")
+	 * @SkipWhenEmpty()
+	 */
 	private $salesAccount;
 	/**
-	* @var bool
-	* @Type("boolean")
-	* @SerializedName("StockGoods")
-	*/
+	 * @var bool
+	 * @Type("boolean")
+	 * @SerializedName("StockGoods")
+	 * @SkipWhenEmpty()
+	 */
 	private $stockGoods;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("StockPlace")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("StockPlace")
+	 * @SkipWhenEmpty()
+	 */
 	private $stockPlace;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("StockValue")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("StockValue")
+	 * @SkipWhenEmpty()
+	 */
 	private $stockValue;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("StockWarning")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("StockWarning")
+	 * @SkipWhenEmpty()
+	 */
 	private $stockWarning;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("SupplierName")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("SupplierName")
+	 * @SkipWhenEmpty()
+	 */
 	private $supplierName;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("SupplierNumber")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("SupplierNumber")
+	 * @SkipWhenEmpty()
+	 */
 	private $supplierNumber;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("Type")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("Type")
+	 * @SkipWhenEmpty()
+	 */
 	private $type;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("Unit")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("Unit")
+	 * @SkipWhenEmpty()
+	 */
 	private $unit;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("VAT")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("VAT")
+	 * @SkipWhenEmpty()
+	 */
 	private $vat;
 	/**
-	* @var bool
-	* @Type("boolean")
-	* @SerializedName("WebshopArticle")
-	*/
+	 * @var bool
+	 * @Type("boolean")
+	 * @SerializedName("WebshopArticle")
+	 * @SkipWhenEmpty()
+	 */
 	private $webshopArticle;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("Weight")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("Weight")
+	 * @SkipWhenEmpty()
+	 */
 	private $weight;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("Width")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("Width")
+	 * @SkipWhenEmpty()
+	 */
 	private $width;
 	/**
-	* @var bool
-	* @Type("boolean")
-	* @SerializedName("Expired")
-	*/
+	 * @var bool
+	 * @Type("boolean")
+	 * @SerializedName("Expired")
+	 * @SkipWhenEmpty()
+	 */
 	private $expired;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("SalesPrice")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("SalesPrice")
+	 * @SkipWhenEmpty()
+	 */
 	private $salesPrice;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("CostCalculationMethod")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("CostCalculationMethod")
+	 * @SkipWhenEmpty()
+	 */
 	private $costCalculationMethod;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("StockAccount")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("StockAccount")
+	 * @SkipWhenEmpty()
+	 */
 	private $stockAccount;
 	/**
-	* @var int
-	* @Type("integer")
-	* @SerializedName("StockChangeAccount")
-	*/
+	 * @var int
+	 * @Type("integer")
+	 * @SerializedName("StockChangeAccount")
+	 * @SkipWhenEmpty()
+	 */
 	private $stockChangeAccount;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("DirectCost")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("DirectCost")
+	 * @SkipWhenEmpty()
+	 */
 	private $directCost;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("FreightCost")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("FreightCost")
+	 * @SkipWhenEmpty()
+	 */
 	private $freightCost;
 	/**
-	* @var double
-	* @Type("double")
-	* @SerializedName("OtherCost")
-	*/
+	 * @var double
+	 * @Type("double")
+	 * @SerializedName("OtherCost")
+	 * @SkipWhenEmpty()
+	 */
 	private $otherCost;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("DefaultStockPoint")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("DefaultStockPoint")
+	 * @SkipWhenEmpty()
+	 */
 	private $defaultStockPoint;
 	/**
-	* @var string
-	* @Type("string")
-	* @SerializedName("DefaultStockLocation")
-	*/
+	 * @var string
+	 * @Type("string")
+	 * @SerializedName("DefaultStockLocation")
+	 * @SkipWhenEmpty()
+	 */
 	private $defaultStockLocation;
-	
+
 
 	/**
 	 *
 	 * @return string
 	 */
-	public function getUrl() {
+	public function getUrl()
+	{
 		return $this->url;
 	}
-	
+
 	/**
 	 *
 	 * @param string $url
 	 * @return self
 	 */
-	public function setUrl($url): self {
+	public function setUrl($url): self
+	{
 		$this->url = $url;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getArticleNumber() {
+	public function getArticleNumber()
+	{
 		return $this->articleNumber;
 	}
-	
+
 	/**
 	 *
 	 * @param string $articleNumber
 	 * @return self
 	 */
-	public function setArticleNumber($articleNumber): self {
+	public function setArticleNumber($articleNumber): self
+	{
 		$this->articleNumber = $articleNumber;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return bool
 	 */
-	public function getBulky() {
+	public function getBulky()
+	{
 		return $this->bulky;
 	}
-	
+
 	/**
 	 *
 	 * @param bool $bulky
 	 * @return self
 	 */
-	public function setBulky($bulky): self {
+	public function setBulky($bulky): self
+	{
 		$this->bulky = $bulky;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getConstructionAccount() {
+	public function getConstructionAccount()
+	{
 		return $this->constructionAccount;
 	}
-	
+
 	/**
 	 *
 	 * @param int $constructionAccount
 	 * @return self
 	 */
-	public function setConstructionAccount($constructionAccount): self {
+	public function setConstructionAccount($constructionAccount): self
+	{
 		$this->constructionAccount = $constructionAccount;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getDepth() {
+	public function getDepth()
+	{
 		return $this->depth;
 	}
-	
+
 	/**
 	 *
 	 * @param int $depth
 	 * @return self
 	 */
-	public function setDepth($depth): self {
+	public function setDepth($depth): self
+	{
 		$this->depth = $depth;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getDescription() {
+	public function getDescription()
+	{
 		return $this->description;
 	}
-	
+
 	/**
 	 *
 	 * @param string $description
 	 * @return self
 	 */
-	public function setDescription($description): self {
+	public function setDescription($description): self
+	{
 		$this->description = $description;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getDisposableQuantity() {
+	public function getDisposableQuantity()
+	{
 		return $this->disposableQuantity;
 	}
-	
+
 	/**
 	 *
 	 * @param double $disposableQuantity
 	 * @return self
 	 */
-	public function setDisposableQuantity($disposableQuantity): self {
+	public function setDisposableQuantity($disposableQuantity): self
+	{
 		$this->disposableQuantity = $disposableQuantity;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getEan() {
+	public function getEan()
+	{
 		return $this->ean;
 	}
-	
+
 	/**
 	 *
 	 * @param string $ean
 	 * @return self
 	 */
-	public function setEan($ean): self {
+	public function setEan($ean): self
+	{
 		$this->ean = $ean;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getEuAccount() {
+	public function getEuAccount()
+	{
 		return $this->euAccount;
 	}
-	
+
 	/**
 	 *
 	 * @param int $euAccount
 	 * @return self
 	 */
-	public function setEuAccount($euAccount): self {
+	public function setEuAccount($euAccount): self
+	{
 		$this->euAccount = $euAccount;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getEuVatAccount() {
+	public function getEuVatAccount()
+	{
 		return $this->euVatAccount;
 	}
-	
+
 	/**
 	 *
 	 * @param int $euVatAccount
 	 * @return self
 	 */
-	public function setEuVatAccount($euVatAccount): self {
+	public function setEuVatAccount($euVatAccount): self
+	{
 		$this->euVatAccount = $euVatAccount;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getExportAccount() {
+	public function getExportAccount()
+	{
 		return $this->exportAccount;
 	}
-	
+
 	/**
 	 *
 	 * @param int $exportAccount
 	 * @return self
 	 */
-	public function setExportAccount($exportAccount): self {
+	public function setExportAccount($exportAccount): self
+	{
 		$this->exportAccount = $exportAccount;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getHeight() {
+	public function getHeight()
+	{
 		return $this->height;
 	}
-	
+
 	/**
 	 *
 	 * @param int $height
 	 * @return self
 	 */
-	public function setHeight($height): self {
+	public function setHeight($height): self
+	{
 		$this->height = $height;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return bool
 	 */
-	public function getHousework() {
+	public function getHousework()
+	{
 		return $this->housework;
 	}
-	
+
 	/**
 	 *
 	 * @param bool $housework
 	 * @return self
 	 */
-	public function setHousework($housework): self {
+	public function setHousework($housework): self
+	{
 		$this->housework = $housework;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getHouseworkType() {
+	public function getHouseworkType()
+	{
 		return $this->houseworkType;
 	}
-	
+
 	/**
 	 *
 	 * @param string $houseworkType
 	 * @return self
 	 */
-	public function setHouseworkType($houseworkType): self {
+	public function setHouseworkType($houseworkType): self
+	{
 		$this->houseworkType = $houseworkType;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return bool
 	 */
-	public function getActive() {
+	public function getActive()
+	{
 		return $this->active;
 	}
-	
+
 	/**
 	 *
 	 * @param bool $active
 	 * @return self
 	 */
-	public function setActive($active): self {
+	public function setActive($active): self
+	{
 		$this->active = $active;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getManufacturer() {
+	public function getManufacturer()
+	{
 		return $this->manufacturer;
 	}
-	
+
 	/**
 	 *
 	 * @param string $manufacturer
 	 * @return self
 	 */
-	public function setManufacturer($manufacturer): self {
+	public function setManufacturer($manufacturer): self
+	{
 		$this->manufacturer = $manufacturer;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getManufacturerArticleNumber() {
+	public function getManufacturerArticleNumber()
+	{
 		return $this->manufacturerArticleNumber;
 	}
-	
+
 	/**
 	 *
 	 * @param string $manufacturerArticleNumber
 	 * @return self
 	 */
-	public function setManufacturerArticleNumber($manufacturerArticleNumber): self {
+	public function setManufacturerArticleNumber($manufacturerArticleNumber): self
+	{
 		$this->manufacturerArticleNumber = $manufacturerArticleNumber;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getNote() {
+	public function getNote()
+	{
 		return $this->note;
 	}
-	
+
 	/**
 	 *
 	 * @param string $note
 	 * @return self
 	 */
-	public function setNote($note): self {
+	public function setNote($note): self
+	{
 		$this->note = $note;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getPurchaseAccount() {
+	public function getPurchaseAccount()
+	{
 		return $this->purchaseAccount;
 	}
-	
+
 	/**
 	 *
 	 * @param int $purchaseAccount
 	 * @return self
 	 */
-	public function setPurchaseAccount($purchaseAccount): self {
+	public function setPurchaseAccount($purchaseAccount): self
+	{
 		$this->purchaseAccount = $purchaseAccount;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getPurchasePrice() {
+	public function getPurchasePrice()
+	{
 		return $this->purchasePrice;
 	}
-	
+
 	/**
 	 *
 	 * @param double $purchasePrice
 	 * @return self
 	 */
-	public function setPurchasePrice($purchasePrice): self {
+	public function setPurchasePrice($purchasePrice): self
+	{
 		$this->purchasePrice = $purchasePrice;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getQuantityInStock() {
+	public function getQuantityInStock()
+	{
 		return $this->quantityInStock;
 	}
-	
+
 	/**
 	 *
 	 * @param double $quantityInStock
 	 * @return self
 	 */
-	public function setQuantityInStock($quantityInStock): self {
+	public function setQuantityInStock($quantityInStock): self
+	{
 		$this->quantityInStock = $quantityInStock;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getReservedQuantity() {
+	public function getReservedQuantity()
+	{
 		return $this->reservedQuantity;
 	}
-	
+
 	/**
 	 *
 	 * @param double $reservedQuantity
 	 * @return self
 	 */
-	public function setReservedQuantity($reservedQuantity): self {
+	public function setReservedQuantity($reservedQuantity): self
+	{
 		$this->reservedQuantity = $reservedQuantity;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getSalesAccount() {
+	public function getSalesAccount()
+	{
 		return $this->salesAccount;
 	}
-	
+
 	/**
 	 *
 	 * @param int $salesAccount
 	 * @return self
 	 */
-	public function setSalesAccount($salesAccount): self {
+	public function setSalesAccount($salesAccount): self
+	{
 		$this->salesAccount = $salesAccount;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return bool
 	 */
-	public function getStockGoods() {
+	public function getStockGoods()
+	{
 		return $this->stockGoods;
 	}
-	
+
 	/**
 	 *
 	 * @param bool $stockGoods
 	 * @return self
 	 */
-	public function setStockGoods($stockGoods): self {
+	public function setStockGoods($stockGoods): self
+	{
 		$this->stockGoods = $stockGoods;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getStockPlace() {
+	public function getStockPlace()
+	{
 		return $this->stockPlace;
 	}
-	
+
 	/**
 	 *
 	 * @param string $stockPlace
 	 * @return self
 	 */
-	public function setStockPlace($stockPlace): self {
+	public function setStockPlace($stockPlace): self
+	{
 		$this->stockPlace = $stockPlace;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getStockValue() {
+	public function getStockValue()
+	{
 		return $this->stockValue;
 	}
-	
+
 	/**
 	 *
 	 * @param double $stockValue
 	 * @return self
 	 */
-	public function setStockValue($stockValue): self {
+	public function setStockValue($stockValue): self
+	{
 		$this->stockValue = $stockValue;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getStockWarning() {
+	public function getStockWarning()
+	{
 		return $this->stockWarning;
 	}
-	
+
 	/**
 	 *
 	 * @param double $stockWarning
 	 * @return self
 	 */
-	public function setStockWarning($stockWarning): self {
+	public function setStockWarning($stockWarning): self
+	{
 		$this->stockWarning = $stockWarning;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getSupplierName() {
+	public function getSupplierName()
+	{
 		return $this->supplierName;
 	}
-	
+
 	/**
 	 *
 	 * @param string $supplierName
 	 * @return self
 	 */
-	public function setSupplierName($supplierName): self {
+	public function setSupplierName($supplierName): self
+	{
 		$this->supplierName = $supplierName;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getSupplierNumber() {
+	public function getSupplierNumber()
+	{
 		return $this->supplierNumber;
 	}
-	
+
 	/**
 	 *
 	 * @param string $supplierNumber
 	 * @return self
 	 */
-	public function setSupplierNumber($supplierNumber): self {
+	public function setSupplierNumber($supplierNumber): self
+	{
 		$this->supplierNumber = $supplierNumber;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getType() {
+	public function getType()
+	{
 		return $this->type;
 	}
-	
+
 	/**
 	 *
 	 * @param string $type
 	 * @return self
 	 */
-	public function setType($type): self {
+	public function setType($type): self
+	{
 		$this->type = $type;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getUnit() {
+	public function getUnit()
+	{
 		return $this->unit;
 	}
-	
+
 	/**
 	 *
 	 * @param string $unit
 	 * @return self
 	 */
-	public function setUnit($unit): self {
+	public function setUnit($unit): self
+	{
 		$this->unit = $unit;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getVat() {
+	public function getVat()
+	{
 		return $this->vat;
 	}
-	
+
 	/**
 	 *
 	 * @param double $vat
 	 * @return self
 	 */
-	public function setVat($vat): self {
+	public function setVat($vat): self
+	{
 		$this->vat = $vat;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return bool
 	 */
-	public function getWebshopArticle() {
+	public function getWebshopArticle()
+	{
 		return $this->webshopArticle;
 	}
-	
+
 	/**
 	 *
 	 * @param bool $webshopArticle
 	 * @return self
 	 */
-	public function setWebshopArticle($webshopArticle): self {
+	public function setWebshopArticle($webshopArticle): self
+	{
 		$this->webshopArticle = $webshopArticle;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getWeight() {
+	public function getWeight()
+	{
 		return $this->weight;
 	}
-	
+
 	/**
 	 *
 	 * @param int $weight
 	 * @return self
 	 */
-	public function setWeight($weight): self {
+	public function setWeight($weight): self
+	{
 		$this->weight = $weight;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getWidth() {
+	public function getWidth()
+	{
 		return $this->width;
 	}
-	
+
 	/**
 	 *
 	 * @param int $width
 	 * @return self
 	 */
-	public function setWidth($width): self {
+	public function setWidth($width): self
+	{
 		$this->width = $width;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return bool
 	 */
-	public function getExpired() {
+	public function getExpired()
+	{
 		return $this->expired;
 	}
-	
+
 	/**
 	 *
 	 * @param bool $expired
 	 * @return self
 	 */
-	public function setExpired($expired): self {
+	public function setExpired($expired): self
+	{
 		$this->expired = $expired;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getSalesPrice() {
+	public function getSalesPrice()
+	{
 		return $this->salesPrice;
 	}
-	
+
 	/**
 	 *
 	 * @param double $salesPrice
 	 * @return self
 	 */
-	public function setSalesPrice($salesPrice): self {
+	public function setSalesPrice($salesPrice): self
+	{
 		$this->salesPrice = $salesPrice;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getCostCalculationMethod() {
+	public function getCostCalculationMethod()
+	{
 		return $this->costCalculationMethod;
 	}
-	
+
 	/**
 	 *
 	 * @param string $costCalculationMethod
 	 * @return self
 	 */
-	public function setCostCalculationMethod($costCalculationMethod): self {
+	public function setCostCalculationMethod($costCalculationMethod): self
+	{
 		$this->costCalculationMethod = $costCalculationMethod;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getStockAccount() {
+	public function getStockAccount()
+	{
 		return $this->stockAccount;
 	}
-	
+
 	/**
 	 *
 	 * @param int $stockAccount
 	 * @return self
 	 */
-	public function setStockAccount($stockAccount): self {
+	public function setStockAccount($stockAccount): self
+	{
 		$this->stockAccount = $stockAccount;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return int
 	 */
-	public function getStockChangeAccount() {
+	public function getStockChangeAccount()
+	{
 		return $this->stockChangeAccount;
 	}
-	
+
 	/**
 	 *
 	 * @param int $stockChangeAccount
 	 * @return self
 	 */
-	public function setStockChangeAccount($stockChangeAccount): self {
+	public function setStockChangeAccount($stockChangeAccount): self
+	{
 		$this->stockChangeAccount = $stockChangeAccount;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getDirectCost() {
+	public function getDirectCost()
+	{
 		return $this->directCost;
 	}
-	
+
 	/**
 	 *
 	 * @param double $directCost
 	 * @return self
 	 */
-	public function setDirectCost($directCost): self {
+	public function setDirectCost($directCost): self
+	{
 		$this->directCost = $directCost;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getFreightCost() {
+	public function getFreightCost()
+	{
 		return $this->freightCost;
 	}
-	
+
 	/**
 	 *
 	 * @param double $freightCost
 	 * @return self
 	 */
-	public function setFreightCost($freightCost): self {
+	public function setFreightCost($freightCost): self
+	{
 		$this->freightCost = $freightCost;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return double
 	 */
-	public function getOtherCost() {
+	public function getOtherCost()
+	{
 		return $this->otherCost;
 	}
-	
+
 	/**
 	 *
 	 * @param double $otherCost
 	 * @return self
 	 */
-	public function setOtherCost($otherCost): self {
+	public function setOtherCost($otherCost): self
+	{
 		$this->otherCost = $otherCost;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getDefaultStockPoint() {
+	public function getDefaultStockPoint()
+	{
 		return $this->defaultStockPoint;
 	}
-	
+
 	/**
 	 *
 	 * @param string $defaultStockPoint
 	 * @return self
 	 */
-	public function setDefaultStockPoint($defaultStockPoint): self {
+	public function setDefaultStockPoint($defaultStockPoint): self
+	{
 		$this->defaultStockPoint = $defaultStockPoint;
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return string
 	 */
-	public function getDefaultStockLocation() {
+	public function getDefaultStockLocation()
+	{
 		return $this->defaultStockLocation;
 	}
-	
+
 	/**
 	 *
 	 * @param string $defaultStockLocation
 	 * @return self
 	 */
-	public function setDefaultStockLocation($defaultStockLocation): self {
+	public function setDefaultStockLocation($defaultStockLocation): self
+	{
 		$this->defaultStockLocation = $defaultStockLocation;
 		return $this;
 	}
@@ -1097,28 +1235,32 @@ class Article implements SerializableInterface{
 	/**
 	 * @return string
 	 */
-	public function serialize() {
+	public function serialize()
+	{
 		return SerializerBuilder::create()->build()->serialize($this, 'json');
 	}
-	
+
 	/**
 	 * @return Article
 	 */
-	public static function deserialize(string $data) {
+	public static function deserialize(string $data)
+	{
 		return SerializerBuilder::create()->build()->deserialize($data, self::class, 'json');
 	}
 
 	/**
 	 * @return array
 	 */
-	public function toArray(): array {
+	public function toArray(): array
+	{
 		return SerializerBuilder::create()->build()->toArray($this);
 	}
 
 	/**
 	 * @return self
 	 */
-	public static function fromArray(array $data) {
+	public static function fromArray(array $data)
+	{
 		return SerializerBuilder::create()->build()->fromArray($data, self::class);
 	}
 }

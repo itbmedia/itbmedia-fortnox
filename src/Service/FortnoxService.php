@@ -44,7 +44,6 @@ class FortnoxService
     const DEFAULT_CACHE_EXPIRY = 3600;
     const LOG_FILE = "fortnoxServiceLogs.txt";
     const CACHE_NAMESPACE = "FortnoxRefreshKeys";
-    private $cache;
 
     private function addLog($text)
     {
@@ -477,7 +476,7 @@ class FortnoxService
 
                 $cacheItemData = $cacheItem->get();
                 $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
-                if ($cacheItem->isHit() && empty((array) json_decode($cacheItemData))) {
+                if ($cacheItemDataIsValid) {
                     header('X-Refresh-Token-Cache: ' . "true");
                     return Token::deserialize($cacheItemData);
                 }
