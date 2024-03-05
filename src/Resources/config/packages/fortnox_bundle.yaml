@@ -1,5 +1,9 @@
 fortnox_bundle:
   client_id: yourid
   client_secret: yoursecret
-  allowed_roles: ['ROLE_ADMIN']
+  allowed_roles: ["ROLE_ADMIN"]
   success_redirect_url: /on/success
+  lock:
+    mysql: mysql_database_url
+  cache:
+    mysql: mysql_database_url

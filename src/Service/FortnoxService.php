@@ -5,6 +5,8 @@ namespace ITBMedia\FortnoxBundle\Service;
 use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
+use ITBMedia\FortnoxBundle\Factory\CacheFactory;
+use ITBMedia\FortnoxBundle\Factory\LockStoreFactory;
 use ITBMedia\FortnoxBundle\Model\Article;
 use ITBMedia\FortnoxBundle\Model\Contract;
 use ITBMedia\FortnoxBundle\Model\Customer;
@@ -35,6 +37,9 @@ class FortnoxService
 {
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;
+    private LockStoreFactory $lockStoreFactory;
+    private CacheFactory $cacheFactory;
+
     const DEFAULT_RETRY_ATTEMPTS = 5;
     const DEFAULT_CACHE_EXPIRY = 3600;
     const LOG_FILE = "fortnoxServiceLogs.txt";
@@ -54,11 +59,18 @@ class FortnoxService
         file_put_contents(self::LOG_FILE, $current);
     }
 
-    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        EventDispatcherInterface $eventDispatcher,
+        LockStoreFactory $lockStoreFactory,
+        CacheFactory $cacheFactory
+    ) {
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
-        $this->cache = new FilesystemAdapter(self::CACHE_NAMESPACE, 0, __DIR__ . '/cache');
+        $this->lockStoreFactory = $lockStoreFactory;
+        $this->cacheFactory = $cacheFactory;
+
+        // $this->cache = new FilesystemAdapter(self::CACHE_NAMESPACE, 0, __DIR__ . '/cache');
     }
 
     /**
@@ -443,8 +455,9 @@ class FortnoxService
         $refreshToken = $token->getRefreshToken();
 
         if (!$refreshToken) throw new \Exception('Fortnox: Missing refresh token');
+        $cache = $this->cacheFactory->createCacheAdapter();
 
-        $cacheItem = $this->cache->getItem($refreshToken);
+        $cacheItem = $cache->getItem($refreshToken);
         $cacheItemData = $cacheItem->get();
         $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
 
@@ -454,13 +467,13 @@ class FortnoxService
             return Token::deserialize($cacheItemData);
         }
 
-        $store = new FlockStore();
+        $store = $this->lockStoreFactory->createStore();
         $lockFactory = new LockFactory($store);
         $refreshLock = $lockFactory->createLock('token_refresh_' . $refreshToken);
 
         try {
             if ($refreshLock->acquire(true)) {
-                $cacheItem = $this->cache->getItem($refreshToken);
+                $cacheItem = $cache->getItem($refreshToken);
 
                 $cacheItemData = $cacheItem->get();
                 $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
@@ -479,7 +492,7 @@ class FortnoxService
 
                 $cacheItem->set($newRefreshToken);
                 $cacheItem->expiresAfter($expiresIn - 60); // Remove 60 seconds to make sure the token is not expired when we use it
-                $this->cache->save($cacheItem);
+                $cache->save($cacheItem);
 
                 return Token::deserialize($newRefreshToken);
             } else {
