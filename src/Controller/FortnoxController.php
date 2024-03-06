@@ -19,18 +19,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
-class FortnoxController extends AbstractController {
+class FortnoxController extends AbstractController
+{
     private ParameterBagInterface $parameterBag;
     private EventDispatcherInterface $eventDispatcher;
     private SessionInterface $session;
 
-    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher, SessionInterface $session) {
+    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher, SessionInterface $session)
+    {
         $this->parameterBag = $parameterBag;
         $this->eventDispatcher = $eventDispatcher;
         $this->session = $session;
     }
 
-    public function fortnoxConnect(Request $request) {
+    public function fortnoxConnect(Request $request)
+    {
         if ($scopes = $request->query->get('scopes')) {
             $request->query->remove('scopes');
             $state = [];
@@ -55,6 +58,7 @@ class FortnoxController extends AbstractController {
                         'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
                         'scope' => $scopes,
                         'state' => $state,
+                        'access_type' => "offline",
                     )
                 )
             );
@@ -65,7 +69,8 @@ class FortnoxController extends AbstractController {
         }
     }
 
-    public function fortnoxCallback(Request $request) {
+    public function fortnoxCallback(Request $request)
+    {
         if ($request->query->get('error') && $request->query->get('error_description')) {
             throw new FortnoxException(500, 0, $request->query->get('error_description'));
         }
@@ -130,7 +135,8 @@ class FortnoxController extends AbstractController {
         }
     }
 
-    public function fortnoxDisconnect(Request $request) {
+    public function fortnoxDisconnect(Request $request)
+    {
         $this->eventDispatcher->dispatch(
             new DisconnectEvent(),
             DisconnectEvent::NAME,
@@ -138,7 +144,8 @@ class FortnoxController extends AbstractController {
         return new Response("Success", 200);
     }
 
-    private function getRedirectUrl($customRedirectUrl = null) {
+    private function getRedirectUrl($customRedirectUrl = null)
+    {
         // return "http://127.0.0.1:8000/api/fortnox/callback"; //! Remove
         if ($customRedirectUrl) {
             return $customRedirectUrl;
