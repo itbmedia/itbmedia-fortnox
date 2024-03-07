@@ -23,6 +23,7 @@ use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\UnitsResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -39,6 +40,7 @@ class FortnoxService
     private EventDispatcherInterface $eventDispatcher;
     private LockStoreFactory $lockStoreFactory;
     private CacheFactory $cacheFactory;
+    private CacheItemPoolInterface $cache;
 
     const DEFAULT_RETRY_ATTEMPTS = 5;
     const DEFAULT_CACHE_EXPIRY = 3600;
@@ -68,6 +70,7 @@ class FortnoxService
         $this->eventDispatcher = $eventDispatcher;
         $this->lockStoreFactory = $lockStoreFactory;
         $this->cacheFactory = $cacheFactory;
+        $this->cache = $cacheFactory->createCacheAdapter();
 
         // $this->cache = new FilesystemAdapter(self::CACHE_NAMESPACE, 0, __DIR__ . '/cache');
     }
@@ -447,6 +450,30 @@ class FortnoxService
 
         return  true;
     }
+    private function getCacheToken($refreshToken)
+    {
+        $cacheItem = $this->cache->getItem($refreshToken);
+        $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
+        if ($cacheItemDataIsValid) {
+            $cacheItemData = $cacheItem->get();
+            return Token::deserialize($cacheItemData);
+        }
+        return null;
+    }
+
+    private function setCacheToken($refreshToken, $newRefreshToken)
+    {
+
+        $expiresIn = $newRefreshToken["expires_in"] ?? self::DEFAULT_CACHE_EXPIRY;
+        if (!is_int($expiresIn) || $expiresIn <= 0) {
+            $expiresIn = self::DEFAULT_CACHE_EXPIRY;
+        }
+
+        $cacheItem = $this->cache->getItem($refreshToken);
+        $cacheItem->set($newRefreshToken);
+        $cacheItem->expiresAfter($expiresIn - 60); // Remove 60 seconds to make sure the token is not expired when we use it
+        $this->cache->save($cacheItem);
+    }
 
     private function refreshTokenWithLock(Token $token): Token
     {
@@ -454,16 +481,12 @@ class FortnoxService
         $refreshToken = $token->getRefreshToken();
 
         if (!$refreshToken) throw new \Exception('Fortnox: Missing refresh token');
-        $cache = $this->cacheFactory->createCacheAdapter();
 
-        $cacheItem = $cache->getItem($refreshToken);
-        $cacheItemData = $cacheItem->get();
-        $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
 
-        if ($cacheItemDataIsValid) {
+        if ($cachedToken = $this->getCacheToken($refreshToken)) {
             header('X-Refresh-Token-Cache-Without-Lock: ' . "true");
             header('X-Refresh-Token-Cache: ' . "true");
-            return Token::deserialize($cacheItemData);
+            return $cachedToken;
         }
 
         $store = $this->lockStoreFactory->createStore();
@@ -472,26 +495,16 @@ class FortnoxService
 
         try {
             if ($refreshLock->acquire(true)) {
-                $cacheItem = $cache->getItem($refreshToken);
-
-                $cacheItemData = $cacheItem->get();
-                $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
-                if ($cacheItemDataIsValid) {
+                if ($cachedToken = $this->getCacheToken($refreshToken)) {
+                    header('X-Refresh-Token-Cache-Without-Lock: ' . "true");
                     header('X-Refresh-Token-Cache: ' . "true");
-                    return Token::deserialize($cacheItemData);
+                    return $cachedToken;
                 }
 
                 $newRefreshToken = $this->refreshToken($token)->serialize();
                 if (!$newRefreshToken) throw new \Exception('Fortnox: Missing refresh token');
 
-                $expiresIn = $newRefreshToken["expires_in"] ?? self::DEFAULT_CACHE_EXPIRY;
-                if (!is_int($expiresIn) || $expiresIn <= 0) {
-                    $expiresIn = self::DEFAULT_CACHE_EXPIRY;
-                }
-
-                $cacheItem->set($newRefreshToken);
-                $cacheItem->expiresAfter($expiresIn - 60); // Remove 60 seconds to make sure the token is not expired when we use it
-                $cache->save($cacheItem);
+                $this->setCacheToken($refreshToken, $newRefreshToken);
 
                 return Token::deserialize($newRefreshToken);
             } else {
@@ -558,6 +571,11 @@ class FortnoxService
 
     public function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
     {
+        if ($cachedToken = $this->getCacheToken($token->getRefreshToken())) {
+            header('X-Refresh-Token-Cache-Early: ' . "true");
+            $token = $cachedToken;
+        }
+
         $ch = curl_init();
         $headers = array();
         $headers[] = 'Authorization: Bearer ' . $token->getAccessToken();
