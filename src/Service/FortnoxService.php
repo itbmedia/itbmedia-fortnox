@@ -523,6 +523,7 @@ class FortnoxService
                 if (!$newRefreshToken) throw new \Exception('Fortnox: Missing refresh token');
 
                 $this->setCacheToken($refreshToken, $newRefreshToken);
+                sleep(0.5); // Sleep for 1 second to make sure the cache is saved before we release the lock
 
                 return Token::deserialize($newRefreshToken);
             } else {
@@ -566,7 +567,7 @@ class FortnoxService
         $body = substr($res, $header_size);
         curl_close($ch);
 
-        $this->addLog("Fortnox API refreshToken response: ",  array(
+        $this->addLog("Fortnox API refreshToken response: $response_code:",  array(
             "content_type" => $content_type,
             "response_code" => $response_code,
             "body" => $body,
@@ -598,7 +599,7 @@ class FortnoxService
 
     public function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
     {
-        $this->addLog("Calling Fortnox API1: " . $path);
+        $this->addLog("[$path]");
         if ($cachedToken = $this->getCacheToken($token->getRefreshToken())) {
             header('X-Refresh-Token-Cache-Early: ' . "true");
             $this->addLog("Using early cached token: ", $cachedToken->serialize());
@@ -617,7 +618,7 @@ class FortnoxService
             $path .= "?" . http_build_query($data);
         }
 
-        $this->addLog("Calling Fortnox API2: " . $path, array(
+        $this->addLog("[$path] With params: ", array(
             "method" => $method,
             "headers" => $headers,
             "firstRequest" => $firstRequest,
@@ -631,7 +632,7 @@ class FortnoxService
         curl_setopt($ch, CURLOPT_HEADER, true);
 
         $res = curl_exec($ch);
-        $this->addLog("Fortnox API response res: ", $res);
+        $this->addLog("[$path] Fortnox API response res: ", $res);
         $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         $response_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -641,7 +642,7 @@ class FortnoxService
 
         if ($firstRequest && ($response_code === 401 || $response_code === 403)) {
             $newRefreshToken = $this->refreshTokenWithLock($token);
-            $this->addLog("Retrying request with new refresh token: ", $newRefreshToken->serialize());
+            $this->addLog("[$path] Retrying request with new refresh token: ", $newRefreshToken->serialize());
             return $this->call($newRefreshToken, $method, $orignialPath, $data, $serialize, false);
         }
 
