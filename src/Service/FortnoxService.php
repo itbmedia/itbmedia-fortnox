@@ -42,6 +42,7 @@ class FortnoxService
     private CacheFactory $cacheFactory;
     private CacheItemPoolInterface $cache;
     private $logger;
+    private $onRefreshToken;
 
     const DEFAULT_RETRY_ATTEMPTS = 5;
     const DEFAULT_EARLY_RETRY_ATTEMPTS = 2;
@@ -52,6 +53,12 @@ class FortnoxService
     public function setLogger($logger)
     {
         $this->logger = $logger;
+        return $this;
+    }
+
+    public function setOnRefreshToken($onRefreshToken)
+    {
+        $this->onRefreshToken = $onRefreshToken;
         return $this;
     }
 
@@ -595,6 +602,8 @@ class FortnoxService
         $newToken->setReference($token->getReference());
         $this->addLog("New token: ", $newToken->serialize());
         $this->eventDispatcher->dispatch(new TokenRefreshEvent($newToken), TokenRefreshEvent::NAME);
+        if ($this->onRefreshToken && is_callable($this->onRefreshToken)) call_user_func($this->onRefreshToken, $newToken);
+
         return $newToken;
     }
 
