@@ -534,7 +534,7 @@ class FortnoxService
     }
     private function refreshToken(Token $token): Token
     {
-        $this->addLog("Refreshing token");
+        $this->addLog("Refreshing token with request: ", $token->serialize());
         $ch = curl_init();
         $secret = base64_encode($this->parameterBag->get('fortnox_bundle.client_id') . ':' . $this->parameterBag->get('fortnox_bundle.client_secret'));
 
@@ -617,7 +617,12 @@ class FortnoxService
             $path .= "?" . http_build_query($data);
         }
 
-        $this->addLog("Calling Fortnox API2: " . $path);
+        $this->addLog("Calling Fortnox API2: " . $path, array(
+            "method" => $method,
+            "headers" => $headers,
+            "firstRequest" => $firstRequest,
+            "retryCount" => $retryCount,
+        ));
 
         curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/3/$path");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
