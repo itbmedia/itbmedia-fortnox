@@ -41,23 +41,35 @@ class FortnoxService
     private LockStoreFactory $lockStoreFactory;
     private CacheFactory $cacheFactory;
     private CacheItemPoolInterface $cache;
+    private $logger;
 
     const DEFAULT_RETRY_ATTEMPTS = 5;
     const DEFAULT_CACHE_EXPIRY = 3600;
     const LOG_FILE = "fortnoxServiceLogs.txt";
     const CACHE_NAMESPACE = "FortnoxRefreshKeys";
 
-    private function addLog($text)
+    public function setLogger($logger)
     {
-        if (!file_exists(self::LOG_FILE)) touch(self::LOG_FILE);
-        $t = microtime(true);
-        $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
-        $d = new \DateTime(date('Y-m-d H:i:s.' . $micro, $t));
-        $current = file_get_contents(self::LOG_FILE);
-        $currentDate = $d->format("Y-m-d H:i:s.u");
-        $current .= "-------------" . $currentDate . "-------------\n";
-        $current .= $text . "\n\n";
-        file_put_contents(self::LOG_FILE, $current);
+        $this->logger = $logger;
+        return $this;
+    }
+
+
+    private function addLog($text, $context = array())
+    {
+        if ($this->logger) {
+            $this->logger->info($text, $context ?? []);
+            return;
+        }
+        // if (!file_exists(self::LOG_FILE)) touch(self::LOG_FILE);
+        // $t = microtime(true);
+        // $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+        // $d = new \DateTime(date('Y-m-d H:i:s.' . $micro, $t));
+        // $current = file_get_contents(self::LOG_FILE);
+        // $currentDate = $d->format("Y-m-d H:i:s.u");
+        // $current .= "-------------" . $currentDate . "-------------\n";
+        // $current .= $text . "\n\n";
+        // file_put_contents(self::LOG_FILE, $current);
     }
 
     public function __construct(
@@ -477,6 +489,7 @@ class FortnoxService
 
     private function refreshTokenWithLock(Token $token): Token
     {
+        $this->addLog("Refreshing token with lock");
         header('X-Refresh-Token: ' . "true");
         $refreshToken = $token->getRefreshToken();
 
@@ -486,6 +499,8 @@ class FortnoxService
         if ($cachedToken = $this->getCacheToken($refreshToken)) {
             header('X-Refresh-Token-Cache-Without-Lock: ' . "true");
             header('X-Refresh-Token-Cache: ' . "true");
+            $this->addLog("Using cached token: ", $cachedToken->serialize());
+
             return $cachedToken;
         }
 
@@ -498,10 +513,13 @@ class FortnoxService
                 if ($cachedToken = $this->getCacheToken($refreshToken)) {
                     header('X-Refresh-Token-Cache-Without-Lock: ' . "true");
                     header('X-Refresh-Token-Cache: ' . "true");
+                    $this->addLog("Using cached token2: ", $cachedToken->serialize());
+
                     return $cachedToken;
                 }
 
                 $newRefreshToken = $this->refreshToken($token)->serialize();
+                $this->addLog("New refresh token: ", $newRefreshToken);
                 if (!$newRefreshToken) throw new \Exception('Fortnox: Missing refresh token');
 
                 $this->setCacheToken($refreshToken, $newRefreshToken);
@@ -516,6 +534,7 @@ class FortnoxService
     }
     private function refreshToken(Token $token): Token
     {
+        $this->addLog("Refreshing token");
         $ch = curl_init();
         $secret = base64_encode($this->parameterBag->get('fortnox_bundle.client_id') . ':' . $this->parameterBag->get('fortnox_bundle.client_secret'));
 
@@ -547,6 +566,13 @@ class FortnoxService
         $body = substr($res, $header_size);
         curl_close($ch);
 
+        $this->addLog("Fortnox API refreshToken response: ",  array(
+            "content_type" => $content_type,
+            "response_code" => $response_code,
+            "body" => $body,
+        ));
+
+
         if ($content_type === "application/json") {
             if ($response_code < 200 || $response_code > 299) {
                 $response = json_decode($body, true);
@@ -565,14 +591,17 @@ class FortnoxService
 
         $newToken = Token::deserialize($res);
         $newToken->setReference($token->getReference());
+        $this->addLog("New token: ", $newToken->serialize());
         $this->eventDispatcher->dispatch(new TokenRefreshEvent($newToken), TokenRefreshEvent::NAME);
         return $newToken;
     }
 
     public function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
     {
+        $this->addLog("Calling Fortnox API1: " . $path);
         if ($cachedToken = $this->getCacheToken($token->getRefreshToken())) {
             header('X-Refresh-Token-Cache-Early: ' . "true");
+            $this->addLog("Using early cached token: ", $cachedToken->serialize());
             $token = $cachedToken;
         }
 
@@ -588,6 +617,8 @@ class FortnoxService
             $path .= "?" . http_build_query($data);
         }
 
+        $this->addLog("Calling Fortnox API2: " . $path);
+
         curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/3/$path");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -595,7 +626,7 @@ class FortnoxService
         curl_setopt($ch, CURLOPT_HEADER, true);
 
         $res = curl_exec($ch);
-
+        $this->addLog("Fortnox API response res: ", $res);
         $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         $response_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -605,6 +636,7 @@ class FortnoxService
 
         if ($firstRequest && ($response_code === 401 || $response_code === 403)) {
             $newRefreshToken = $this->refreshTokenWithLock($token);
+            $this->addLog("Retrying request with new refresh token: ", $newRefreshToken->serialize());
             return $this->call($newRefreshToken, $method, $orignialPath, $data, $serialize, false);
         }
 
