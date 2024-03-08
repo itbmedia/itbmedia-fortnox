@@ -44,6 +44,7 @@ class FortnoxService
     private $logger;
 
     const DEFAULT_RETRY_ATTEMPTS = 5;
+    const DEFAULT_EARLY_RETRY_ATTEMPTS = 2;
     const DEFAULT_CACHE_EXPIRY = 3600;
     const LOG_FILE = "fortnoxServiceLogs.txt";
     const CACHE_NAMESPACE = "FortnoxRefreshKeys";
@@ -597,7 +598,7 @@ class FortnoxService
         return $newToken;
     }
 
-    public function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, bool $firstRequest = true, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
+    public function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, int $earlyRetriesLeft = FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
     {
         $this->addLog("[$path]");
         if ($cachedToken = $this->getCacheToken($token->getRefreshToken())) {
@@ -621,7 +622,7 @@ class FortnoxService
         $this->addLog("[$path] With params: ", array(
             "method" => $method,
             "headers" => $headers,
-            "firstRequest" => $firstRequest,
+            "earlyRetriesLeft" => $earlyRetriesLeft,
             "retryCount" => $retryCount,
         ));
 
@@ -632,7 +633,6 @@ class FortnoxService
         curl_setopt($ch, CURLOPT_HEADER, true);
 
         $res = curl_exec($ch);
-        $this->addLog("[$path] Fortnox API response res: ", $res);
         $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         $response_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -640,10 +640,19 @@ class FortnoxService
         $body = substr($res, $header_size);
         curl_close($ch);
 
-        if ($firstRequest && ($response_code === 401 || $response_code === 403)) {
+        $this->addLog("[$path] ($response_code) Fortnox API response rest: ", array(
+            "content_type" => $content_type,
+            "response_code" => $response_code,
+            "header" => $header,
+            "body" => $body,
+        ));
+
+        if ($earlyRetriesLeft && ($response_code === 401 || $response_code === 403)) {
+            $sleepSeconds = 1 << (FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS - $earlyRetriesLeft);
+            sleep($sleepSeconds);
             $newRefreshToken = $this->refreshTokenWithLock($token);
-            $this->addLog("[$path] Retrying request with new refresh token: ", $newRefreshToken->serialize());
-            return $this->call($newRefreshToken, $method, $orignialPath, $data, $serialize, false);
+            $this->addLog("[$path] Retrying with new refresh token ($earlyRetriesLeft): ", $newRefreshToken->serialize());
+            return $this->call($newRefreshToken, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft - 1);
         }
 
         header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
@@ -679,7 +688,7 @@ class FortnoxService
                 sleep($sleepSeconds);
 
                 // Retry the request recursively without returning anything yet
-                return $this->call($token, $method, $orignialPath, $data, $serialize, $firstRequest, $retryCount - 1);
+                return $this->call($token, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft, $retryCount - 1);
             }
 
             return array('body' => $body, 'status' => $response_code, 'headers' => $this->get_headers_from_curl_response($header));
