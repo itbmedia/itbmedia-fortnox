@@ -128,6 +128,28 @@ class FortnoxService
         $response = $this->call($token, 'GET', 'customers', $params, false);
         return CustomersResponse::deserialize($response);
     }
+
+    /**
+     * @param Token $token
+     * @param array $params
+     * @return CustomersResponse
+     */
+    public function getAllCustomers(
+        Token $token,
+        array $params = [],
+        int $limit = 500
+    ): CustomersResponse {
+        $allCustomers = [];
+        $params['limit'] = $limit;
+
+        do {
+            $ordersReCustomersResponse = $this->getCustomers($token, array_merge($params, ['offset' => count($allCustomers)]));
+            $allCustomers = array_merge($allCustomers, $ordersReCustomersResponse->getCustomers());
+        } while (count($allCustomers) < $ordersReCustomersResponse->getMetaInformation()->getTotalResources());
+
+        return $ordersReCustomersResponse->setCustomers($allCustomers);
+    }
+
     public function createCustomer(Token $token, Customer $customer): Customer
     {
         $response = $this->call($token, 'POST', "customers", array('Customer' => $customer->toArray()), true)['Customer'];
