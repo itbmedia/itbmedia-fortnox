@@ -481,6 +481,8 @@ class FortnoxService
 
     private function checkIfCacheIsValid($cacheItem)
     {
+        if (!$cacheItem) return null;
+
         if (!$cacheItem->isHit()) return false;
 
         $cacheItemData = $cacheItem->get();
@@ -494,6 +496,7 @@ class FortnoxService
     }
     private function getCacheToken($refreshToken)
     {
+        if (!$refreshToken) return null;
         $cacheItem = $this->cache->getItem($refreshToken);
         $cacheItemDataIsValid = $this->checkIfCacheIsValid($cacheItem);
         if ($cacheItemDataIsValid) {
