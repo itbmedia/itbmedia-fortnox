@@ -17,6 +17,7 @@ use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CompanyInformationResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ContractsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
+use ITBMedia\FortnoxBundle\Model\Response\DeleteResponse;
 use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
@@ -177,6 +178,23 @@ class FortnoxService
     {
         $response = $this->call($token, 'GET', "articles/$number", $params, true)['Article'];
         return Article::fromArray($response);
+    }
+    public function createArticle(Token $token, Article $article): Article
+    {
+        $response = $this->call($token, 'POST', "articles", array('Article' => $article->toArray()), true)['Article'];
+        return Article::fromArray($response);
+    }
+    public function updateArticle(Token $token, Article $article): Article
+    {
+        $number = $article->getArticleNumber();
+        $response = $this->call($token, 'PUT', "articles/$number", array('Article' => $article->toArray()), true)['Article'];
+        return Article::fromArray($response);
+    }
+    public function deleteArticle(Token $token, Article $article): DeleteResponse
+    {
+        $number = $article->getArticleNumber();
+        $response = $this->call($token, 'DELETE', "articles/$number")['Article'];
+        return DeleteResponse::fromArray($response);
     }
 
 
