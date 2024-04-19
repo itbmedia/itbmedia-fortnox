@@ -574,7 +574,7 @@ class FortnoxService
                 if (!$newRefreshToken) throw new \Exception('Fortnox: Missing refresh token');
 
                 $this->setCacheToken($refreshToken, $newRefreshToken);
-                sleep(0.5); // Sleep for 1 second to make sure the cache is saved before we release the lock
+                sleep(1); // Sleep for 1 second to make sure the cache is saved before we release the lock
 
                 return Token::deserialize($newRefreshToken);
             } else {
