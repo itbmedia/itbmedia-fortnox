@@ -640,6 +640,9 @@ class FortnoxService
             }
         }
 
+        if ($res && ($arrayRes = json_decode($res, true)) && isset($arrayRes['error']) || isset($arrayRes['error_description'])) {
+            throw new FortnoxException($response_code, $response_code, $arrayRes['error'] . ": " . $arrayRes['error_description']);
+        }
 
         $newToken = Token::deserialize($res);
         $newToken->setReference($token->getReference());
