@@ -705,9 +705,11 @@ class FortnoxService
         if ($earlyRetriesLeft && ($response_code === 401 || $response_code === 403)) {
             $sleepSeconds = 1 << (FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS - $earlyRetriesLeft);
             sleep($sleepSeconds);
-            $newRefreshToken = $this->refreshTokenWithLock($token);
-            $this->addLog("[$path] Retrying with new refresh token ($earlyRetriesLeft): ", $newRefreshToken->serialize());
-            return $this->call($newRefreshToken, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft - 1);
+            $newToken = $this->refreshTokenWithLock($token);
+            if ($this->onRefreshToken && is_callable($this->onRefreshToken)) call_user_func($this->onRefreshToken, $newToken);
+
+            $this->addLog("[$path] Retrying with new Token token ($earlyRetriesLeft): ", $newToken->serialize());
+            return $this->call($newToken, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft - 1);
         }
 
         header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
