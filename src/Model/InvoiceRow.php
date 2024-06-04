@@ -123,7 +123,6 @@ class InvoiceRow implements SerializableInterface
      * @SerializedName("PriceExcludingVAT")
      * @SkipWhenEmpty()
      * @Groups({"invoice", "contract"})
-     * @ReadOnly()
      */
     private $priceExcludingVAT;
     /**
@@ -154,9 +153,8 @@ class InvoiceRow implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("Total")
-     * @SkipWhenEmpty()
      * @Groups({"invoice", "contract"})
-     * @ReadOnly()
+     * @SkipWhenEmpty()
      */
     private $total;
     /**
@@ -165,7 +163,6 @@ class InvoiceRow implements SerializableInterface
      * @SerializedName("TotalExcludingVAT")
      * @SkipWhenEmpty()
      * @Groups({"invoice", "contract"})
-     * @ReadOnly()
      */
     private $totalExcludingVAT;
     /**

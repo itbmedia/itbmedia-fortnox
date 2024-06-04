@@ -138,7 +138,6 @@ class OfferRow implements SerializableInterface
      * @Type("double")
      * @SerializedName("Total")
      * @Groups({"offer", "offerRow"})
-     * @ReadOnly()
      * @SkipWhenEmpty()
      */
     private $total;
