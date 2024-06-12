@@ -2108,8 +2108,8 @@ class Order implements SerializableInterface
         if ($excludeReadonly) {
             $excludeKeys = [
                 "Total",
-                "totalToPay",
-                "totalVAT"
+                "TotalToPay",
+                "TotalVAT"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
