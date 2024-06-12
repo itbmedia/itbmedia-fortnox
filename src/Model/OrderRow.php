@@ -652,9 +652,24 @@ class OrderRow implements SerializableInterface
     /**
      * @return array
      */
-    public function toArray(array $groups = ["order_row"]): array
+    public function toArray($excludeReadonly = false): array
     {
-        return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
+        $serializer = SerializerBuilder::create()->build();
+        $context = SerializationContext::create();
+
+        $data = $serializer->toArray($this, $context);
+
+        if ($excludeReadonly) {
+            $excludeKeys = [
+                "Total",
+                "TotalToPay",
+                "TotalVAT"
+            ];
+
+            $data = array_diff_key($data, array_flip($excludeKeys));
+        }
+
+        return $data;
     }
 
     /**

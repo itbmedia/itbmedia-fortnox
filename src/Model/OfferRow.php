@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\ReadOnly;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
+use JMS\Serializer\SerializationContext;
 
 class OfferRow implements SerializableInterface
 
@@ -541,9 +542,24 @@ class OfferRow implements SerializableInterface
     /**
      * @return array
      */
-    public function toArray(): array
+    public function toArray($excludeReadonly = false): array
     {
-        return SerializerBuilder::create()->build()->toArray($this);
+        $serializer = SerializerBuilder::create()->build();
+        $context = SerializationContext::create();
+
+        $data = $serializer->toArray($this, $context);
+
+        if ($excludeReadonly) {
+            $excludeKeys = [
+                "Total",
+                "TotalToPay",
+                "TotalVAT"
+            ];
+
+            $data = array_diff_key($data, array_flip($excludeKeys));
+        }
+
+        return $data;
     }
 
     /**
