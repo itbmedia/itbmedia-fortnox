@@ -2093,13 +2093,29 @@ class Order implements SerializableInterface
     /**
      * @return array
      */
-    public function toArray(array $groups = []): array
+    public function toArray(array $groups = [], $excludeReadonly = false): array
     {
-        if (!count($groups)) {
-            return SerializerBuilder::create()->build()->toArray($this);
+        $serializer = SerializerBuilder::create()->build();
+        $context = SerializationContext::create();
+
+
+        if (count($groups)) {
+            $context->setGroups($groups);
         }
 
-        return SerializerBuilder::create()->build()->toArray($this, SerializationContext::create()->setGroups($groups));
+        $data = $serializer->toArray($this, $context);
+
+        if ($excludeReadonly) {
+            $excludeKeys = [
+                "Total",
+                "totalToPay",
+                "totalVAT"
+            ];
+
+            $data = array_diff_key($data, array_flip($excludeKeys));
+        }
+
+        return $data;
     }
 
     /**

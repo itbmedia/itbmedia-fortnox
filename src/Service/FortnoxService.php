@@ -238,12 +238,12 @@ class FortnoxService
     }
     public function createOffer(Token $token, Offer $offer): Offer
     {
-        $response = $this->call($token, 'POST', "offers", array('Offer' => $offer->toArray()), true)['Offer'];
+        $response = $this->call($token, 'POST', "offers", array('Offer' => $offer->toArray([], true)), true)['Offer'];
         return Offer::fromArray($response);
     }
     public function updateOffer(Token $token, Offer $offer): Offer
     {
-        $response = $this->call($token, 'PUT', "offers/" . $offer->getDocumentNumber(), array('Offer' => $offer->toArray()), true)['Offer'];
+        $response = $this->call($token, 'PUT', "offers/" . $offer->getDocumentNumber(), array('Offer' => $offer->toArray([], true)), true)['Offer'];
         return Offer::fromArray($response);
     }
     public function previewOffer(Token $token, string $number, array $params = [])
@@ -312,12 +312,12 @@ class FortnoxService
     }
     public function createOrder(Token $token, Order $order): Order
     {
-        $response = $this->call($token, 'POST', "orders", array('Order' => $order->toArray()), true)['Order'];
+        $response = $this->call($token, 'POST', "orders", array('Order' => $order->toArray([], true)), true)['Order'];
         return Order::fromArray($response);
     }
     public function updateOrder(Token $token, Order $order): Order
     {
-        $response = $this->call($token, 'PUT', "orders/" . $order->getDocumentNumber(), array('Order' => $order->toArray()), true)['Order'];
+        $response = $this->call($token, 'PUT', "orders/" . $order->getDocumentNumber(), array('Order' => $order->toArray([], true)), true)['Order'];
         return Order::fromArray($response);
     }
     public function previewOrder(Token $token, string $number, array $params = [])
@@ -385,12 +385,12 @@ class FortnoxService
     }
     public function createContract(Token $token, Contract $contract): Contract
     {
-        $response = $this->call($token, 'POST', "contracts", array('Contract' => $contract->toArray()), true)['Contract'];
+        $response = $this->call($token, 'POST', "contracts", array('Contract' => $contract->toArray([], true)), true)['Contract'];
         return Contract::fromArray($response);
     }
     public function updateContract(Token $token, Contract $contract): Contract
     {
-        $response = $this->call($token, 'PUT', "contracts/" . $contract->getDocumentNumber(), array('Contract' => $contract->toArray()), true)['Contract'];
+        $response = $this->call($token, 'PUT', "contracts/" . $contract->getDocumentNumber(), array('Contract' => $contract->toArray([], true)), true)['Contract'];
         return Contract::fromArray($response);
     }
     public function createInvoiceFromContract(Token $token, string $number, array $params = []): Contract
@@ -447,12 +447,12 @@ class FortnoxService
     }
     public function createInvoice(Token $token, Invoice $invoice): Invoice
     {
-        $response = $this->call($token, 'POST', "invoices", array('Invoice' => $invoice->toArray()), true)['Invoice'];
+        $response = $this->call($token, 'POST', "invoices", array('Invoice' => $invoice->toArray([], true)), true)['Invoice'];
         return Invoice::fromArray($response);
     }
     public function updateInvoice(Token $token, Invoice $invoice): Invoice
     {
-        $response = $this->call($token, 'PUT', "invoices/" . $invoice->getDocumentNumber(), array('Invoice' => $invoice->toArray()), true)['Invoice'];
+        $response = $this->call($token, 'PUT', "invoices/" . $invoice->getDocumentNumber(), array('Invoice' => $invoice->toArray([], true)), true)['Invoice'];
         return Invoice::fromArray($response);
     }
     public function previewInvoice(Token $token, string $number, array $params = [])
