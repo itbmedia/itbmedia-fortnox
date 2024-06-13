@@ -2457,7 +2457,7 @@ class Invoice implements SerializableInterface
 			];
 
 			$data = array_diff_key($data, array_flip($excludeKeys));
-			$data['InvoiceRows'] = array_map(fn ($row) => $row->toArray(true), $this->invoiceRows);
+			if (isset($data['InvoiceRows']) && $this->invoiceRows) $data['InvoiceRows'] = array_map(fn ($row) => $row->toArray(true), $this->invoiceRows);
 		}
 
 		return $data;

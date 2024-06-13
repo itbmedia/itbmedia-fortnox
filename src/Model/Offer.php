@@ -1846,7 +1846,7 @@ class Offer implements SerializableInterface
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
-            $data['OfferRows'] = array_map(fn ($row) => $row->toArray(true), $this->offerRows);
+            if (isset($data['OfferRows']) && $this->offerRows) $data['OfferRows'] = array_map(fn ($row) => $row->toArray(true), $this->offerRows);
         }
 
         return $data;
