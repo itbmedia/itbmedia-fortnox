@@ -1,7 +1,7 @@
 {
     "name": "itbmedia/fortnox-bundle",
     "description": "Fortnox api client",
-    "version": "1.1.22",
+    "version": "1.1.23",
     "type": "symfony-bundle",
     "license": "MIT",
     "autoload": {

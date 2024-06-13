@@ -636,7 +636,8 @@ class InvoiceRow implements SerializableInterface
             $excludeKeys = [
                 "Total",
                 "TotalToPay",
-                "TotalVAT"
+                "TotalVAT",
+                "PriceExcludingVAT"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
