@@ -663,7 +663,8 @@ class OrderRow implements SerializableInterface
             $excludeKeys = [
                 "Total",
                 "TotalToPay",
-                "TotalVAT"
+                "TotalVAT",
+                "TotalExcludingVAT"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
