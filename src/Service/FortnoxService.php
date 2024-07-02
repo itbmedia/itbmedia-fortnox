@@ -22,7 +22,10 @@ use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
+use ITBMedia\FortnoxBundle\Model\Response\TermsOfDeliveriesResponse;
+use ITBMedia\FortnoxBundle\Model\Response\TermsOfPaymentsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\UnitsResponse;
+use ITBMedia\FortnoxBundle\Model\Response\WayOfDeliveriesResponse;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -440,11 +443,6 @@ class FortnoxService
 
         return Invoice::fromArray($response['Invoice']);
     }
-    public function getWayOfDeliveries(Token $token, array $params = []): Invoice
-    {
-        $response = $this->call($token, 'GET', "wayofdeliveries", $params, true)['WayOfDeliveries'];
-        return Invoice::fromArray($response);
-    }
     public function createInvoice(Token $token, Invoice $invoice): Invoice
     {
         $response = $this->call($token, 'POST', "invoices", array('Invoice' => $invoice->toArray([], true)), true)['Invoice'];
@@ -495,6 +493,24 @@ class FortnoxService
     {
         $response = $this->call($token, 'GET', 'printtemplates', $params, true);
         return PrintTemplatesResponse::fromArray($response);
+    }
+
+    public function getTermsOfPayments(Token $token, array $params = []): TermsOfPaymentsResponse
+    {
+        $response = $this->call($token, 'GET', 'termsofpayments', $params, false);
+
+        return TermsOfPaymentsResponse::deserialize($response);
+    }
+    public function getTermsOfDeliveries(Token $token, array $params = []): TermsOfDeliveriesResponse
+    {
+        $response = $this->call($token, 'GET', 'termsofdeliveries', $params, false);
+
+        return TermsOfDeliveriesResponse::deserialize($response);
+    }
+    public function getWayOfDeliveries(Token $token, array $params = []): WayOfDeliveriesResponse
+    {
+        $response = $this->call($token, 'GET', 'wayofdeliveries', $params, false);
+        return WayOfDeliveriesResponse::deserialize($response);
     }
 
     private function checkIfCacheIsValid($cacheItem)
