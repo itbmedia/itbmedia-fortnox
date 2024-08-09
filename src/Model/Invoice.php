@@ -1639,19 +1639,19 @@ class Invoice implements SerializableInterface
 
 	/**
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function getLastRemindDate(): string
+	public function getLastRemindDate(): ?string
 	{
 		return $this->lastRemindDate;
 	}
 
 	/**
 	 *
-	 * @param string $lastRemindDate
+	 * @param string|null $lastRemindDate
 	 * @return self
 	 */
-	public function setLastRemindDate(string $lastRemindDate): self
+	public function setLastRemindDate(?string $lastRemindDate): self
 	{
 		$this->lastRemindDate = $lastRemindDate;
 		return $this;
@@ -2457,7 +2457,7 @@ class Invoice implements SerializableInterface
 			];
 
 			$data = array_diff_key($data, array_flip($excludeKeys));
-			if (isset($data['InvoiceRows']) && $this->invoiceRows) $data['InvoiceRows'] = array_map(fn ($row) => $row->toArray(true), $this->invoiceRows);
+			if (isset($data['InvoiceRows']) && $this->invoiceRows) $data['InvoiceRows'] = array_map(fn($row) => $row->toArray(true), $this->invoiceRows);
 		}
 
 		return $data;
