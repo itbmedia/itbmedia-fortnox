@@ -20,7 +20,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $url;
+    private ?string $url = null;
     /**
      * @var string
      * @Type("string")
@@ -28,7 +28,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $urlTaxReductionList;
+    private ?string $urlTaxReductionList = null;
     /**
      * @var float
      * @Type("float")
@@ -36,7 +36,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?float $administrationFee;
+    private ?float $administrationFee = 0;
     /**
      * @var float
      * @Type("float")
@@ -44,7 +44,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?float $administrationFeeVAT;
+    private ?float $administrationFeeVAT = 0;
     /**
      * @var string
      * @Type("string")
@@ -52,7 +52,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $address1;
+    private ?string $address1 = null;
     /**
      * @var string
      * @Type("string")
@@ -60,7 +60,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $address2;
+    private ?string $address2 = null;
     /**
      * @var float
      * @Type("float")
@@ -69,7 +69,7 @@ class Order implements SerializableInterface
      * @Groups({"order"})
      * @ReadOnly()
      */
-    private ?float $basisTaxReduction;
+    private ?float $basisTaxReduction = 0;
     /**
      * @var bool
      * @Type("boolean")
@@ -85,7 +85,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $city;
+    private ?string $city = null;
     /**
      * @var string
      * @Type("string")
@@ -93,7 +93,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $comments;
+    private ?string $comments = null;
     /**
      * @var float
      * @Type("float")
@@ -135,7 +135,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $country;
+    private ?string $country = null;
     /**
      * @var string
      * @Type("string")
@@ -143,7 +143,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $costCenter;
+    private ?string $costCenter = null;
     /**
      * @var string
      * @Type("string")
@@ -151,7 +151,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $currency;
+    private ?string $currency = null;
     /**
      * @var float
      * @Type("float")
@@ -175,7 +175,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $customerName;
+    private ?string $customerName = null;
     /**
      * @var string
      * @Type("string")
@@ -183,7 +183,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $customerNumber;
+    private ?string $customerNumber = null;
     /**
      * @var string
      * @Type("string")
@@ -191,7 +191,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"warehouse"})
      */
-    private ?string $deliveryState;
+    private ?string $deliveryState = null;
     /**
      * @var string
      * @Type("string")
@@ -199,7 +199,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $deliveryAddress1;
+    private ?string $deliveryAddress1 = null;
     /**
      * @var string
      * @Type("string")
@@ -207,7 +207,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $deliveryAddress2;
+    private ?string $deliveryAddress2 = null;
     /**
      * @var string
      * @Type("string")
@@ -215,7 +215,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $deliveryCity;
+    private ?string $deliveryCity = null;
     /**
      * @var string
      * @Type("string")
@@ -223,7 +223,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $deliveryCountry;
+    private ?string $deliveryCountry = null;
     /**
      * @var string
      * @Type("string")
@@ -231,7 +231,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $deliveryDate;
+    private ?string $deliveryDate = null;
     /**
      * @var string
      * @Type("string")
@@ -239,7 +239,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $deliveryName;
+    private ?string $deliveryName = null;
     /**
      * @var string
      * @Type("string")
@@ -247,7 +247,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $deliveryZipCode;
+    private ?string $deliveryZipCode = null;
     /**
      * @var string
      * @Type("string")
@@ -255,7 +255,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $documentNumber;
+    private ?string $documentNumber = null;
     /**
      * @var \ITBMedia\FortnoxBundle\Model\EmailInformation
      * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
@@ -271,7 +271,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $externalInvoiceReference1;
+    private ?string $externalInvoiceReference1 = null;
     /**
      * @var string
      * @Type("string")
@@ -279,7 +279,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $externalInvoiceReference2;
+    private ?string $externalInvoiceReference2 = null;
     /**
      * @var string
      * @Type("float")
@@ -320,7 +320,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $invoiceReference;
+    private ?string $invoiceReference = null;
     /**
      * @var array
      * @Type("array")
@@ -336,7 +336,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $language;
+    private ?string $language = null;
     /**
      * @var string
      * @Type("float")
@@ -361,7 +361,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $offerReference;
+    private ?string $offerReference = null;
     /**
      * @var string
      * @Type("string")
@@ -369,7 +369,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $orderDate;
+    private ?string $orderDate = null;
     /**
      * @var array
      * @Type("array<ITBMedia\FortnoxBundle\Model\OrderRow>")
@@ -394,7 +394,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $organisationNumber;
+    private ?string $organisationNumber = null;
     /**
      * @var string
      * @Type("string")
@@ -402,7 +402,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $ourReference;
+    private ?string $ourReference = null;
     /**
      * @var string
      * @Type("string")
@@ -410,7 +410,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $phone1;
+    private ?string $phone1 = null;
     /**
      * @var string
      * @Type("string")
@@ -418,7 +418,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $phone2;
+    private ?string $phone2 = null;
     /**
      * @var string
      * @Type("string")
@@ -426,7 +426,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $priceList;
+    private ?string $priceList = null;
     /**
      * @var string
      * @Type("string")
@@ -434,7 +434,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $printTemplate;
+    private ?string $printTemplate = null;
     /**
      * @var string
      * @Type("string")
@@ -442,7 +442,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $project;
+    private ?string $project = null;
     /**
      * @var string
      * @Type("bool")
@@ -458,7 +458,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $outboundDate;
+    private ?string $outboundDate = null;
     /**
      * @var string
      * @Type("string")
@@ -466,7 +466,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $remarks;
+    private ?string $remarks = null;
     /**
      * @var string
      * @Type("float")
@@ -498,7 +498,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $termsOfDelivery;
+    private ?string $termsOfDelivery = null;
     /**
      * @var string
      * @Type("string")
@@ -506,7 +506,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $termsOfPayment;
+    private ?string $termsOfPayment = null;
     /**
      * @var string
      * @Type("int")
@@ -555,7 +555,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $wayOfDelivery;
+    private ?string $wayOfDelivery = null;
     /**
      * @var string
      * @Type("string")
@@ -563,7 +563,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $yourReference;
+    private ?string $yourReference = null;
     /**
      * @var string
      * @Type("string")
@@ -571,7 +571,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $yourOrderNumber;
+    private ?string $yourOrderNumber = null;
     /**
      * @var string
      * @Type("string")
@@ -579,7 +579,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $zipCode;
+    private ?string $zipCode = null;
     /**
      * @var string
      * @Type("string")
@@ -603,7 +603,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?string $taxReductionType;
+    private ?string $taxReductionType = null;
 
     /**
      *
@@ -2109,11 +2109,14 @@ class Order implements SerializableInterface
             $excludeKeys = [
                 "Total",
                 "TotalToPay",
-                "TotalVAT"
+                "TotalVAT",
+                "BasisTaxReduction",
+                "ContributionPercent",
+                "ContributionValue"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
-            if (isset($data['OrderRows']) && $this->orderRows) $data['OrderRows'] = array_map(fn ($row) => $row->toArray(true), $this->orderRows);
+            if (isset($data['OrderRows']) && $this->orderRows) $data['OrderRows'] = array_map(fn($row) => $row->toArray(true), $this->orderRows);
         }
 
         return $data;

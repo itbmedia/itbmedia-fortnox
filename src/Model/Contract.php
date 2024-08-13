@@ -20,7 +20,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $url;
+    private ?string $url = null;
     /**
      * @var string
      * @Type("string")
@@ -28,7 +28,8 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $urlTaxReductionList;
+    private ?string $urlTaxReductionList = null;
+
     /**
      * @var bool
      * @Type("boolean")
@@ -44,7 +45,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $administrationFee;
+    private ?float $administrationFee;
     /**
      * @var double
      * @Type("double")
@@ -52,7 +53,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $basisTaxReduction;
+    private ?float $administrationFeeVat;
     /**
      * @var string
      * @Type("string")
@@ -76,7 +77,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $contractDate;
+    private ?string $contractDate = null;
     /**
      * @var double
      * @Type("double")
@@ -108,7 +109,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $costCenter;
+    private ?string $costCenter = null;
     /**
      * @var string
      * @Type("string")
@@ -116,7 +117,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $currency;
+    private ?string $currency = null;
     /**
      * @var string
      * @Type("string")
@@ -124,7 +125,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $customerName;
+    private ?string $customerName = null;
     /**
      * @var string
      * @Type("string")
@@ -132,7 +133,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $customerNumber;
+    private ?string $customerNumber = null;
     /**
      * @var string
      * @Type("string")
@@ -140,7 +141,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $documentNumber;
+    private ?string $documentNumber = null;
     /**
      * @var \ITBMedia\FortnoxBundle\Model\EmailInformation
      * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
@@ -156,7 +157,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $externalInvoiceReference1;
+    private ?string $externalInvoiceReference1 = null;
     /**
      * @var string
      * @Type("string")
@@ -164,7 +165,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $externalInvoiceReference2;
+    private ?string $externalInvoiceReference2 = null;
     /**
      * @var double
      * @Type("double")
@@ -228,7 +229,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $language;
+    private ?string $language = null;
     /**
      * @var string
      * @Type("string")
@@ -236,7 +237,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $lastInvoiceDate;
+    private ?string $lastInvoiceDate = null;
     /**
      * @var double
      * @Type("double")
@@ -252,7 +253,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $ourReference;
+    private ?string $ourReference = null;
     /**
      * @var string
      * @Type("string")
@@ -340,7 +341,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $termsOfDelivery;
+    private ?string $termsOfDelivery = null;
     /**
      * @var string
      * @Type("string")
@@ -348,7 +349,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $termsOfPayment;
+    private ?string $termsOfPayment = null;
     /**
      * @var double
      * @Type("double")
@@ -388,7 +389,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $wayOfDelivery;
+    private ?string $wayOfDelivery = null;
     /**
      * @var string
      * @Type("string")
@@ -396,7 +397,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $yourOrderNumber;
+    private ?string $yourOrderNumber = null;
     /**
      * @var string
      * @Type("string")
@@ -404,7 +405,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $yourReference;
+    private ?string $yourReference = null;
     /**
      * @var string
      * @Type("string")
@@ -412,7 +413,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $taxReductionType;
+    private ?string $taxReductionType = null;
     /**
      * @var string
      * @Type("string")
@@ -1479,11 +1480,14 @@ class Contract implements SerializableInterface
             $excludeKeys = [
                 "Total",
                 "TotalToPay",
-                "TotalVAT"
+                "TotalVAT",
+                "BasisTaxReduction",
+                "ContributionPercent",
+                "ContributionValue"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
-            if (isset($data['InvoiceRows']) && $this->invoiceRows) $data['InvoiceRows'] = array_map(fn ($row) => $row->toArray(true), $this->invoiceRows);
+            if (isset($data['InvoiceRows']) && $this->invoiceRows) $data['InvoiceRows'] = array_map(fn($row) => $row->toArray(true), $this->invoiceRows);
         }
 
         return $data;

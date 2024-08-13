@@ -20,7 +20,8 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $url;
+    private ?string $url = null;
+
     /**
      * @var string
      * @Type("string")
@@ -28,7 +29,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $urlTaxReductionList;
+    private ?string $urlTaxReductionList = null;
     /**
      * @var float
      * @Type("float")
@@ -36,7 +37,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $administrationFee;
+    private ?float $administrationFee = 0;
     /**
      * @var float
      * @Type("float")
@@ -44,7 +45,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $administrationFeeVAT;
+    private ?float $administrationFeeVAT = 0;
     /**
      * @var string
      * @Type("string")
@@ -52,7 +53,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $address1;
+    private ?string $address1 = null;
     /**
      * @var string
      * @Type("string")
@@ -60,7 +61,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $address2;
+    private ?string $address2 = null;
     /**
      * @var float
      * @Type("float")
@@ -68,7 +69,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $basisTaxReduction;
+    private ?float $basisTaxReduction = 0;
     /**
      * @var bool
      * @Type("boolean")
@@ -76,7 +77,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $cancelled;
+    private bool $cancelled;
     /**
      * @var string
      * @Type("string")
@@ -84,7 +85,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $city;
+    private ?string $city = null;
     /**
      * @var string
      * @Type("string")
@@ -92,7 +93,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $comments;
+    private ?string $comments = null;
     /**
      * @var float
      * @Type("float")
@@ -124,7 +125,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $country;
+    private ?string $country = null;
     /**
      * @var string
      * @Type("string")
@@ -132,7 +133,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $costCenter;
+    private ?string $costCenter = null;
     /**
      * @var string
      * @Type("string")
@@ -140,7 +141,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $currency;
+    private ?string $currency = null;
     /**
      * @var float
      * @Type("float")
@@ -164,7 +165,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $customerName;
+    private ?string $customerName = null;
     /**
      * @var string
      * @Type("string")
@@ -172,7 +173,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $customerNumber;
+    private ?string $customerNumber = null;
     /**
      * @var string
      * @Type("string")
@@ -180,7 +181,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $deliveryAddress1;
+    private ?string $deliveryAddress1 = null;
     /**
      * @var string
      * @Type("string")
@@ -188,7 +189,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $deliveryAddress2;
+    private ?string $deliveryAddress2 = null;
     /**
      * @var string
      * @Type("string")
@@ -196,7 +197,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $deliveryCity;
+    private ?string $deliveryCity = null;
     /**
      * @var string
      * @Type("string")
@@ -204,7 +205,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $deliveryCountry;
+    private ?string $deliveryCountry = null;
     /**
      * @var string
      * @Type("string")
@@ -212,7 +213,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $deliveryDate;
+    private ?string $deliveryDate = null;
     /**
      * @var string
      * @Type("string")
@@ -220,7 +221,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $deliveryName;
+    private ?string $deliveryName = null;
     /**
      * @var string
      * @Type("string")
@@ -228,7 +229,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $deliveryZipCode;
+    private ?string $deliveryZipCode = null;
     /**
      * @var string
      * @Type("string")
@@ -306,7 +307,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $language;
+    private ?string $language = null;
     /**
      * @var float
      * @Type("float")
@@ -346,7 +347,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $orderReference;
+    private ?string $orderReference = null;
     /**
      * @var string
      * @Type("string")
@@ -354,7 +355,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $organisationNumber;
+    private ?string $organisationNumber = null;
     /**
      * @var string
      * @Type("string")
@@ -362,7 +363,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $ourReference;
+    private ?string $ourReference = null;
     /**
      * @var string
      * @Type("string")
@@ -370,7 +371,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $phone1;
+    private ?string $phone1 = null;
     /**
      * @var string
      * @Type("string")
@@ -378,7 +379,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $phone2;
+    private ?string $phone2 = null;
     /**
      * @var string
      * @Type("string")
@@ -386,7 +387,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $priceList;
+    private ?string $priceList = null;
     /**
      * @var string
      * @Type("string")
@@ -394,7 +395,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $printTemplate;
+    private ?string $printTemplate = null;
     /**
      * @var string
      * @Type("string")
@@ -402,7 +403,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $project;
+    private ?string $project = null;
     /**
      * @var string
      * @Type("string")
@@ -410,7 +411,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $remarks;
+    private ?string $remarks = null;
     /**
      * @var float
      * @Type("float")
@@ -442,7 +443,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $termsOfDelivery;
+    private ?string $termsOfDelivery = null;
     /**
      * @var string
      * @Type("string")
@@ -450,7 +451,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $termsOfPayment;
+    private ?string $termsOfPayment = null;
     /**
      * @var float
      * @Type("float")
@@ -489,7 +490,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $wayOfDelivery;
+    private ?string $wayOfDelivery = null;
     /**
      * @var string
      * @Type("string")
@@ -497,7 +498,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $yourReference;
+    private ?string $yourReference = null;
     /**
      * @var string
      * @Type("string")
@@ -505,7 +506,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $yourReferenceNumber;
+    private ?string $yourReferenceNumber = null;
     /**
      * @var string
      * @Type("string")
@@ -521,7 +522,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $taxReductionType;
+    private ?string $taxReductionType = null;
 
     /**
      *
@@ -1842,11 +1843,14 @@ class Offer implements SerializableInterface
             $excludeKeys = [
                 "Total",
                 "TotalToPay",
-                "TotalVAT"
+                "TotalVAT",
+                "BasisTaxReduction",
+                "ContributionPercent",
+                "ContributionValue"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
-            if (isset($data['OfferRows']) && $this->offerRows) $data['OfferRows'] = array_map(fn ($row) => $row->toArray(true), $this->offerRows);
+            if (isset($data['OfferRows']) && $this->offerRows) $data['OfferRows'] = array_map(fn($row) => $row->toArray(true), $this->offerRows);
         }
 
         return $data;

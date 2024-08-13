@@ -18,14 +18,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("@url")
 	 */
-	private ?string $url;
+	private ?string $url = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("@urlTaxReductionList")
 	 */
-	private ?string $urlTaxReductionList;
+	private ?string $urlTaxReductionList = null;
 	/**
 	 * @var float
 	 * @Type("float")
@@ -46,14 +46,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Address1")
 	 */
-	private ?string $address1;
+	private ?string $address1 = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Address2")
 	 */
-	private ?string $address2;
+	private ?string $address2 = null;
 	/**
 	 * @var float
 	 * @Type("float")
@@ -88,14 +88,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("City")
 	 */
-	private ?string $city;
+	private ?string $city = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Comments")
 	 */
-	private ?string $comments;
+	private ?string $comments = null;
 	/**
 	 * @var int
 	 * @Type("int")
@@ -123,35 +123,35 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Country")
 	 */
-	private ?string $country;
+	private ?string $country = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("CostCenter")
 	 */
-	private ?string $costCenter;
+	private ?string $costCenter = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Credit")
 	 */
-	private ?string $credit;
+	private ?string $credit = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("CreditInvoiceReference")
 	 */
-	private ?string $creditInvoiceReference;
+	private ?string $creditInvoiceReference = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Currency")
 	 */
-	private ?string $currency;
+	private ?string $currency = null;
 	/**
 	 * @var float
 	 * @Type("float")
@@ -172,77 +172,77 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("CustomerName")
 	 */
-	private ?string $customerName;
+	private ?string $customerName = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("CustomerNumber")
 	 */
-	private ?string $customerNumber;
+	private ?string $customerNumber = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DeliveryAddress1")
 	 */
-	private ?string $deliveryAddress1;
+	private ?string $deliveryAddress1 = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DeliveryAddress2")
 	 */
-	private ?string $deliveryAddress2;
+	private ?string $deliveryAddress2 = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DeliveryCity")
 	 */
-	private ?string $deliveryCity;
+	private ?string $deliveryCity = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DeliveryCountry")
 	 */
-	private ?string $deliveryCountry;
+	private ?string $deliveryCountry = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DeliveryDate")
 	 */
-	private ?string $deliveryDate;
+	private ?string $deliveryDate = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DeliveryName")
 	 */
-	private ?string $deliveryName;
+	private ?string $deliveryName = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DeliveryZipCode")
 	 */
-	private ?string $deliveryZipCode;
+	private ?string $deliveryZipCode = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DocumentNumber")
 	 */
-	private ?string $documentNumber;
+	private ?string $documentNumber = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("DueDate")
 	 */
-	private ?string $dueDate;
+	private ?string $dueDate = null;
 	/**
 	 * @var EdiInformation
 	 * @Type("ITBMedia\FortnoxBundle\Model\EDIInformation")
@@ -270,14 +270,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ExternalInvoiceReference1")
 	 */
-	private ?string $externalInvoiceReference1;
+	private ?string $externalInvoiceReference1 = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ExternalInvoiceReference2")
 	 */
-	private ?string $externalInvoiceReference2;
+	private ?string $externalInvoiceReference2 = null;
 	/**
 	 * @var float
 	 * @Type("float")
@@ -312,28 +312,28 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("InvoiceDate")
 	 */
-	private ?string $invoiceDate;
+	private ?string $invoiceDate = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("InvoicePeriodStart")
 	 */
-	private ?string $invoicePeriodStart;
+	private ?string $invoicePeriodStart = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("InvoicePeriodEnd")
 	 */
-	private ?string $invoicePeriodEnd;
+	private ?string $invoicePeriodEnd = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("InvoicePeriodReference")
 	 */
-	private ?string $invoicePeriodReference;
+	private ?string $invoicePeriodReference = null;
 	/**
 	 * @var InvoiceRow[]
 	 * @Type("array<ITBMedia\FortnoxBundle\Model\InvoiceRow>")
@@ -347,7 +347,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("InvoiceType")
 	 */
-	private ?string $invoiceType;
+	private ?string $invoiceType = null;
 	/**
 	 * @var array
 	 * @Type("array<string, int>")
@@ -361,14 +361,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Language")
 	 */
-	private ?string $language;
+	private ?string $language = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("LastRemindDate")
 	 */
-	private ?string $lastRemindDate;
+	private ?string $lastRemindDate = null;
 	/**
 	 * @var float
 	 * @Type("float")
@@ -396,77 +396,77 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("OCR")
 	 */
-	private ?string $ocr;
+	private ?string $ocr = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("OfferReference")
 	 */
-	private ?string $offerReference;
+	private ?string $offerReference = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("OrderReference")
 	 */
-	private ?string $orderReference;
+	private ?string $orderReference = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("OrganisationNumber")
 	 */
-	private ?string $organisationNumber;
+	private ?string $organisationNumber = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("OurReference")
 	 */
-	private ?string $ourReference;
+	private ?string $ourReference = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("PaymentWay")
 	 */
-	private ?string $paymentWay;
+	private ?string $paymentWay = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Phone1")
 	 */
-	private ?string $phone1;
+	private ?string $phone1 = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Phone2")
 	 */
-	private ?string $phone2;
+	private ?string $phone2 = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("PriceList")
 	 */
-	private ?string $priceList;
+	private ?string $priceList = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("PrintTemplate")
 	 */
-	private ?string $printTemplate;
+	private ?string $printTemplate = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Project")
 	 */
-	private ?string $project;
+	private ?string $project = null;
 	/**
 	 * @var bool
 	 * @Type("bool")
@@ -480,14 +480,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("OutboundDate")
 	 */
-	private ?string $outboundDate;
+	private ?string $outboundDate = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Remarks")
 	 */
-	private ?string $remarks;
+	private ?string $remarks = null;
 	/**
 	 * @var int
 	 * @Type("int")
@@ -522,14 +522,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("TermsOfDelivery")
 	 */
-	private ?string $termsOfDelivery;
+	private ?string $termsOfDelivery = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("TermsOfPayment")
 	 */
-	private ?string $termsOfPayment;
+	private ?string $termsOfPayment = null;
 	/**
 	 * @var int
 	 * @Type("int")
@@ -578,7 +578,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("VoucherSeries")
 	 */
-	private ?string $voucherSeries;
+	private ?string $voucherSeries = null;
 	/**
 	 * @var int
 	 * @Type("int")
@@ -592,49 +592,49 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("WayOfDelivery")
 	 */
-	private ?string $wayOfDelivery;
+	private ?string $wayOfDelivery = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("YourOrderNumber")
 	 */
-	private ?string $yourOrderNumber;
+	private ?string $yourOrderNumber = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("YourReference")
 	 */
-	private ?string $yourReference;
+	private ?string $yourReference = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ZipCode")
 	 */
-	private ?string $zipCode;
+	private ?string $zipCode = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("AccountingMethod")
 	 */
-	private ?string $accountingMethod;
+	private ?string $accountingMethod = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("TaxReductionType")
 	 */
-	private ?string $taxReductionType;
+	private ?string $taxReductionType = null;
 	/**
 	 * @var string
 	 * @Type("string")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("FinalPayDate")
 	 */
-	private ?string $finalPayDate;
+	private ?string $finalPayDate = null;
 
 	/**
 	 *
@@ -2453,7 +2453,10 @@ class Invoice implements SerializableInterface
 			$excludeKeys = [
 				"Total",
 				"TotalToPay",
-				"TotalVAT"
+				"TotalVAT",
+				"BasisTaxReduction",
+				"ContributionPercent",
+				"ContributionValue"
 			];
 
 			$data = array_diff_key($data, array_flip($excludeKeys));

@@ -554,7 +554,9 @@ class OfferRow implements SerializableInterface
                 "Total",
                 "TotalToPay",
                 "TotalVAT",
-                "TotalExcludingVAT"
+                "TotalExcludingVAT",
+                "ContributionPercent",
+                "ContributionValue"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
