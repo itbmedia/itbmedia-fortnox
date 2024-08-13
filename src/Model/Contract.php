@@ -1483,7 +1483,8 @@ class Contract implements SerializableInterface
                 "TotalVAT",
                 "BasisTaxReduction",
                 "ContributionPercent",
-                "ContributionValue"
+                "ContributionValue",
+                "AdministrationFeeVAT"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
