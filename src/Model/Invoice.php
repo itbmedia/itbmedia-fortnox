@@ -1719,9 +1719,9 @@ class Invoice implements SerializableInterface
 
 	/**
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function getOcr(): string
+	public function getOcr(): ?string
 	{
 		return $this->ocr;
 	}
