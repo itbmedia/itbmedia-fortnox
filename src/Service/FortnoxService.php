@@ -649,15 +649,15 @@ class FortnoxService
                     $error[strtolower($key)] = $item;
                 });
                 if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
-                    throw new FortnoxException($error['status_code'], $error['code'], $error['message']);
+                    throw new FortnoxException($error['status_code'], $error['code'], "Fortnox: " . $error['message']);
                 } else {
-                    throw new HttpException($response['status_code'], json_encode(array_merge($response, $error)));
+                    throw new HttpException($response['status_code'], "Fortnox: " . json_encode(array_merge($response, $error)));
                 }
             }
         }
 
         if ($res && ($arrayRes = json_decode($res, true)) && isset($arrayRes['error']) || isset($arrayRes['error_description'])) {
-            throw new FortnoxException($response_code, $response_code, $arrayRes['error'] . ": " . $arrayRes['error_description']);
+            throw new FortnoxException($response_code, $response_code, "Fortnox: " .  $arrayRes['error'] . ": " . $arrayRes['error_description']);
         }
 
         $newToken = Token::deserialize($res);
@@ -738,9 +738,9 @@ class FortnoxService
                     $error[strtolower($key)] = $item;
                 });
                 if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
-                    throw new FortnoxException($error['status_code'], $error['code'], $error['message']);
+                    throw new FortnoxException($error['status_code'], $error['code'], "Fortnox: " . $error['message']);
                 } else {
-                    throw new HttpException($response['status_code'], json_encode(array_merge($response, $error)));
+                    throw new HttpException($response['status_code'], "Fortnox: " .  json_encode(array_merge($response, $error)));
                 }
             }
             if ($serialize) {
