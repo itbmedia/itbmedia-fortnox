@@ -666,7 +666,8 @@ class OrderRow implements SerializableInterface
                 "TotalVAT",
                 "TotalExcludingVAT",
                 "ContributionPercent",
-                "ContributionValue"
+                "ContributionValue",
+                "ReservedQuantity",
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
