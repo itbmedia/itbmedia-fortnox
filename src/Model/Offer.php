@@ -339,7 +339,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private $offerRows;
+    private $offerRows = [];
     /**
      * @var string
      * @Type("string")

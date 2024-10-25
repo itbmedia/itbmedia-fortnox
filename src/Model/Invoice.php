@@ -340,7 +340,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("InvoiceRows")
 	 */
-	private array $invoiceRows;
+	private array $invoiceRows = [];
 	/**
 	 * @var string
 	 * @Type("string")

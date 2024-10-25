@@ -377,7 +377,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private array $orderRows;
+    private array $orderRows = [];
     /**
      * @var string
      * @Type("string")

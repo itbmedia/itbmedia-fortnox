@@ -221,7 +221,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private $invoiceRows;
+    private $invoiceRows = [];
     /**
      * @var string
      * @Type("string")
