@@ -381,8 +381,6 @@ class FortnoxService
     }
     public function getContract(Token $token, string $number, array $params = []): Contract
     {
-        if (!isset($params["sortby"])) $params["sortby"] = "documentnumber";
-        if (!isset($params["sortorder"])) $params["sortorder"] = "descending";
         $response = $this->call($token, 'GET', "contracts/$number", $params, true)['Contract'];
         return Contract::fromArray($response);
     }
