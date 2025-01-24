@@ -3,6 +3,7 @@ fortnox_bundle:
   client_secret: yoursecret
   allowed_roles: ["ROLE_ADMIN"]
   success_redirect_url: /on/success
+  use_redirects: boolean
   lock:
     mysql: mysql_database_url
   cache:

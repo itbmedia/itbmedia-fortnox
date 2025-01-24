@@ -50,18 +50,23 @@ class FortnoxController extends AbstractController
                 $state['internal_redirect_url'] = $this->getRedirectUrl();
             }
             // $state['fortnox_csrf_token'] = $csrfToken;
-            $response = new RedirectResponse(
-                "https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
-                    array(
-                        'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                        'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.custom_redirect_url")),
-                        'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
-                        'scope' => $scopes,
-                        'state' => $state,
-                        'access_type' => "offline",
-                    )
+            $url = "https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
+                array(
+                    'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
+                    'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.custom_redirect_url")),
+                    'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
+                    'scope' => $scopes,
+                    'state' => $state,
+                    'access_type' => "offline",
                 )
             );
+
+            if ($this->parameterBag->get("fortnox_bundle.use_redirects")) {
+                $response = new RedirectResponse($url);
+            } else {
+                $response = new JsonResponse(array('url' => $url));
+            }
+
             // $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
             return $response;
         } else {

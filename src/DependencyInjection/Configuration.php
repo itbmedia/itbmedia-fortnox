@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('client_id')->end()
             ->scalarNode('client_secret')->end()
             ->scalarNode('type')->end()
+            ->scalarNode('use_redirects')->end()
             ->arrayNode('allowed_roles')
             ->scalarPrototype()->end()
             ->end()
