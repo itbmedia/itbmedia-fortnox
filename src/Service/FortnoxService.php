@@ -9,6 +9,7 @@ use ITBMedia\FortnoxBundle\Factory\CacheFactory;
 use ITBMedia\FortnoxBundle\Factory\LockStoreFactory;
 use ITBMedia\FortnoxBundle\Model\Article;
 use ITBMedia\FortnoxBundle\Model\Contract;
+use ITBMedia\FortnoxBundle\Model\CostCenter;
 use ITBMedia\FortnoxBundle\Model\Customer;
 use ITBMedia\FortnoxBundle\Model\Invoice;
 use ITBMedia\FortnoxBundle\Model\Offer;
@@ -16,6 +17,7 @@ use ITBMedia\FortnoxBundle\Model\Order;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CompanyInformationResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ContractsResponse;
+use ITBMedia\FortnoxBundle\Model\Response\CostCentersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\DeleteResponse;
 use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
@@ -780,5 +782,67 @@ class FortnoxService
             }
         }
         return $headers;
+    }
+
+
+    /**
+     * Get all cost centers
+     * 
+     * @param Token $token
+     * @param array $params
+     * @return CostCentersResponse
+     */
+    public function getCostCenters(
+        Token $token,
+        array $params = []
+    ): CostCentersResponse {
+        $response = $this->call($token, 'GET', 'costcenters', $params, false);
+        return CostCentersResponse::deserialize($response);
+    }
+
+    /**
+     * Create Cost Center 
+     * 
+     * @param Token $token
+     * @param CostCenter $costCenter
+     * @return CostCenter
+     */
+    public function createCostCenter(
+        Token $token,
+        CostCenter $costCenter
+    ): CostCenter {
+        $response = $this->call($token, 'POST', "costcenters", array('CostCenter' => $costCenter->toArray([], true)), true)['CostCenter'];
+        return CostCenter::fromArray($response);
+    }
+
+    /**
+     * Retrieve single Cost Center 
+     * 
+     * @param Token $token
+     * @param CostCenter $costCenter
+     * @return CostCenter
+     */
+    public function getCostCenter(
+        Token $token,
+        string $code,
+        array $params = []
+    ): CostCenter {
+        $response = $this->call($token, 'GET', "costcenters/$code", $params, true)['CostCenter'];
+        return CostCenter::fromArray($response);
+    }
+
+    /**
+     * Update Cost Center 
+     * 
+     * @param Token $token
+     * @param CostCenter $costCenter
+     * @return CostCenter
+     */
+    public function updateCostCenter(
+        Token $token,
+        CostCenter $costCenter
+    ): CostCenter {
+        $response = $this->call($token, 'PUT', "costcenters/" . $costCenter->getCode(), array('CostCenter' => $costCenter->toArray([], true)), true)['CostCenter'];
+        return CostCenter::fromArray($response);
     }
 }
