@@ -6,6 +6,7 @@ use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SkipWhenEmpty;
 
 class CostCenter implements SerializableInterface
 {
