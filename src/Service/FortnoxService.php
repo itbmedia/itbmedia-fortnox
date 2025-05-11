@@ -2,9 +2,11 @@
 
 namespace ITBMedia\FortnoxBundle\Service;
 
+use Exception;
 use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
+use ITBMedia\FortnoxBundle\Exception\FortnoxRateLimitException;
 use ITBMedia\FortnoxBundle\Factory\CacheFactory;
 use ITBMedia\FortnoxBundle\Factory\LockStoreFactory;
 use ITBMedia\FortnoxBundle\Model\Article;
@@ -648,10 +650,15 @@ class FortnoxService
                 array_walk_recursive($response, function ($item, $key) use (&$error) {
                     $error[strtolower($key)] = $item;
                 });
+
                 if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
-                    throw new FortnoxException($error['status_code'], $error['code'], "Fortnox: " . $error['message']);
+                    throw new HttpException($error['status_code'], "Fortnox: " . $error['message'], null, [],  $error['code']);
                 } else {
-                    throw new HttpException($response['status_code'], "Fortnox: " . json_encode(array_merge($response, $error)));
+                    throw new FortnoxException(
+                        $response['status_code'],
+                        $error['code'] ?? 0,
+                        "Fortnox: " . ($error['message'] ?: json_encode($response))
+                    );
                 }
             }
         }
@@ -734,13 +741,19 @@ class FortnoxService
             if ($response_code < 200 || $response_code > 299) {
                 $response = json_decode($body, true);
                 $response['status_code'] = $response_code;
+
                 array_walk_recursive($response, function ($item, $key) use (&$error) {
                     $error[strtolower($key)] = $item;
                 });
+
                 if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
-                    throw new FortnoxException($error['status_code'], $error['code'], "Fortnox: " . $error['message']);
+                    throw new HttpException($error['status_code'], "Fortnox: " . $error['message'], null, [],  $error['code']);
                 } else {
-                    throw new HttpException($response['status_code'], "Fortnox: " .  json_encode(array_merge($response, $error)));
+                    throw new FortnoxException(
+                        $response['status_code'],
+                        $error['code'] ?? 0,
+                        "Fortnox: " . ($error['message'] ?: json_encode($response))
+                    );
                 }
             }
             if ($serialize) {
@@ -752,7 +765,7 @@ class FortnoxService
             if ($response_code === 429) {
                 if ($retryCount <= 0) {
                     $message = $body || "Fortnox API rate limit reached";
-                    throw new HttpException($response_code, $message);
+                    throw new FortnoxRateLimitException($message, $response_code);
                 }
                 // $this->logger->info($token->getRefreshToken() . " retryCount left " . $retryCount . "/" . FortnoxService::DEFAULT_RETRY_ATTEMPTS);
                 $sleepSeconds = 1 << (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount);
@@ -787,7 +800,7 @@ class FortnoxService
 
     /**
      * Get all cost centers
-     * 
+     *
      * @param Token $token
      * @param array $params
      * @return CostCentersResponse
@@ -801,8 +814,8 @@ class FortnoxService
     }
 
     /**
-     * Create Cost Center 
-     * 
+     * Create Cost Center
+     *
      * @param Token $token
      * @param CostCenter $costCenter
      * @return CostCenter
@@ -816,8 +829,8 @@ class FortnoxService
     }
 
     /**
-     * Retrieve single Cost Center 
-     * 
+     * Retrieve single Cost Center
+     *
      * @param Token $token
      * @param CostCenter $costCenter
      * @return CostCenter
@@ -832,8 +845,8 @@ class FortnoxService
     }
 
     /**
-     * Update Cost Center 
-     * 
+     * Update Cost Center
+     *
      * @param Token $token
      * @param CostCenter $costCenter
      * @return CostCenter
