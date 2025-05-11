@@ -6,6 +6,7 @@ use Exception;
 use ITBMedia\FortnoxBundle\Event\TokenRefreshEvent;
 
 use ITBMedia\FortnoxBundle\Exception\FortnoxException;
+use ITBMedia\FortnoxBundle\Exception\FortnoxHttpException;
 use ITBMedia\FortnoxBundle\Exception\FortnoxRateLimitException;
 use ITBMedia\FortnoxBundle\Factory\CacheFactory;
 use ITBMedia\FortnoxBundle\Factory\LockStoreFactory;
@@ -34,7 +35,6 @@ use ITBMedia\FortnoxBundle\Model\Token;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\FlockStore;
@@ -652,7 +652,7 @@ class FortnoxService
                 });
 
                 if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
-                    throw new HttpException($error['status_code'], "Fortnox: " . $error['message'], null, [],  $error['code']);
+                    throw new FortnoxHttpException($error['status_code'], "Fortnox: " . $error['message'], null, [],  $error['code']);
                 } else {
                     throw new FortnoxException(
                         $response['status_code'],
@@ -747,7 +747,7 @@ class FortnoxService
                 });
 
                 if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
-                    throw new HttpException($error['status_code'], "Fortnox: " . $error['message'], null, [],  $error['code']);
+                    throw new FortnoxHttpException($error['status_code'], "Fortnox: " . $error['message'], null, [],  $error['code']);
                 } else {
                     throw new FortnoxException(
                         $response['status_code'],
