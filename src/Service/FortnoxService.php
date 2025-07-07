@@ -24,6 +24,7 @@ use ITBMedia\FortnoxBundle\Model\Response\CostCentersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\DeleteResponse;
 use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
+use ITBMedia\FortnoxBundle\Model\Response\NoxFinansInvoiceResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
@@ -488,6 +489,11 @@ class FortnoxService
     {
         $response = $this->call($token, "GET", "invoices/$number/einvoice", $params, true)['Invoice'];
         return Invoice::fromArray($response);
+    }
+    public function sendInvoiceWithNoxFinansInvoices(Token $token, array $params = []): NoxFinansInvoiceResponse
+    {
+        $response = $this->call($token, "POST", "noxfinansinvoices", $params, true)['NoxFinansInvoice'];
+        return NoxFinansInvoiceResponse::fromArray($response);
     }
     #endregion
     #region templates
