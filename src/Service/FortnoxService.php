@@ -777,6 +777,15 @@ class FortnoxService
                 return $this->call($token, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft, $retryCount - 1);
             }
 
+            if ($response_code < 200 || $response_code >= 300) {
+                throw new \RuntimeException(sprintf(
+                    "Unexpected non-JSON response from Fortnox. Status: %d, Content-Type: %s, Body: %s",
+                    $response_code,
+                    $content_type ?? 'null',
+                    substr($body, 0, 1000)
+                ));
+            }
+
             return array('body' => $body, 'status' => $response_code, 'headers' => $this->get_headers_from_curl_response($header));
         }
     }
