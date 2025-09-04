@@ -1819,9 +1819,9 @@ class Invoice implements SerializableInterface
 
 	/**
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function getPaymentWay(): string
+	public function getPaymentWay(): string|null
 	{
 		return $this->paymentWay;
 	}
