@@ -753,13 +753,15 @@ class FortnoxService
                     $error[strtolower($key)] = $item;
                 });
 
-                if (isset($error['status_code'], $error['code'], $error['message'], $error['error'])) {
-                    throw new FortnoxHttpException($error['status_code'], "Fortnox: " . $error['message'], null, [],  $error['code']);
+                $message = $error["message"] ?? $error["ErrorInformation"] ??  json_encode($response);
+
+                if (isset($error['status_code'], $error['code'], $message, $error['error'])) {
+                    throw new FortnoxHttpException($error['status_code'], "Fortnox: " . $message, null, [],  $error['code']);
                 } else {
                     throw new FortnoxException(
                         $response['status_code'] ?? 0,
                         $error['code'] ?? 0,
-                        "Fortnox: " . (isset($error['message']) ? $error['message'] :  json_encode($response))
+                        "Fortnox: " . $message
                     );
                 }
             }
