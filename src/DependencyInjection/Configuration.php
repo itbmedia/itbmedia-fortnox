@@ -33,6 +33,8 @@ class Configuration implements ConfigurationInterface
             ->scalarPrototype()->end()
             ->end()
             ->scalarNode('success_redirect_url')->end()
+            ->scalarNode('failure_redirect_url')->defaultValue('')->end()
+            ->scalarNode('success_redirect_url')->defaultValue('')->end()
             ->arrayNode('lock')
             ->children()
             ->scalarNode('mysql')->end()
