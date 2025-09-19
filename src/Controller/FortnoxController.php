@@ -42,7 +42,7 @@ class FortnoxController extends AbstractController
 
         $authUrl = 'https://apps.fortnox.se/oauth-v1/auth?' . http_build_query([
             'client_id'     => $this->params->get('fortnox_bundle.client_id'),
-            'redirect_uri'  => $this->getCallbackUrl($request),
+            'redirect_uri'  => $this->getCallbackUrl(),
             'response_type' => $this->params->get('fortnox_bundle.type'),
             'scope'         => $scopes,
             'state'         => $state,
@@ -106,7 +106,7 @@ class FortnoxController extends AbstractController
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
             'grant_type'   => 'authorization_code',
             'code'         => $code,
-            'redirect_uri' => $this->getCallbackUrl($request),
+            'redirect_uri' => $this->getCallbackUrl(),
         ]));
 
         $body       = curl_exec($ch);
@@ -153,11 +153,6 @@ class FortnoxController extends AbstractController
         return new Response('Success', 200);
     }
 
-    private function getCallbackUrl(Request $request): string
-    {
-        return $this->getRootDomainRedirect($request, 'itbmedia_fortnox_callback');
-    }
-
     public function getRootDomainRedirect(Request $request, string $routeName): string
     {
         $host = $request->getHost(); // e.g. "itbmedia.sellfinity.com"
@@ -171,5 +166,12 @@ class FortnoxController extends AbstractController
 
         // replace the host with the root domain
         return preg_replace('#://[^/]+#', '://' . $rootDomain, $url);
+    }
+
+    private function getCallbackUrl(): string
+    {
+        $base = rtrim($this->params->get('fortnox_redirect_base'), '/');
+        $path = $this->generateUrl('itbmedia_fortnox_callback', [], UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $base . $path;
     }
 }

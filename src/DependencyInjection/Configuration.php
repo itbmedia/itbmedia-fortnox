@@ -7,11 +7,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-
-    /**
-     * Generates the configuration tree builder.
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
-     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('fortnox_bundle');
@@ -24,9 +19,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->scalarNode('client_id')->end()
-            ->scalarNode('client_secret')->end()
+            ->scalarNode('client_id')->isRequired()->end()
+            ->scalarNode('client_secret')->isRequired()->end()
             ->scalarNode('type')->end()
+            ->scalarNode('redirect_base')
+            ->defaultValue('') // 👈 new config node with default
+            ->end()
             ->arrayNode('allowed_roles')
             ->scalarPrototype()->end()
             ->end()
@@ -35,8 +33,8 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('mysql')->end()
             ->end()
             ->end()
-            ->arrayNode('cache') // Define arrayNode here
-            ->children() // Define children of 'cache'
+            ->arrayNode('cache')
+            ->children()
             ->scalarNode('mysql')->end()
             ->end()
             ->end()
