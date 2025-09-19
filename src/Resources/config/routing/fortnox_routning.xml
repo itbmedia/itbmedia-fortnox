@@ -8,12 +8,8 @@
             <default key="_controller">itbmedia_fortnox.controller::fortnoxConnect</default>
         </route>
 
-        <route id="itbmedia_fortnox_callback" path="/fortnox/callback" methods="GET">
-            <default key="_controller">itbmedia_fortnox.controller::fortnoxCallback</default>
-        </route>
-
         <route id="itbmedia_fortnox_disconnect" path="/fortnox/disconnect" methods="POST">
             <default key="_controller">itbmedia_fortnox.controller::fortnoxDisconnect</default>
         </route>
-        
+
 </routes>
