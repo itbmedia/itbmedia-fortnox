@@ -42,7 +42,7 @@ class FortnoxController extends AbstractController
 
         $authUrl = 'https://apps.fortnox.se/oauth-v1/auth?' . http_build_query([
             'client_id'     => $this->params->get('fortnox_bundle.client_id'),
-            'redirect_uri'  => $this->getCallbackUrl(),
+            'redirect_uri'  => $this->getCallbackUrl($request),
             'response_type' => $this->params->get('fortnox_bundle.type'),
             'scope'         => $scopes,
             'state'         => $state,
@@ -106,7 +106,7 @@ class FortnoxController extends AbstractController
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
             'grant_type'   => 'authorization_code',
             'code'         => $code,
-            'redirect_uri' => $this->getCallbackUrl(),
+            'redirect_uri' => $this->getCallbackUrl($request),
         ]));
 
         $body       = curl_exec($ch);
@@ -153,8 +153,23 @@ class FortnoxController extends AbstractController
         return new Response('Success', 200);
     }
 
-    private function getCallbackUrl(): string
+    private function getCallbackUrl(Request $request): string
     {
-        return $this->generateUrl('itbmedia_fortnox_callback', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->getRootDomainRedirect($request, 'itbmedia_fortnox_callback');
+    }
+
+    public function getRootDomainRedirect(Request $request, string $routeName): string
+    {
+        $host = $request->getHost(); // e.g. "itbmedia.sellfinity.com"
+        $parts = explode('.', $host);
+
+        // keep only last 2 parts ("sellfinity.com")
+        $rootDomain = implode('.', array_slice($parts, -2));
+
+        // generate absolute URL (with whatever host Symfony thinks is correct)
+        $url = $this->generateUrl($routeName, [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        // replace the host with the root domain
+        return preg_replace('#://[^/]+#', '://' . $rootDomain, $url);
     }
 }
