@@ -170,7 +170,7 @@ class FortnoxController extends AbstractController
 
     private function getCallbackUrl(): string
     {
-        $base = rtrim($this->params->get('fortnox_redirect_base'), '/');
+        $base = rtrim($this->params->get('fortnox_bundle.redirect_base'), '/');
         $path = $this->generateUrl('itbmedia_fortnox_callback', [], UrlGeneratorInterface::ABSOLUTE_PATH);
         return $base . $path;
     }
