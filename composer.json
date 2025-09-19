@@ -15,7 +15,6 @@
             "email": "lucas.napik@outlook.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "symfony/framework-bundle": "*",
         "jms/serializer-bundle": "*",

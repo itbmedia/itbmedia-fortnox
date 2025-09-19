@@ -2,160 +2,159 @@
 
 namespace ITBMedia\FortnoxBundle\Controller;
 
-use ITBMedia\FortnoxBundle\Event\ConnectEvent;
-use ITBMedia\FortnoxBundle\Event\DisconnectEvent;
-use ITBMedia\FortnoxBundle\Exception\FortnoxException;
+use ITBMedia\FortnoxBundle\Interface\FortnoxAuthHandlerInterface;
 use ITBMedia\FortnoxBundle\Model\Token;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FortnoxController extends AbstractController
 {
-    private ParameterBagInterface $parameterBag;
-    private EventDispatcherInterface $eventDispatcher;
-    private SessionInterface $session;
+    /** @var ParameterBagInterface */
+    private $params;
 
-    public function __construct(ParameterBagInterface $parameterBag, EventDispatcherInterface $eventDispatcher, SessionInterface $session)
+    /** @var FortnoxAuthHandlerInterface */
+    private $handler;
+
+    public function __construct(ParameterBagInterface $parameterBag, FortnoxAuthHandlerInterface $handler)
     {
-        $this->parameterBag = $parameterBag;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->session = $session;
+        $this->params  = $parameterBag;
+        $this->handler = $handler;
     }
 
-    public function fortnoxConnect(Request $request)
+    /**
+     * Starts the Fortnox OAuth flow.
+     */
+    public function fortnoxConnect(Request $request): Response
     {
-        if ($scopes = $request->query->get('scopes')) {
-            $request->query->remove('scopes');
-            $state = [];
-            if (is_array($request->query->all())) {
-                $state = $request->query->all();
-            }
-            // if (empty($this->session->get('fortnox_csrf_token'))) {
-            //     $csrfToken = bin2hex(random_bytes(32));
-            //     $this->session->set('fortnox_csrf_token', $csrfToken);
-            // } else {
-            //     $csrfToken = $this->session->get('fortnox_csrf_token');
-            // }
-            if ($this->parameterBag->get("fortnox_bundle.custom_redirect_url") !== 'default') {
-                $state['internal_redirect_url'] = $this->getRedirectUrl();
-            }
-            // $state['fortnox_csrf_token'] = $csrfToken;
-            $url = "https://apps.fortnox.se/oauth-v1/auth?" . http_build_query(
-                array(
-                    'client_id' => $this->parameterBag->get('fortnox_bundle.client_id'),
-                    'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.custom_redirect_url")),
-                    'response_type' => $this->parameterBag->get('fortnox_bundle.type'),
-                    'scope' => $scopes,
-                    'state' => $state,
-                    'access_type' => "offline",
-                )
-            );
-
-            if ($this->parameterBag->get("fortnox_bundle.use_redirects")) {
-                $response = new RedirectResponse($url);
-            } else {
-                $response = new JsonResponse(array('url' => $url));
-            }
-
-            // $response->headers->setCookie(new Cookie('fortnox_csrf_token', $csrfToken, time() + (30 * 60)));
-            return $response;
-        } else {
-            return new JsonResponse(array('message' => "Missing scopes"), 400);
+        $scopes = $request->query->get('scopes');
+        if (!$scopes) {
+            return new JsonResponse(['message' => 'Missing scopes'], 400);
         }
+
+        // Optional: pass through extra state, but strip internals you don’t want round-tripped
+        $state = $request->query->all();
+        unset($state['scopes'], $state['code'], $state['error'], $state['error_description']);
+
+        $authUrl = 'https://apps.fortnox.se/oauth-v1/auth?' . http_build_query([
+            'client_id'     => $this->params->get('fortnox_bundle.client_id'),
+            'redirect_uri'  => $this->getCallbackUrl(),
+            'response_type' => $this->params->get('fortnox_bundle.type'),
+            'scope'         => $scopes,
+            'state'         => $state,
+            'access_type'   => 'offline',
+        ]);
+
+        return new RedirectResponse($authUrl);
     }
 
-    public function fortnoxCallback(Request $request)
+    /**
+     * OAuth callback from Fortnox: NEVER redirects here; always delegates to the handler.
+     */
+    public function fortnoxCallback(Request $request): Response
     {
+        $state = $request->query->get('state');
+        if (!is_array($state)) {
+            return $this->handler->onFailure([
+                'message'   => 'Missing state',
+                'code'      => 400,
+                'error_key' => 'MissingState',
+            ], []);
+        }
+
+        // Provider-reported error
         if ($request->query->get('error') && $request->query->get('error_description')) {
-            throw new FortnoxException(500, 0, $request->query->get('error_description'));
+            $providerError = (string) $request->query->get('error');
+            $providerDesc  = (string) $request->query->get('error_description');
+
+            return $this->handler->onFailure([
+                'message'                     => $providerDesc ?: 'Authorization failed',
+                'code'                        => 502,
+                'error_key'                   => 'ProviderAuthError',
+                'provider_error'              => $providerError,
+                'provider_error_description'  => $providerDesc,
+                'http_status'                 => null,
+            ], $state);
         }
-        if (is_array($request->query->get('state'))) {
-            $state = $request->query->get('state');
-            // if(!isset($state['fortnox_csrf_token']) || empty($this->session->get('fortnox_csrf_token')))
-            // {
-            //     throw new Exception("Missing csrf token");
-            // }
 
-            // if($state['fortnox_csrf_token'] !== $this->session->get('fortnox_csrf_token'))
-            // {
-            //     throw new Exception("csrf token mismatch");
-            // }
-            // unset($state['fortnox_csrf_token']);
-            $auth = base64_encode($this->parameterBag->get('fortnox_bundle.client_id') . ':' . $this->parameterBag->get('fortnox_bundle.client_secret'));
-            $ch = curl_init("https://apps.fortnox.se/oauth-v1/token");
-
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-type: application/x-www-form-urlencoded',
-                'Authorization: Basic ' . $auth
-            ));
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(
-                array(
-                    'grant_type' => 'authorization_code',
-                    'code' => $request->query->get('code'),
-                    'redirect_uri' => $this->getRedirectUrl($this->parameterBag->get("fortnox_bundle.custom_redirect_url")),
-                )
-            ));
-            $response = curl_exec($ch);
-            $statusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-
-            if ($statusCode !== 200) {
-                if (isset($state['failure_callback'])) {
-                    return $this->redirect($state['failure_callback'] . '?' . http_build_query(json_decode($response, true)));
-                } else {
-                    throw new FortnoxException($statusCode, 0, json_decode($response, true)['error_description'] ?: "Unknown error");
-                }
-            }
-            $state = array_merge(
-                $state,
-                array(
-                    'success' => true
-                )
-            );
-            $this->eventDispatcher->dispatch(
-                new ConnectEvent(Token::deserialize($response), $state),
-                ConnectEvent::NAME
-            );
-            if (isset($state['success_callback'])) {
-                $callback = $state['success_callback'];
-                unset($state['success_callback']);
-                return $this->redirect($callback . '?' . http_build_query($state));
-            } else {
-                return $this->redirect($this->parameterBag->get('fortnox_bundle.success_redirect_url') . '?' . http_build_query($state));
-            }
-        } else {
-            return new JsonResponse(array("message" => "missing state"), 400);
+        $code = (string) $request->query->get('code', '');
+        if ($code === '') {
+            return $this->handler->onFailure([
+                'message'   => 'Missing authorization code',
+                'code'      => 400,
+                'error_key' => 'MissingCode',
+            ], $state);
         }
-    }
 
-    public function fortnoxDisconnect(Request $request)
-    {
-        $this->eventDispatcher->dispatch(
-            new DisconnectEvent(),
-            DisconnectEvent::NAME,
+        // Exchange code → token (cURL kept for 7.4 compatibility)
+        $auth = base64_encode(
+            $this->params->get('fortnox_bundle.client_id') . ':' .
+                $this->params->get('fortnox_bundle.client_secret')
         );
-        return new Response("Success", 200);
+
+        $ch = curl_init('https://apps.fortnox.se/oauth-v1/token');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/x-www-form-urlencoded',
+            'Authorization: Basic ' . $auth,
+        ]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+            'grant_type'   => 'authorization_code',
+            'code'         => $code,
+            'redirect_uri' => $this->getCallbackUrl(),
+        ]));
+
+        $body       = curl_exec($ch);
+        $statusCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErrNo  = curl_errno($ch);
+        $curlErrMsg = curl_error($ch);
+        curl_close($ch);
+
+        if ($body === false || $curlErrNo !== 0) {
+            return $this->handler->onFailure([
+                'message'    => $curlErrMsg ?: 'Network error',
+                'code'       => 502,
+                'error_key'  => 'TransportError',
+                'curl_errno' => $curlErrNo,
+                'curl_error' => $curlErrMsg,
+                'http_status' => null,
+            ], $state);
+        }
+
+        $decoded = json_decode($body, true);
+
+        if ($statusCode !== 200 || !is_array($decoded)) {
+            $providerError = is_array($decoded) && isset($decoded['error']) ? (string) $decoded['error'] : null;
+            $providerDesc  = is_array($decoded) && isset($decoded['error_description']) ? (string) $decoded['error_description'] : null;
+
+            return $this->handler->onFailure([
+                'message'                     => $providerDesc ?: 'Token exchange failed',
+                'code'                        => ($statusCode >= 400 && $statusCode <= 599) ? $statusCode : 502,
+                'error_key'                   => 'TokenExchangeError',
+                'http_status'                 => $statusCode ?: null,
+                'provider_error'              => $providerError,
+                'provider_error_description'  => $providerDesc,
+                'raw'                         => is_array($decoded) ? $decoded : $body,
+            ], $state);
+        }
+
+        // Success → pass the token to Kund24 via handler
+        $token = Token::deserialize($body);
+        return $this->handler->onSuccess($token, $state);
     }
 
-    private function getRedirectUrl($customRedirectUrl = null)
+    public function fortnoxDisconnect(Request $request): Response
     {
-        // return "http://127.0.0.1:8000/api/fortnox/callback"; //! Remove
-        if ($customRedirectUrl) {
-            return $customRedirectUrl;
-        } else {
-            return $this->generateUrl('itbmedia_fortnox_callback', [], UrlGenerator::ABSOLUTE_URL);
-        }
+        return new Response('Success', 200);
+    }
+
+    private function getCallbackUrl(): string
+    {
+        return $this->generateUrl('itbmedia_fortnox_callback', [], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }

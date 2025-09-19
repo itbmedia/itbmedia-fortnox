@@ -24,17 +24,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->scalarNode('custom_redirect_url')->defaultValue('default')->end()
             ->scalarNode('client_id')->end()
             ->scalarNode('client_secret')->end()
             ->scalarNode('type')->end()
-            ->scalarNode('use_redirects')->end()
             ->arrayNode('allowed_roles')
             ->scalarPrototype()->end()
             ->end()
-            ->scalarNode('success_redirect_url')->end()
-            ->scalarNode('failure_redirect_url')->defaultValue('')->end()
-            ->scalarNode('success_redirect_url')->defaultValue('')->end()
             ->arrayNode('lock')
             ->children()
             ->scalarNode('mysql')->end()

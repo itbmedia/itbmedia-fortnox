@@ -1,4 +1,4 @@
-fortnox_bundle:
+fortnox:
   client_id: yourid
   client_secret: yoursecret
   allowed_roles: ["ROLE_ADMIN"]

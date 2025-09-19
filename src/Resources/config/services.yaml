@@ -1,6 +1,7 @@
 services:
   ITBMedia\FortnoxBundle\Controller\FortnoxController:
     public: true
+    autowire: true
     tags: ["controller.service_arguments"]
 
   itbmedia_fortnox.service:
@@ -15,10 +16,7 @@ services:
   itbmedia_fortnox.controller:
     class: ITBMedia\FortnoxBundle\Controller\FortnoxController
     public: true
-    arguments:
-      $parameterBag: "@parameter_bag"
-      $eventDispatcher: "@event_dispatcher"
-      $session: "@session"
+    autowire: true
     calls:
       - setContainer: ["@service_container"]
 
