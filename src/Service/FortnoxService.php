@@ -20,13 +20,16 @@ use ITBMedia\FortnoxBundle\Model\Order;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CompanyInformationResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ContractsResponse;
+use ITBMedia\FortnoxBundle\Model\Response\ContractTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CostCentersResponse;
+use ITBMedia\FortnoxBundle\Model\Response\CurrenciesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\DeleteResponse;
 use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\NoxFinansInvoiceResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
+use ITBMedia\FortnoxBundle\Model\Response\PriceListsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\TermsOfDeliveriesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\TermsOfPaymentsResponse;
@@ -75,7 +78,7 @@ class FortnoxService
     private function addLog($text, $context = array())
     {
         if ($this->logger) {
-            $this->logger->info($text, $context ?? []);
+            $this->logger->log("fortnox", $text, $context ?? []);
             return;
         }
         // if (!file_exists(self::LOG_FILE)) touch(self::LOG_FILE);
@@ -521,6 +524,23 @@ class FortnoxService
         $response = $this->call($token, 'GET', 'wayofdeliveries', $params, false);
         return WayOfDeliveriesResponse::deserialize($response);
     }
+    public function getContractTemplates(Token $token, array $params = []): ContractTemplatesResponse
+    {
+        $response = $this->call($token, 'GET', 'contracttemplates', $params, false);
+        return ContractTemplatesResponse::deserialize($response);
+    }
+
+    public function getPricelists(Token $token, array $params = []): PriceListsResponse
+    {
+        $response = $this->call($token, 'GET', 'pricelists', $params, false);
+        return PriceListsResponse::deserialize($response);
+    }
+
+    public function getCurrencies(Token $token, array $params = []): CurrenciesResponse
+    {
+        $response = $this->call($token, 'GET', 'currencies', $params, false);
+        return CurrenciesResponse::deserialize($response);
+    }
 
     private function checkIfCacheIsValid($cacheItem)
     {
@@ -565,7 +585,7 @@ class FortnoxService
 
     private function refreshTokenWithLock(Token $token): Token
     {
-        $this->addLog("Refreshing token with lock");
+        // $this->addLog("Refreshing token with lock");
         header('X-Refresh-Token: ' . "true");
         $refreshToken = $token->getRefreshToken();
 
@@ -575,7 +595,7 @@ class FortnoxService
         if ($cachedToken = $this->getCacheToken($refreshToken)) {
             header('X-Refresh-Token-Cache-Without-Lock: ' . "true");
             header('X-Refresh-Token-Cache: ' . "true");
-            $this->addLog("Using cached token: ", $cachedToken->serialize());
+            // $this->addLog("Using cached token: ", $cachedToken->serialize());
 
             return $cachedToken;
         }
@@ -589,13 +609,13 @@ class FortnoxService
                 if ($cachedToken = $this->getCacheToken($refreshToken)) {
                     header('X-Refresh-Token-Cache-Without-Lock: ' . "true");
                     header('X-Refresh-Token-Cache: ' . "true");
-                    $this->addLog("Using cached token2: ", $cachedToken->serialize());
+                    // $this->addLog("Using cached token2: ", $cachedToken->serialize());
 
                     return $cachedToken;
                 }
 
                 $newRefreshToken = $this->refreshToken($token)->serialize();
-                $this->addLog("New refresh token: ", $newRefreshToken);
+                // $this->addLog("New refresh token: ", $newRefreshToken);
                 if (!$newRefreshToken) throw new \Exception('Fortnox: Missing refresh token');
 
                 $this->setCacheToken($refreshToken, $newRefreshToken);
@@ -611,7 +631,7 @@ class FortnoxService
     }
     private function refreshToken(Token $token): Token
     {
-        $this->addLog("Refreshing token with request: ", $token->serialize());
+        // $this->addLog("Refreshing token with request: ", $token->serialize());
         $ch = curl_init();
         $secret = base64_encode($this->parameterBag->get('fortnox_bundle.client_id') . ':' . $this->parameterBag->get('fortnox_bundle.client_secret'));
 
@@ -643,11 +663,11 @@ class FortnoxService
         $body = substr($res, $header_size);
         curl_close($ch);
 
-        $this->addLog("Fortnox API refreshToken response: $response_code:",  array(
-            "content_type" => $content_type,
-            "response_code" => $response_code,
-            "body" => $body,
-        ));
+        // $this->addLog("Fortnox API refreshToken response: $response_code:",  array(
+        //     "content_type" => $content_type,
+        //     "response_code" => $response_code,
+        //     "body" => $body,
+        // ));
 
 
         if ($content_type === "application/json") {
@@ -676,7 +696,7 @@ class FortnoxService
 
         $newToken = Token::deserialize($res);
         $newToken->setReference($token->getReference());
-        $this->addLog("New token: ", $newToken->serialize());
+        // $this->addLog("New token: ", $newToken->serialize());
         $this->eventDispatcher->dispatch(new TokenRefreshEvent($newToken), TokenRefreshEvent::NAME);
         if ($this->onRefreshToken && is_callable($this->onRefreshToken)) call_user_func($this->onRefreshToken, $newToken);
 
@@ -685,10 +705,10 @@ class FortnoxService
 
     public function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, int $earlyRetriesLeft = FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
     {
-        $this->addLog("[$path]");
+        // $this->addLog("[$path]");
         if ($cachedToken = $this->getCacheToken($token->getRefreshToken())) {
             header('X-Refresh-Token-Cache-Early: ' . "true");
-            $this->addLog("Using early cached token: ", $cachedToken->serialize());
+            // $this->addLog("Using early cached token: ", $cachedToken->serialize());
             $token = $cachedToken;
         }
 
@@ -704,12 +724,12 @@ class FortnoxService
             $path .= "?" . http_build_query($data);
         }
 
-        $this->addLog("[$path] With params: ", array(
-            "method" => $method,
-            "headers" => $headers,
-            "earlyRetriesLeft" => $earlyRetriesLeft,
-            "retryCount" => $retryCount,
-        ));
+        // $this->addLog("[$path] With params: ", array(
+        //     "method" => $method,
+        //     "headers" => $headers,
+        //     "earlyRetriesLeft" => $earlyRetriesLeft,
+        //     "retryCount" => $retryCount,
+        // ));
 
         curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/3/$path");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
