@@ -17,6 +17,7 @@ use ITBMedia\FortnoxBundle\Model\Customer;
 use ITBMedia\FortnoxBundle\Model\Invoice;
 use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Order;
+use ITBMedia\FortnoxBundle\Model\Response\ArticlePricesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CompanyInformationResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ContractsResponse;
@@ -25,12 +26,14 @@ use ITBMedia\FortnoxBundle\Model\Response\CostCentersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CurrenciesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CustomersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\DeleteResponse;
+use ITBMedia\FortnoxBundle\Model\Response\FirstPricesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\InvoicesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\NoxFinansInvoiceResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OffersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PriceListsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
+use ITBMedia\FortnoxBundle\Model\Response\PricesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\TermsOfDeliveriesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\TermsOfPaymentsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\UnitsResponse;
@@ -534,6 +537,22 @@ class FortnoxService
     {
         $response = $this->call($token, 'GET', 'pricelists', $params, false);
         return PriceListsResponse::deserialize($response);
+    }
+
+    public function getArtclePrices(Token $token, int $PriceList, int $ArticleNumber, array $params = []): ArticlePricesResponse
+    {
+        $response = $this->call($token, 'GET', `prices/sublist/{$PriceList}/{$ArticleNumber}`, $params, false);
+        return ArticlePricesResponse::deserialize($response);
+    }
+    public function getFirstPrice(Token $token, int $PriceList, int $ArticleNumber, array $params = []): FirstPricesResponse
+    {
+        $response = $this->call($token, 'GET', `prices/{$PriceList}/{$ArticleNumber}`, $params, false);
+        return FirstPricesResponse::deserialize($response);
+    }
+    public function getPrices(Token $token, array $params = []): PricesResponse
+    {
+        $response = $this->call($token, 'GET', 'prices', $params, false);
+        return PricesResponse::deserialize($response);
     }
 
     public function getCurrencies(Token $token, array $params = []): CurrenciesResponse
