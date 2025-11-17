@@ -539,12 +539,12 @@ class FortnoxService
         return PriceListsResponse::deserialize($response);
     }
 
-    public function getArtclePrices(Token $token, int $PriceList, int $ArticleNumber, array $params = []): ArticlePricesResponse
+    public function getArtclePrices(Token $token, string $PriceList, string $ArticleNumber, array $params = []): ArticlePricesResponse
     {
         $response = $this->call($token, 'GET', `prices/sublist/{$PriceList}/{$ArticleNumber}`, $params, false);
         return ArticlePricesResponse::deserialize($response);
     }
-    public function getFirstPrice(Token $token, int $PriceList, int $ArticleNumber, array $params = []): FirstPricesResponse
+    public function getFirstPrice(Token $token, string $PriceList, string $ArticleNumber, array $params = []): FirstPricesResponse
     {
         $response = $this->call($token, 'GET', `prices/{$PriceList}/{$ArticleNumber}`, $params, false);
         return FirstPricesResponse::deserialize($response);
