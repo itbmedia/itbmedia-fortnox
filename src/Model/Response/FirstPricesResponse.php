@@ -23,7 +23,7 @@ class FirstPricesResponse implements SerializableInterface
      * @Type("ITBMedia\FortnoxBundle\Model\Price")
      * @SerializedName("Price")
      */
-    private Price $price = null;
+    private Price $price;
 
     public function getMetaInformation(): MetaInformation
     {
