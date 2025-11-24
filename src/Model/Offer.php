@@ -77,7 +77,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private bool $cancelled;
+    private bool $cancelled = false;
     /**
      * @var string
      * @Type("string")
@@ -244,7 +244,7 @@ class Offer implements SerializableInterface
      * @SerializedName("EmailInformation")
      * @SkipWhenEmpty()
      */
-    private EmailInformation $emailInformation;
+    private ?EmailInformation $emailInformation = null;
     /**
      * @var string
      * @Type("string")

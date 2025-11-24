@@ -77,7 +77,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private bool $cancelled;
+    private bool $cancelled = false;
     /**
      * @var string
      * @Type("string")
@@ -102,7 +102,7 @@ class Order implements SerializableInterface
      * @Groups({"order"})
      * @ReadOnly()
      */
-    private ?float $contributionPercent;
+    private ?float $contributionPercent = null;
     /**
      * @var float
      * @Type("float")
@@ -111,7 +111,7 @@ class Order implements SerializableInterface
      * @Groups({"order"})
      * @ReadOnly()
      */
-    private ?float $contributionValue;
+    private ?float $contributionValue = null;
     /**
      * @var bool
      * @Type("boolean")
@@ -159,7 +159,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?float $currencyRate;
+    private ?float $currencyRate = null;
     /**
      * @var int
      * @Type("int")
@@ -167,7 +167,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?int $currencyUnit;
+    private ?int $currencyUnit = null;
     /**
      * @var string
      * @Type("string")
@@ -287,7 +287,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?float $freight;
+    private ?float $freight = null;
     /**
      * @var string
      * @Type("float")
@@ -295,7 +295,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?float $freightVAT;
+    private ?float $freightVAT = null;
     /**
      * @var string
      * @Type("float")
@@ -304,7 +304,7 @@ class Order implements SerializableInterface
      * @Groups({"order"})
      * @ReadOnly()
      */
-    private ?float $gross;
+    private ?float $gross = null;
     /**
      * @var string
      * @Type("bool")
@@ -312,7 +312,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private bool $houseWork;
+    private bool $houseWork = false;
     /**
      * @var string
      * @Type("string")
@@ -328,7 +328,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?array $labels;
+    private ?array $labels = null;
     /**
      * @var string
      * @Type("string")
@@ -345,7 +345,7 @@ class Order implements SerializableInterface
      * @Groups({"order"})
      * @ReadOnly()
      */
-    private ?float $net;
+    private ?float $net = null;
     /**
      * @var string
      * @Type("bool")
@@ -353,7 +353,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?bool $notCompleted;
+    private ?bool $notCompleted = null;
     /**
      * @var string
      * @Type("string")
@@ -450,7 +450,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?bool $warehouseReady;
+    private ?bool $warehouseReady = null;
     /**
      * @var string
      * @Type("string")
@@ -474,7 +474,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?float $roundOff;
+    private ?float $roundOff = null;
     /**
      * @var string
      * @Type("bool")
@@ -482,7 +482,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?bool $sent;
+    private ?bool $sent = null;
     /**
      * @var string
      * @Type("int")
@@ -490,7 +490,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?int $taxReduction;
+    private ?int $taxReduction = null;
     /**
      * @var string
      * @Type("string")
@@ -514,7 +514,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?int $timeBasisReference;
+    private ?int $timeBasisReference = null;
     /**
      * @var string
      * @Type("float")
@@ -522,7 +522,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?float $total;
+    private ?float $total = null;
     /**
      * @var string
      * @Type("float")
@@ -531,7 +531,7 @@ class Order implements SerializableInterface
      * @Groups({"order"})
      * @ReadOnly()
      */
-    private ?float $totalToPay;
+    private ?float $totalToPay = null;
     /**
      * @var string
      * @Type("float")
@@ -539,7 +539,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?float $totalVAT;
+    private ?float $totalVAT = null;
     /**
      * @var string
      * @Type("bool")
@@ -547,7 +547,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private ?bool $vATIncluded;
+    private ?bool $vATIncluded = null;
     /**
      * @var string
      * @Type("string")

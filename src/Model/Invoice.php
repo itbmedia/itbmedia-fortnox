@@ -32,14 +32,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("AdministrationFee")
 	 */
-	private ?float $administrationFee;
+	private ?float $administrationFee = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("AdministrationFeeVAT")
 	 */
-	private ?float $administrationFeeVat;
+	private ?float $administrationFeeVat = null;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -60,28 +60,28 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Balance")
 	 */
-	private ?float $balance;
+	private ?float $balance = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("BasisTaxReduction")
 	 */
-	private ?float $basisTaxReduction;
+	private ?float $basisTaxReduction = null;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Booked")
 	 */
-	private bool $booked;
+	private bool $booked = false;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Cancelled")
 	 */
-	private bool $cancelled;
+	private bool $cancelled = false;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -102,21 +102,21 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ContractReference")
 	 */
-	private ?int $contractReference;
+	private ?int $contractReference = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ContributionPercent")
 	 */
-	private ?float $contributionPercent;
+	private ?float $contributionPercent = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ContributionValue")
 	 */
-	private ?float $contributionValue;
+	private ?float $contributionValue = null;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -158,14 +158,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("CurrencyRate")
 	 */
-	private ?float $currencyRate;
+	private ?float $currencyRate = null;
 	/**
 	 * @var int
 	 * @Type("int")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("CurrencyUnit")
 	 */
-	private ?int $currencyUnit;
+	private ?int $currencyUnit = null;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -249,21 +249,21 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("EDIInformation")
 	 */
-	private EdiInformation $ediInformation;
+	private ?EdiInformation $ediInformation = null;
 	/**
 	 * @var EmailInformation
 	 * @Type("ITBMedia\FortnoxBundle\Model\EmailInformation")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("EmailInformation")
 	 */
-	private EmailInformation $emailInformation;
+	private ?EmailInformation $emailInformation = null;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("EUQuarterlyReport")
 	 */
-	private bool $euQuarterlyReport;
+	private bool $euQuarterlyReport = false;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -284,28 +284,28 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Freight")
 	 */
-	private ?float $freight;
+	private ?float $freight = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("FreightVAT")
 	 */
-	private ?float $freightVat;
+	private ?float $freightVat = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Gross")
 	 */
-	private ?float $gross;
+	private ?float $gross = null;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("HouseWork")
 	 */
-	private bool $houseWork;
+	private bool $houseWork = false;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -354,7 +354,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Labels")
 	 */
-	private array $labels;
+	private array $labels = [];
 	/**
 	 * @var string
 	 * @Type("string")
@@ -375,21 +375,21 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Net")
 	 */
-	private ?float $net;
+	private ?float $net = null;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("NotCompleted")
 	 */
-	private bool $notCompleted;
+	private bool $notCompleted = false;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("NoxFinans")
 	 */
-	private bool $noxFinans;
+	private bool $noxFinans = false;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -473,7 +473,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("WarehouseReady")
 	 */
-	private bool $warehouseReady;
+	private bool $warehouseReady = false;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -494,28 +494,28 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Reminders")
 	 */
-	private ?int $reminders;
+	private ?int $reminders = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("RoundOff")
 	 */
-	private ?float $roundOff;
+	private ?float $roundOff = null;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Sent")
 	 */
-	private bool $sent;
+	private bool $sent = false;
 	/**
 	 * @var int
 	 * @Type("int")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("TaxReduction")
 	 */
-	private ?int $taxReduction;
+	private ?int $taxReduction = null;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -536,42 +536,42 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("TimeBasisReference")
 	 */
-	private ?int $timeBasisReference;
+	private ?int $timeBasisReference = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Total")
 	 */
-	private ?float $total;
+	private ?float $total = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("TotalToPay")
 	 */
-	private ?float $totalToPay;
+	private ?float $totalToPay = null;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("TotalVAT")
 	 */
-	private ?float $totalVat;
+	private ?float $totalVat = null;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("VATIncluded")
 	 */
-	private bool $vatIncluded;
+	private bool $vatIncluded = false;
 	/**
 	 * @var int
 	 * @Type("int")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("VoucherNumber")
 	 */
-	private ?int $voucherNumber;
+	private ?int $voucherNumber = null;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -585,7 +585,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("VoucherYear")
 	 */
-	private ?int $voucherYear;
+	private ?int $voucherYear = null;
 	/**
 	 * @var string
 	 * @Type("string")

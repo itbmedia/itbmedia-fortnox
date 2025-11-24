@@ -45,7 +45,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private ?float $administrationFee;
+    private ?float $administrationFee = null;
     /**
      * @var double
      * @Type("double")
@@ -53,7 +53,7 @@ class Contract implements SerializableInterface
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
-    private ?float $administrationFeeVat;
+    private ?float $administrationFeeVat = null;
     /**
      * @var string
      * @Type("string")
