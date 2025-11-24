@@ -81,7 +81,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Cancelled")
 	 */
-	private bool $cancelled = false;
+	private bool $cancelled;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -382,14 +382,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("NotCompleted")
 	 */
-	private bool $notCompleted = false;
+	private bool $notCompleted;
 	/**
 	 * @var bool
 	 * @Type("bool")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("NoxFinans")
 	 */
-	private bool $noxFinans = false;
+	private bool $noxFinans;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -508,7 +508,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Sent")
 	 */
-	private bool $sent = false;
+	private bool $sent;
 	/**
 	 * @var int
 	 * @Type("int")
@@ -564,7 +564,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("VATIncluded")
 	 */
-	private bool $vatIncluded = false;
+	private bool $vatIncluded;
 	/**
 	 * @var int
 	 * @Type("int")
@@ -2457,7 +2457,8 @@ class Invoice implements SerializableInterface
 				"BasisTaxReduction",
 				"ContributionPercent",
 				"ContributionValue",
-				"AdministrationFeeVAT"
+				"AdministrationFeeVAT",
+				"Cancelled"
 			];
 
 			$data = array_diff_key($data, array_flip($excludeKeys));

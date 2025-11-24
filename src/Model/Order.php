@@ -77,7 +77,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private bool $cancelled = false;
+    private bool $cancelled;
     /**
      * @var string
      * @Type("string")
@@ -312,7 +312,7 @@ class Order implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"order"})
      */
-    private bool $houseWork = false;
+    private bool $houseWork;
     /**
      * @var string
      * @Type("string")
@@ -2113,7 +2113,8 @@ class Order implements SerializableInterface
                 "BasisTaxReduction",
                 "ContributionPercent",
                 "ContributionValue",
-                "AdministrationFeeVAT"
+                "AdministrationFeeVAT",
+                "Cancelled"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));

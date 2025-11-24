@@ -77,7 +77,7 @@ class Offer implements SerializableInterface
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
-    private bool $cancelled = false;
+    private bool $cancelled;
     /**
      * @var string
      * @Type("string")
@@ -1847,7 +1847,8 @@ class Offer implements SerializableInterface
                 "BasisTaxReduction",
                 "ContributionPercent",
                 "ContributionValue",
-                "AdministrationFeeVAT"
+                "AdministrationFeeVAT",
+                "Cancelled"
             ];
 
             $data = array_diff_key($data, array_flip($excludeKeys));
