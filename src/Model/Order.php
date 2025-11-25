@@ -652,7 +652,7 @@ class Order implements SerializableInterface
      *
      * @return float
      */
-    public function getAdministrationFee()
+    public function getAdministrationFee(): ?float
     {
         return $this->administrationFee;
     }
@@ -672,7 +672,7 @@ class Order implements SerializableInterface
      *
      * @return float
      */
-    public function getAdministrationFeeVAT()
+    public function getAdministrationFeeVAT(): ?float
     {
         return $this->administrationFeeVAT;
     }
@@ -732,7 +732,7 @@ class Order implements SerializableInterface
      *
      * @return float
      */
-    public function getBasisTaxReduction()
+    public function getBasisTaxReduction(): ?float
     {
         return $this->basisTaxReduction;
     }
@@ -832,7 +832,7 @@ class Order implements SerializableInterface
      *
      * @return float
      */
-    public function getContributionPercent()
+    public function getContributionPercent(): ?float
     {
         if ($this->contributionPercent !== null) return $this->contributionPercent;
 
@@ -857,7 +857,7 @@ class Order implements SerializableInterface
      *
      * @return float
      */
-    public function getContributionValue()
+    public function getContributionValue(): ?float
     {
         if ($this->contributionValue !== null) return $this->contributionValue;
         return array_sum(array_map(function ($orderRow) {
@@ -960,7 +960,7 @@ class Order implements SerializableInterface
      *
      * @return float
      */
-    public function getCurrencyRate()
+    public function getCurrencyRate(): ?float
     {
         return $this->currencyRate;
     }
@@ -980,7 +980,7 @@ class Order implements SerializableInterface
      *
      * @return int
      */
-    public function getCurrencyUnit()
+    public function getCurrencyUnit(): ?int
     {
         return $this->currencyUnit;
     }
@@ -1216,14 +1216,14 @@ class Order implements SerializableInterface
         return $this;
     }
 
-    /**
-     *
-     * @return \ITBMedia\FortnoxBundle\Model\EmailInformation
-     */
-    public function getEmailInformation()
-    {
-        return $this->emailInformation;
-    }
+	/**
+	 *
+	 * @return \ITBMedia\FortnoxBundle\Model\EmailInformation
+	 */
+	public function getEmailInformation(): ?\ITBMedia\FortnoxBundle\Model\EmailInformation
+	{
+		return $this->emailInformation;
+	}
 
     /**
      *
@@ -1282,7 +1282,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getFreight()
+    public function getFreight(): ?float
     {
         return $this->freight;
     }
@@ -1302,7 +1302,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getFreightVAT()
+    public function getFreightVAT(): ?float
     {
         return $this->freightVAT;
     }
@@ -1322,7 +1322,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getGross()
+    public function getGross(): ?float
     {
         return $this->gross;
     }
@@ -1425,7 +1425,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getNet()
+    public function getNet(): ?float
     {
         return $this->net;
     }
@@ -1745,7 +1745,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getRoundOff()
+    public function getRoundOff(): ?float
     {
         return $this->roundOff;
     }
@@ -1785,7 +1785,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getTaxReduction()
+    public function getTaxReduction(): ?int
     {
         return $this->taxReduction;
     }
@@ -1845,7 +1845,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getTimeBasisReference()
+    public function getTimeBasisReference(): ?int
     {
         return $this->timeBasisReference;
     }
@@ -1865,7 +1865,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getTotal()
+    public function getTotal(): ?float
     {
         return $this->total;
     }
@@ -1885,7 +1885,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getTotalToPay()
+    public function getTotalToPay(): ?float
     {
         return $this->totalToPay;
     }
@@ -1905,7 +1905,7 @@ class Order implements SerializableInterface
      *
      * @return string
      */
-    public function getTotalVAT()
+    public function getTotalVAT(): ?float
     {
         return $this->totalVAT;
     }

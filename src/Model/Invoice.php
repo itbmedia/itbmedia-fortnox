@@ -26,14 +26,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("@urlTaxReductionList")
 	 */
-	private ?string $urlTaxReductionList = null;
+	private ?string $urlTaxReductionList;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("AdministrationFee")
 	 */
-	private ?float $administrationFee = null;
+	private ?float $administrationFee;
 	/**
 	 * @var float
 	 * @Type("float")
@@ -61,14 +61,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Balance")
 	 */
-	private ?float $balance = null;
+	private ?float $balance;
 	/**
 	 * @var float
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("BasisTaxReduction")
 	 */
-	private ?float $basisTaxReduction = null;
+	private ?float $basisTaxReduction;
 	/**
 	 * @var bool
 	 * @Type("bool")
@@ -103,7 +103,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ContractReference")
 	 */
-	private ?int $contractReference = null;
+	private ?int $contractReference;
 	/**
 	 * @var float
 	 * @Type("float")
@@ -161,14 +161,14 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("CurrencyRate")
 	 */
-	private ?float $currencyRate = null;
+	private ?float $currencyRate;
 	/**
 	 * @var int
 	 * @Type("int")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("CurrencyUnit")
 	 */
-	private ?int $currencyUnit = null;
+	private ?int $currencyUnit;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -644,7 +644,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @return string
 	 */
-	public function getUrl(): string
+	public function getUrl(): ?string
 	{
 		return $this->url;
 	}
@@ -664,7 +664,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getUrlTaxReductionList(): string
+	public function getUrlTaxReductionList(): ?string
 	{
 		return $this->urlTaxReductionList;
 	}
@@ -684,7 +684,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getAdministrationFee(): float
+	public function getAdministrationFee(): ?float
 	{
 		return $this->administrationFee;
 	}
@@ -704,7 +704,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getAdministrationFeeVat(): float
+	public function getAdministrationFeeVat(): ?float
 	{
 		return $this->administrationFeeVat;
 	}
@@ -724,7 +724,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getAddress1(): string
+	public function getAddress1(): ?string
 	{
 		return $this->address1;
 	}
@@ -744,7 +744,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getAddress2(): string
+	public function getAddress2(): ?string
 	{
 		return $this->address2;
 	}
@@ -764,7 +764,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getBalance(): float
+	public function getBalance(): ?float
 	{
 		return $this->balance;
 	}
@@ -784,7 +784,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getBasisTaxReduction(): float
+	public function getBasisTaxReduction(): ?float
 	{
 		return $this->basisTaxReduction;
 	}
@@ -844,7 +844,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getCity(): string
+	public function getCity(): ?string
 	{
 		return $this->city;
 	}
@@ -864,7 +864,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getComments(): string
+	public function getComments(): ?string
 	{
 		return $this->comments;
 	}
@@ -884,7 +884,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return int
 	 */
-	public function getContractReference(): int
+	public function getContractReference(): ?int
 	{
 		return $this->contractReference;
 	}
@@ -955,7 +955,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getCountry(): string
+	public function getCountry(): ?string
 	{
 		return $this->country;
 	}
@@ -975,7 +975,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getCostCenter(): string
+	public function getCostCenter(): ?string
 	{
 		return $this->costCenter;
 	}
@@ -995,7 +995,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getCredit(): string
+	public function getCredit(): ?string
 	{
 		return $this->credit;
 	}
@@ -1015,7 +1015,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getCreditInvoiceReference(): string
+	public function getCreditInvoiceReference(): ?string
 	{
 		return $this->creditInvoiceReference;
 	}
@@ -1035,7 +1035,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getCurrency(): string
+	public function getCurrency(): ?string
 	{
 		return $this->currency;
 	}
@@ -1055,7 +1055,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getCurrencyRate(): float
+	public function getCurrencyRate(): ?float
 	{
 		return $this->currencyRate;
 	}
@@ -1075,7 +1075,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return int
 	 */
-	public function getCurrencyUnit(): int
+	public function getCurrencyUnit(): ?int
 	{
 		return $this->currencyUnit;
 	}
@@ -1095,7 +1095,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getCustomerName(): string
+	public function getCustomerName(): ?string
 	{
 		return $this->customerName;
 	}
@@ -1115,7 +1115,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getCustomerNumber(): string
+	public function getCustomerNumber(): ?string
 	{
 		return $this->customerNumber;
 	}
@@ -1135,7 +1135,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDeliveryAddress1(): string
+	public function getDeliveryAddress1(): ?string
 	{
 		return $this->deliveryAddress1;
 	}
@@ -1155,7 +1155,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDeliveryAddress2(): string
+	public function getDeliveryAddress2(): ?string
 	{
 		return $this->deliveryAddress2;
 	}
@@ -1175,7 +1175,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDeliveryCity(): string
+	public function getDeliveryCity(): ?string
 	{
 		return $this->deliveryCity;
 	}
@@ -1195,7 +1195,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDeliveryCountry(): string
+	public function getDeliveryCountry(): ?string
 	{
 		return $this->deliveryCountry;
 	}
@@ -1215,7 +1215,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDeliveryDate(): string
+	public function getDeliveryDate(): ?string
 	{
 		return $this->deliveryDate;
 	}
@@ -1235,7 +1235,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDeliveryName(): string
+	public function getDeliveryName(): ?string
 	{
 		return $this->deliveryName;
 	}
@@ -1255,7 +1255,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDeliveryZipCode(): string
+	public function getDeliveryZipCode(): ?string
 	{
 		return $this->deliveryZipCode;
 	}
@@ -1275,7 +1275,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDocumentNumber(): string
+	public function getDocumentNumber(): ?string
 	{
 		return $this->documentNumber;
 	}
@@ -1295,7 +1295,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getDueDate(): string
+	public function getDueDate(): ?string
 	{
 		return $this->dueDate;
 	}
@@ -1315,7 +1315,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return EdiInformation
 	 */
-	public function getEdiInformation(): ITBMedia\FortnoxBundle\Model\EdiInformation
+	public function getEdiInformation(): ?ITBMedia\FortnoxBundle\Model\EdiInformation
 	{
 		return $this->ediInformation;
 	}
@@ -1335,7 +1335,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return EmailInformation
 	 */
-	public function getEmailInformation(): EmailInformation
+	public function getEmailInformation(): ?EmailInformation
 	{
 		return $this->emailInformation;
 	}
@@ -1375,7 +1375,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getExternalInvoiceReference1(): string
+	public function getExternalInvoiceReference1(): ?string
 	{
 		return $this->externalInvoiceReference1;
 	}
@@ -1395,7 +1395,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getExternalInvoiceReference2(): string
+	public function getExternalInvoiceReference2(): ?string
 	{
 		return $this->externalInvoiceReference2;
 	}
@@ -1415,7 +1415,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getFreight(): float
+	public function getFreight(): ?float
 	{
 		return $this->freight;
 	}
@@ -1435,7 +1435,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getFreightVat(): float
+	public function getFreightVat(): ?float
 	{
 		return $this->freightVat;
 	}
@@ -1455,7 +1455,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getGross(): float
+	public function getGross(): ?float
 	{
 		return $this->gross;
 	}
@@ -1495,7 +1495,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getInvoiceDate(): string
+	public function getInvoiceDate(): ?string
 	{
 		return $this->invoiceDate;
 	}
@@ -1515,7 +1515,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getInvoicePeriodStart(): string
+	public function getInvoicePeriodStart(): ?string
 	{
 		return $this->invoicePeriodStart;
 	}
@@ -1535,7 +1535,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getInvoicePeriodEnd(): string
+	public function getInvoicePeriodEnd(): ?string
 	{
 		return $this->invoicePeriodEnd;
 	}
@@ -1555,7 +1555,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getInvoicePeriodReference(): string
+	public function getInvoicePeriodReference(): ?string
 	{
 		return $this->invoicePeriodReference;
 	}
@@ -1595,7 +1595,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getInvoiceType(): string
+	public function getInvoiceType(): ?string
 	{
 		return $this->invoiceType;
 	}
@@ -1635,7 +1635,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getLanguage(): string
+	public function getLanguage(): ?string
 	{
 		return $this->language;
 	}
@@ -1675,7 +1675,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getNet(): float
+	public function getNet(): ?float
 	{
 		return $this->net;
 	}
@@ -1755,7 +1755,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getOfferReference(): string
+	public function getOfferReference(): ?string
 	{
 		return $this->offerReference;
 	}
@@ -1775,7 +1775,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getOrderReference(): string
+	public function getOrderReference(): ?string
 	{
 		return $this->orderReference;
 	}
@@ -1795,7 +1795,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getOrganisationNumber(): string
+	public function getOrganisationNumber(): ?string
 	{
 		return $this->organisationNumber;
 	}
@@ -1815,7 +1815,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getOurReference(): string
+	public function getOurReference(): ?string
 	{
 		return $this->ourReference;
 	}
@@ -1835,7 +1835,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string|null
 	 */
-	public function getPaymentWay(): string|null
+	public function getPaymentWay(): ?string
 	{
 		return $this->paymentWay;
 	}
@@ -1855,7 +1855,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getPhone1(): string
+	public function getPhone1(): ?string
 	{
 		return $this->phone1;
 	}
@@ -1875,7 +1875,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getPhone2(): string
+	public function getPhone2(): ?string
 	{
 		return $this->phone2;
 	}
@@ -1895,7 +1895,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getPriceList(): string
+	public function getPriceList(): ?string
 	{
 		return $this->priceList;
 	}
@@ -1915,7 +1915,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getPrintTemplate(): string
+	public function getPrintTemplate(): ?string
 	{
 		return $this->printTemplate;
 	}
@@ -1935,7 +1935,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getProject(): string
+	public function getProject(): ?string
 	{
 		return $this->project;
 	}
@@ -1975,7 +1975,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getOutboundDate(): string
+	public function getOutboundDate(): ?string
 	{
 		return $this->outboundDate;
 	}
@@ -1995,7 +1995,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getRemarks(): string
+	public function getRemarks(): ?string
 	{
 		return $this->remarks;
 	}
@@ -2015,7 +2015,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return int
 	 */
-	public function getReminders(): int
+	public function getReminders(): ?int
 	{
 		return $this->reminders;
 	}
@@ -2035,7 +2035,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getRoundOff(): float
+	public function getRoundOff(): ?float
 	{
 		return $this->roundOff;
 	}
@@ -2075,7 +2075,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return int
 	 */
-	public function getTaxReduction(): int
+	public function getTaxReduction(): ?int
 	{
 		return $this->taxReduction;
 	}
@@ -2095,7 +2095,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getTermsOfDelivery(): string
+	public function getTermsOfDelivery(): ?string
 	{
 		return $this->termsOfDelivery;
 	}
@@ -2115,7 +2115,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getTermsOfPayment(): string
+	public function getTermsOfPayment(): ?string
 	{
 		return $this->termsOfPayment;
 	}
@@ -2135,7 +2135,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return int
 	 */
-	public function getTimeBasisReference(): int
+	public function getTimeBasisReference(): ?int
 	{
 		return $this->timeBasisReference;
 	}
@@ -2155,9 +2155,9 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getTotal(): float
+	public function getTotal(): ?float
 	{
-		return $this->total;
+		return $this->total ?? 0;
 	}
 
 	/**
@@ -2175,7 +2175,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getTotalToPay(): float
+	public function getTotalToPay(): ?float
 	{
 		return $this->totalToPay;
 	}
@@ -2195,7 +2195,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return float
 	 */
-	public function getTotalVat(): float
+	public function getTotalVat(): ?float
 	{
 		return $this->totalVat;
 	}
@@ -2235,7 +2235,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return int
 	 */
-	public function getVoucherNumber(): int
+	public function getVoucherNumber(): ?int
 	{
 		return $this->voucherNumber;
 	}
@@ -2255,7 +2255,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getVoucherSeries(): string
+	public function getVoucherSeries(): ?string
 	{
 		return $this->voucherSeries;
 	}
@@ -2275,7 +2275,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return int
 	 */
-	public function getVoucherYear(): int
+	public function getVoucherYear(): ?int
 	{
 		return $this->voucherYear;
 	}
@@ -2295,7 +2295,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getWayOfDelivery(): string
+	public function getWayOfDelivery(): ?string
 	{
 		return $this->wayOfDelivery;
 	}
@@ -2315,7 +2315,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getYourOrderNumber(): string
+	public function getYourOrderNumber(): ?string
 	{
 		return $this->yourOrderNumber;
 	}
@@ -2335,7 +2335,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getYourReference(): string
+	public function getYourReference(): ?string
 	{
 		return $this->yourReference;
 	}
@@ -2355,7 +2355,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getZipCode(): string
+	public function getZipCode(): ?string
 	{
 		return $this->zipCode;
 	}
@@ -2375,7 +2375,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getAccountingMethod(): string
+	public function getAccountingMethod(): ?string
 	{
 		return $this->accountingMethod;
 	}
@@ -2395,7 +2395,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getTaxReductionType(): string
+	public function getTaxReductionType(): ?string
 	{
 		return $this->taxReductionType;
 	}
@@ -2415,7 +2415,7 @@ class Invoice implements SerializableInterface
 	 *
 	 * @return string
 	 */
-	public function getFinalPayDate(): string
+	public function getFinalPayDate(): ?string
 	{
 		return $this->finalPayDate;
 	}

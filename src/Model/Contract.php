@@ -490,7 +490,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getAdministrationFee()
+    public function getAdministrationFee(): ?float
     {
         return $this->administrationFee;
     }
@@ -510,7 +510,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getBasisTaxReduction()
+    public function getBasisTaxReduction(): ?float
     {
         return $this->basisTaxReduction;
     }
@@ -590,7 +590,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getContractLength()
+    public function getContractLength(): ?float
     {
         return $this->contractLength;
     }
@@ -611,7 +611,7 @@ class Contract implements SerializableInterface
      *
      * @return float
      */
-    public function getContributionPercent()
+    public function getContributionPercent(): ?float
     {
         if ($this->contributionPercent !== null) return $this->contributionPercent;
 
@@ -637,7 +637,7 @@ class Contract implements SerializableInterface
      *
      * @return float
      */
-    public function getContributionValue()
+    public function getContributionValue(): ?float
     {
         if ($this->contributionValue !== null) return $this->contributionValue;
 
@@ -756,14 +756,14 @@ class Contract implements SerializableInterface
         return $this;
     }
 
-    /**
-     *
-     * @return \ITBMedia\FortnoxBundle\Model\EmailInformation
-     */
-    public function getEmailInformation()
-    {
-        return $this->emailInformation;
-    }
+	/**
+	 *
+	 * @return \ITBMedia\FortnoxBundle\Model\EmailInformation
+	 */
+	public function getEmailInformation(): ?\ITBMedia\FortnoxBundle\Model\EmailInformation
+	{
+		return $this->emailInformation;
+	}
 
     /**
      *
@@ -822,7 +822,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getFreight()
+    public function getFreight(): ?float
     {
         return $this->freight;
     }
@@ -842,7 +842,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getGross()
+    public function getGross(): ?float
     {
         return $this->gross;
     }
@@ -882,7 +882,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getInvoiceDiscount()
+    public function getInvoiceDiscount(): ?float
     {
         return $this->invoiceDiscount;
     }
@@ -902,7 +902,7 @@ class Contract implements SerializableInterface
      *
      * @return int
      */
-    public function getInvoiceInterval()
+    public function getInvoiceInterval(): ?int
     {
         return $this->invoiceInterval;
     }
@@ -1002,7 +1002,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getNet()
+    public function getNet(): ?float
     {
         return $this->net;
     }
@@ -1162,7 +1162,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getRoundOff()
+    public function getRoundOff(): ?float
     {
         return $this->roundOff;
     }
@@ -1182,7 +1182,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getTaxReduction()
+    public function getTaxReduction(): ?float
     {
         return $this->taxReduction;
     }
@@ -1222,7 +1222,7 @@ class Contract implements SerializableInterface
      *
      * @return int
      */
-    public function getTemplateNumber()
+    public function getTemplateNumber(): ?int
     {
         return $this->templateNumber;
     }
@@ -1282,7 +1282,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getTotal()
+    public function getTotal(): ?float
     {
         return $this->total;
     }
@@ -1302,7 +1302,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getTotalToPay()
+    public function getTotalToPay(): ?float
     {
         return $this->totalToPay;
     }
@@ -1322,7 +1322,7 @@ class Contract implements SerializableInterface
      *
      * @return double
      */
-    public function getTotalVAT()
+    public function getTotalVAT(): ?float
     {
         return $this->totalVAT;
     }

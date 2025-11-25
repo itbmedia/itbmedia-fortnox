@@ -571,7 +571,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getAdministrationFee()
+    public function getAdministrationFee(): ?float
     {
         return $this->administrationFee;
     }
@@ -591,7 +591,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getAdministrationFeeVAT()
+    public function getAdministrationFeeVAT(): ?float
     {
         return $this->administrationFeeVAT;
     }
@@ -651,7 +651,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getBasisTaxReduction()
+    public function getBasisTaxReduction(): ?float
     {
         return $this->basisTaxReduction;
     }
@@ -731,7 +731,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getContributionPercent()
+    public function getContributionPercent(): ?float
     {
         if ($this->contributionPercent !== null) return $this->contributionPercent;
 
@@ -756,7 +756,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getContributionValue()
+    public function getContributionValue(): ?float
     {
         if ($this->contributionValue !== null) return $this->contributionValue;
         return array_sum(array_map(function ($offerRow) {
@@ -858,7 +858,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getCurrencyRate()
+    public function getCurrencyRate(): ?float
     {
         return $this->currencyRate;
     }
@@ -878,7 +878,7 @@ class Offer implements SerializableInterface
      *
      * @return int
      */
-    public function getCurrencyUnit()
+    public function getCurrencyUnit(): ?int
     {
         return $this->currencyUnit;
     }
@@ -1094,14 +1094,14 @@ class Offer implements SerializableInterface
         return $this;
     }
 
-    /**
-     *
-     * @return EmailInformation
-     */
-    public function getEmailInformation(): EmailInformation
-    {
-        return $this->emailInformation;
-    }
+	/**
+	 *
+	 * @return EmailInformation|null
+	 */
+	public function getEmailInformation(): ?EmailInformation
+	{
+		return $this->emailInformation;
+	}
 
     /**
      *
@@ -1138,7 +1138,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getFreight()
+    public function getFreight(): ?float
     {
         return $this->freight;
     }
@@ -1158,7 +1158,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getFreightVAT()
+    public function getFreightVAT(): ?float
     {
         return $this->freightVAT;
     }
@@ -1178,7 +1178,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getGross()
+    public function getGross(): ?float
     {
         return $this->gross;
     }
@@ -1278,7 +1278,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getNet()
+    public function getNet(): ?float
     {
         return $this->net;
     }
@@ -1538,7 +1538,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getRoundOff()
+    public function getRoundOff(): ?float
     {
         return $this->roundOff;
     }
@@ -1578,7 +1578,7 @@ class Offer implements SerializableInterface
      *
      * @return int
      */
-    public function getTaxReduction()
+    public function getTaxReduction(): ?float
     {
         return $this->taxReduction;
     }
@@ -1638,7 +1638,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getTotal()
+    public function getTotal(): ?float
     {
         return $this->total;
     }
@@ -1658,7 +1658,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getTotalToPay()
+    public function getTotalToPay(): ?float
     {
         return $this->totalToPay;
     }
@@ -1678,7 +1678,7 @@ class Offer implements SerializableInterface
      *
      * @return float
      */
-    public function getTotalVAT()
+    public function getTotalVAT(): ?float
     {
         return $this->totalVAT;
     }
