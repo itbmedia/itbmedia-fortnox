@@ -74,7 +74,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("Booked")
 	 */
-	private bool $booked = false;
+	private bool $booked;
 	/**
 	 * @var bool
 	 * @Type("bool")
@@ -263,7 +263,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("EUQuarterlyReport")
 	 */
-	private bool $euQuarterlyReport = false;
+	private bool $euQuarterlyReport;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -305,7 +305,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("HouseWork")
 	 */
-	private bool $houseWork = false;
+	private bool $houseWork;
 	/**
 	 * @var string
 	 * @Type("string")
@@ -473,7 +473,7 @@ class Invoice implements SerializableInterface
 	 * @SkipWhenEmpty()
 	 * @SerializedName("WarehouseReady")
 	 */
-	private bool $warehouseReady = false;
+	private bool $warehouseReady;
 	/**
 	 * @var string
 	 * @Type("string")
