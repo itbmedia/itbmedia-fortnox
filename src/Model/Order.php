@@ -836,8 +836,10 @@ class Order implements SerializableInterface
     {
         if ($this->contributionPercent !== null) return $this->contributionPercent;
 
-        $totalExlVat = $this->getTotal() - $this->getTotalVAT();
-        return ($this->getContributionValue() / $totalExlVat) * 100;
+        if (!($totalExlVat = $this->getTotal() - $this->getTotalVAT())) return 0;
+        if (!($contributionValue = $this->getContributionValue())) return 0;
+
+        return ($contributionValue / $totalExlVat) * 100;
     }
 
     /**
