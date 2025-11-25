@@ -10,6 +10,7 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
 use JMS\Serializer\Annotation\ReadOnly;
+use JMS\Serializer\Annotation\Accessor;
 
 class Order implements SerializableInterface
 {
@@ -98,6 +99,7 @@ class Order implements SerializableInterface
      * @var float
      * @Type("float")
      * @SerializedName("ContributionPercent")
+     * @Accessor(getter="getContributionPercent")
      * @SkipWhenEmpty()
      * @Groups({"order"})
      * @ReadOnly()
@@ -107,6 +109,7 @@ class Order implements SerializableInterface
      * @var float
      * @Type("float")
      * @SerializedName("ContributionValue")
+     * @Accessor(getter="getContributionValue")
      * @SkipWhenEmpty()
      * @Groups({"order"})
      * @ReadOnly()
@@ -831,7 +834,10 @@ class Order implements SerializableInterface
      */
     public function getContributionPercent()
     {
-        return $this->contributionPercent;
+        if ($this->contributionPercent !== null) return $this->contributionPercent;
+
+        $totalExlVat = $this->getTotal() - $this->getTotalVAT();
+        return ($this->getContributionValue() / $totalExlVat) * 100;
     }
 
     /**
@@ -851,7 +857,10 @@ class Order implements SerializableInterface
      */
     public function getContributionValue()
     {
-        return $this->contributionValue;
+        if ($this->contributionValue !== null) return $this->contributionValue;
+        return array_sum(array_map(function ($orderRow) {
+            return $orderRow->getContributionValue();
+        }, $this->orderRows));
     }
 
     /**

@@ -10,6 +10,7 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
 use ITBMedia\FortnoxBundle\Model\EmailInformation;
+use JMS\Serializer\Annotation\Accessor;
 
 class Offer implements SerializableInterface
 {
@@ -98,6 +99,7 @@ class Offer implements SerializableInterface
      * @var float
      * @Type("float")
      * @SerializedName("ContributionPercent")
+     * @Accessor(getter="getContributionPercent")
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
@@ -106,6 +108,7 @@ class Offer implements SerializableInterface
      * @var float
      * @Type("float")
      * @SerializedName("ContributionValue")
+     * @Accessor(getter="getContributionValue")
      * @SkipWhenEmpty()
      * @Groups({"offer"})
      */
@@ -730,9 +733,11 @@ class Offer implements SerializableInterface
      */
     public function getContributionPercent()
     {
-        return $this->contributionPercent;
-    }
+        if ($this->contributionPercent !== null) return $this->contributionPercent;
 
+        $totalExlVat = $this->getTotal() - $this->getTotalVAT();
+        return ($this->getContributionValue() / $totalExlVat) * 100;
+    }
     /**
      *
      * @param float $contributionPercent
@@ -750,9 +755,11 @@ class Offer implements SerializableInterface
      */
     public function getContributionValue()
     {
-        return $this->contributionValue;
+        if ($this->contributionValue !== null) return $this->contributionValue;
+        return array_sum(array_map(function ($offerRow) {
+            return $offerRow->getContributionValue();
+        }, $this->offerRows));
     }
-
     /**
      *
      * @param float $contributionValue

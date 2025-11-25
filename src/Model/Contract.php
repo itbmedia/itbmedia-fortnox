@@ -10,6 +10,7 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
 use JMS\Serializer\Annotation\ReadOnly;
+use JMS\Serializer\Annotation\Accessor;
 
 class Contract implements SerializableInterface
 {
@@ -90,6 +91,7 @@ class Contract implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("ContributionPercent")
+     * @Accessor(getter="getContributionPercent")
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
@@ -98,6 +100,7 @@ class Contract implements SerializableInterface
      * @var double
      * @Type("double")
      * @SerializedName("ContributionValue")
+     * @Accessor(getter="getContributionValue")
      * @Groups({"contract"})
      * @SkipWhenEmpty()
      */
@@ -603,13 +606,17 @@ class Contract implements SerializableInterface
         return $this;
     }
 
+
     /**
      *
-     * @return double
+     * @return float
      */
     public function getContributionPercent()
     {
-        return $this->contributionPercent;
+        if ($this->contributionPercent !== null) return $this->contributionPercent;
+
+        $totalExlVat = $this->getTotal() - $this->getTotalVAT();
+        return ($this->getContributionValue() / $totalExlVat) * 100;
     }
 
     /**
@@ -625,13 +632,16 @@ class Contract implements SerializableInterface
 
     /**
      *
-     * @return double
+     * @return float
      */
     public function getContributionValue()
     {
-        return $this->contributionValue;
-    }
+        if ($this->contributionValue !== null) return $this->contributionValue;
 
+        return array_sum(array_map(function ($invoiceRow) {
+            return $invoiceRow->getContributionValue();
+        }, $this->invoiceRows));
+    }
     /**
      *
      * @param double $contributionValue

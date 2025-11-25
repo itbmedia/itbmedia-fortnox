@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
 use ITBMedia\FortnoxBundle\Model\EmailInformation;
+use JMS\Serializer\Annotation\Accessor;
 
 class Invoice implements SerializableInterface
 {
@@ -108,6 +109,7 @@ class Invoice implements SerializableInterface
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ContributionPercent")
+	 * @Accessor(getter="getContributionPercent")
 	 */
 	private ?float $contributionPercent = null;
 	/**
@@ -115,6 +117,7 @@ class Invoice implements SerializableInterface
 	 * @Type("float")
 	 * @SkipWhenEmpty()
 	 * @SerializedName("ContributionValue")
+	 * @Accessor(getter="getContributionValue")
 	 */
 	private ?float $contributionValue = null;
 	/**
@@ -897,13 +900,17 @@ class Invoice implements SerializableInterface
 		return $this;
 	}
 
+
 	/**
 	 *
 	 * @return float
 	 */
-	public function getContributionPercent(): float
+	public function getContributionPercent()
 	{
-		return $this->contributionPercent;
+		if ($this->contributionPercent !== null) return $this->contributionPercent;
+
+		$totalExlVat = $this->getTotal() - $this->getTotalVAT();
+		return ($this->getContributionValue() / $totalExlVat) * 100;
 	}
 
 	/**
@@ -917,13 +924,17 @@ class Invoice implements SerializableInterface
 		return $this;
 	}
 
+
 	/**
 	 *
 	 * @return float
 	 */
-	public function getContributionValue(): float
+	public function getContributionValue()
 	{
-		return $this->contributionValue;
+		if ($this->contributionValue !== null) return $this->contributionValue;
+		return array_sum(array_map(function ($invoiceRow) {
+			return $invoiceRow->getContributionValue();
+		}, $this->invoiceRows));
 	}
 
 	/**
