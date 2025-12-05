@@ -65,6 +65,17 @@ class FortnoxService
     const LOG_FILE = "fortnoxServiceLogs.txt";
     const CACHE_NAMESPACE = "FortnoxRefreshKeys";
 
+    // Attachments entity types
+    public const ATTACHMENT_ENTITY_TYPE_OFFER   = 'OF';     // Offerter
+    public const ATTACHMENT_ENTITY_TYPE_ORDER   = 'O';      // Order
+    public const ATTACHMENT_ENTITY_TYPE_INVOICE = 'F';      // Fakturor
+    public const ATTACHMENT_ENTITY_TYPE_CUSTOMER = 'C';     // Kunder
+
+    // Dessa två är kopplade till huvudbok/ledger i nya API:t.
+    // Offentliga docs är rätt tunna, så ta tolkningen med en nypa salt.
+    public const ATTACHMENT_ENTITY_TYPE_LEDGER_INCOMING  = 'LGR_IO'; // troligen inkommande verifikationer
+    public const ATTACHMENT_ENTITY_TYPE_LEDGER_OUTGOING  = 'LGR_IG'; // troligen utgående verifikationer
+
     public function setLogger($logger)
     {
         $this->logger = $logger;
@@ -561,6 +572,101 @@ class FortnoxService
         return CurrenciesResponse::deserialize($response);
     }
 
+    /**
+     * Hämta alla attachments för en eller flera entiteter (offerter, order, fakturor, kunder, osv).
+     *
+     * @param Token  $token
+     * @param string $entityType En av Fortnox entity types, t.ex. self::ATTACHMENT_ENTITY_TYPE_OFFER
+     * @pa#region attachments
+
+    /**
+     * Hämta alla attachments för en eller flera entiteter (offerter, order, fakturor, kunder, osv).
+     *
+     * @param Token  $token
+     * @param string $entityType En av Fortnox entity types, t.ex. self::ATTACHMENT_ENTITY_TYPE_OFFER
+     * @param int[]  $entityIds  Array av entity-id:n vars bilagor ska hämtas
+     *
+     * @return array
+     */
+    public function getAttachmentsForEntities(Token $token, string $entityType, array $entityIds): array
+    {
+        if (empty($entityIds)) {
+            return [];
+        }
+
+        // Fortnox verkar inte gilla entityid[0]=12, utan vill ha entityid=12 eller t.ex. "12,13"
+        $idsParam = count($entityIds) === 1
+            ? (string) $entityIds[0]
+            : implode(',', array_map('strval', $entityIds));
+
+        $params = [
+            'entitytype' => $entityType,
+            'entityid'   => $idsParam,
+        ];
+
+        // OBS: rätt path enligt din URL: attachments-v1 och basen /api/
+        $responseBody = $this->call(
+            $token,
+            'GET',
+            'fileattachments/attachments-v1',
+            $params,
+            false,
+            FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS,
+            FortnoxService::DEFAULT_RETRY_ATTEMPTS,
+            'api'
+        );
+
+        $decoded = json_decode($responseBody, true);
+        if (!is_array($decoded)) {
+            return [];
+        }
+
+        return $decoded;
+    }
+
+    /**
+     * Hämta alla attachments för en enda entitet (smidigare wrapper för ett id).
+     *
+     * @param Token  $token
+     * @param string $entityType
+     * @param int    $entityId
+     *
+     * @return array
+     */
+    public function getAttachmentsForEntity(Token $token, string $entityType, int $entityId): array
+    {
+        $all = $this->getAttachmentsForEntities($token, $entityType, [$entityId]);
+
+        return array_values(array_filter(
+            $all,
+            static function (array $attachment) use ($entityId, $entityType): bool {
+                if (!isset($attachment['entityId'], $attachment['entityType'])) {
+                    return false;
+                }
+
+                return (int) $attachment['entityId'] === $entityId
+                    && $attachment['entityType'] === $entityType;
+            }
+        ));
+    }
+
+    /**
+     * Hämta själva filen för ett attachment (PDF, bild, etc).
+     *
+     * @return array{body:string,status:int,headers:array}
+     */
+    public function getAttachmentFile(Token $token, string $fileId): array
+    {
+        /** @var array{body:string,status:int,headers:array} $response */
+        $response = $this->call(
+            $token,
+            'GET',
+            'archive/' . urlencode($fileId),
+        );
+
+        return $response;
+    }
+
     private function checkIfCacheIsValid($cacheItem)
     {
         if (!$cacheItem) return null;
@@ -722,8 +828,16 @@ class FortnoxService
         return $newToken;
     }
 
-    public function call(Token $token, string $method, string $path, array $data = [], bool $serialize = false, int $earlyRetriesLeft = FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS, $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS)
-    {
+    public function call(
+        Token $token,
+        string $method,
+        string $path,
+        array $data = [],
+        bool $serialize = false,
+        int $earlyRetriesLeft = FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS,
+        $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS,
+        string $basePath = '3'
+    ) {
         // $this->addLog("[$path]");
         if ($cachedToken = $this->getCacheToken($token->getRefreshToken())) {
             header('X-Refresh-Token-Cache-Early: ' . "true");
@@ -750,7 +864,7 @@ class FortnoxService
         //     "retryCount" => $retryCount,
         // ));
 
-        curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/3/$path");
+        curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/$basePath/$path");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -778,7 +892,7 @@ class FortnoxService
             if ($this->onRefreshToken && is_callable($this->onRefreshToken)) call_user_func($this->onRefreshToken, $newToken);
 
             $this->addLog("[$path] Retrying with new Token token ($earlyRetriesLeft): ", $newToken->serialize());
-            return $this->call($newToken, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft - 1);
+            return $this->call($newToken, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft - 1, basePath: $basePath);
         }
 
         header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
@@ -822,7 +936,7 @@ class FortnoxService
                 sleep($sleepSeconds);
 
                 // Retry the request recursively without returning anything yet
-                return $this->call($token, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft, $retryCount - 1);
+                return $this->call($token, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft, $retryCount - 1, basePath: $basePath);
             }
 
             if ($response_code < 200 || $response_code >= 300) {
