@@ -62,6 +62,8 @@ class FortnoxService
     const DEFAULT_RETRY_ATTEMPTS = 5;
     const DEFAULT_EARLY_RETRY_ATTEMPTS = 2;
     const DEFAULT_CACHE_EXPIRY = 3600;
+    const DEFAULT_RATE_LIMIT_MAX_DELAY = 60;
+    const DEFAULT_RATE_LIMIT_JITTER = 0.2;
     const LOG_FILE = "fortnoxServiceLogs.txt";
     const CACHE_NAMESPACE = "FortnoxRefreshKeys";
 
@@ -863,7 +865,6 @@ class FortnoxService
         //     "earlyRetriesLeft" => $earlyRetriesLeft,
         //     "retryCount" => $retryCount,
         // ));
-
         curl_setopt($ch, CURLOPT_URL, "https://api.fortnox.se/$basePath/$path");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -877,6 +878,7 @@ class FortnoxService
         $header = substr($res, 0, $header_size);
         $body = substr($res, $header_size);
         curl_close($ch);
+        $response_headers = $this->get_headers_from_curl_response($header);
 
         $this->addLog("[$path] ($response_code) Fortnox API response rest: ", array(
             "content_type" => $content_type,
@@ -897,7 +899,19 @@ class FortnoxService
 
         header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
 
-        if ($content_type === "application/json") {
+        if ($response_code === 429) {
+            if ($retryCount <= 0) {
+                $message = "Fortnox API rate limit reached: " . ($body ?: '');
+                throw new FortnoxRateLimitException($message, $response_code);
+            }
+            $sleepSeconds = $this->getRateLimitSleepSeconds($retryCount, $response_headers);
+            sleep($sleepSeconds);
+
+            return $this->call($token, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft, $retryCount - 1, basePath: $basePath);
+        }
+
+        $isJson = $content_type && stripos($content_type, "application/json") !== false;
+        if ($isJson) {
             if ($response_code < 200 || $response_code > 299) {
                 $response = json_decode($body, true);
                 $response['status_code'] = $response_code;
@@ -924,21 +938,6 @@ class FortnoxService
                 return $body;
             }
         } else {
-            if ($response_code === 429) {
-                if ($retryCount <= 0) {
-                    $message = $body || "Fortnox API rate limit reached";
-                    throw new FortnoxRateLimitException($message, $response_code);
-                }
-                // $this->logger->info($token->getRefreshToken() . " retryCount left " . $retryCount . "/" . FortnoxService::DEFAULT_RETRY_ATTEMPTS);
-                $sleepSeconds = 1 << (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount);
-                // $this->logger->info($token->getRefreshToken() . " Fortnox API rate limit reached, sleeping for " . $sleepSeconds . " seconds");
-
-                sleep($sleepSeconds);
-
-                // Retry the request recursively without returning anything yet
-                return $this->call($token, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft, $retryCount - 1, basePath: $basePath);
-            }
-
             if ($response_code < 200 || $response_code >= 300) {
                 throw new \RuntimeException(sprintf(
                     "Unexpected non-JSON response from Fortnox. Status: %d, Content-Type: %s, Body: %s",
@@ -948,7 +947,7 @@ class FortnoxService
                 ));
             }
 
-            return array('body' => $body, 'status' => $response_code, 'headers' => $this->get_headers_from_curl_response($header));
+            return array('body' => $body, 'status' => $response_code, 'headers' => $response_headers);
         }
     }
 
@@ -966,6 +965,29 @@ class FortnoxService
             }
         }
         return $headers;
+    }
+
+    private function getRateLimitSleepSeconds(int $retryCount, array $responseHeaders): int
+    {
+        $sleepSeconds = null;
+        if (isset($responseHeaders['Retry-After'])) {
+            $raw = trim((string) $responseHeaders['Retry-After']);
+            if ($raw !== '' && ctype_digit($raw)) {
+                $sleepSeconds = (int) $raw;
+            }
+        }
+
+        if ($sleepSeconds === null) {
+            $sleepSeconds = 1 << (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount);
+        }
+
+        $sleepSeconds = min($sleepSeconds, FortnoxService::DEFAULT_RATE_LIMIT_MAX_DELAY);
+        $jitterMax = (int) ceil($sleepSeconds * FortnoxService::DEFAULT_RATE_LIMIT_JITTER);
+        if ($jitterMax > 0) {
+            $sleepSeconds += random_int(0, $jitterMax);
+        }
+
+        return max(1, $sleepSeconds);
     }
 
 
