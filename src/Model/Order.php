@@ -9,7 +9,6 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SkipWhenEmpty;
-use JMS\Serializer\Annotation\ReadOnly;
 use JMS\Serializer\Annotation\Accessor;
 
 class Order implements SerializableInterface
@@ -68,7 +67,6 @@ class Order implements SerializableInterface
      * @SerializedName("BasisTaxReduction")
      * @SkipWhenEmpty()
      * @Groups({"order"})
-     * @ReadOnly()
      */
     private ?float $basisTaxReduction = 0;
     /**
@@ -102,7 +100,6 @@ class Order implements SerializableInterface
      * @Accessor(getter="getContributionPercent")
      * @SkipWhenEmpty()
      * @Groups({"order"})
-     * @ReadOnly()
      */
     private ?float $contributionPercent = null;
     /**
@@ -112,7 +109,6 @@ class Order implements SerializableInterface
      * @Accessor(getter="getContributionValue")
      * @SkipWhenEmpty()
      * @Groups({"order"})
-     * @ReadOnly()
      */
     private ?float $contributionValue = null;
     /**
@@ -305,7 +301,6 @@ class Order implements SerializableInterface
      * @SerializedName("Gross")
      * @SkipWhenEmpty()
      * @Groups({"order"})
-     * @ReadOnly()
      */
     private ?float $gross = null;
     /**
@@ -346,7 +341,6 @@ class Order implements SerializableInterface
      * @SerializedName("Net")
      * @SkipWhenEmpty()
      * @Groups({"order"})
-     * @ReadOnly()
      */
     private ?float $net = null;
     /**
@@ -387,7 +381,6 @@ class Order implements SerializableInterface
      * @SerializedName("OrderType")
      * @SkipWhenEmpty()
      * @Groups({"warehouse"})
-     * @ReadOnly()
      */
     private ?string $orderType = null;
     /**
@@ -532,7 +525,6 @@ class Order implements SerializableInterface
      * @SerializedName("TotalToPay")
      * @SkipWhenEmpty()
      * @Groups({"order"})
-     * @ReadOnly()
      */
     private ?float $totalToPay = null;
     /**
@@ -1216,14 +1208,14 @@ class Order implements SerializableInterface
         return $this;
     }
 
-	/**
-	 *
-	 * @return \ITBMedia\FortnoxBundle\Model\EmailInformation
-	 */
-	public function getEmailInformation(): ?\ITBMedia\FortnoxBundle\Model\EmailInformation
-	{
-		return $this->emailInformation;
-	}
+    /**
+     *
+     * @return \ITBMedia\FortnoxBundle\Model\EmailInformation
+     */
+    public function getEmailInformation(): ?\ITBMedia\FortnoxBundle\Model\EmailInformation
+    {
+        return $this->emailInformation;
+    }
 
     /**
      *
