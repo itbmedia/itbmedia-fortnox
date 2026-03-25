@@ -17,6 +17,9 @@ use ITBMedia\FortnoxBundle\Model\Customer;
 use ITBMedia\FortnoxBundle\Model\Invoice;
 use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Order;
+use ITBMedia\FortnoxBundle\Model\Recurring;
+use ITBMedia\FortnoxBundle\Model\RecurringInvoiceRequest;
+use ITBMedia\FortnoxBundle\Model\RecurringPatchOperation;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlePricesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CompanyInformationResponse;
@@ -34,6 +37,8 @@ use ITBMedia\FortnoxBundle\Model\Response\OrdersResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PriceListsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PricesResponse;
+use ITBMedia\FortnoxBundle\Model\Response\RecurringInvoiceRequestsResponse;
+use ITBMedia\FortnoxBundle\Model\Response\RecurringsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\TermsOfDeliveriesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\TermsOfPaymentsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\UnitsResponse;
@@ -428,6 +433,111 @@ class FortnoxService
     {
         $response = $this->call($token, 'PUT', "contracts/$number/finish", $params, true)['Contract']; //Should'nt it return Invoice?
         return Contract::fromArray($response);
+    }
+
+    /**
+     * @param Token $token
+     * @param array $params
+     * @return RecurringsResponse
+     */
+    public function getAllRecurrings(
+        Token $token,
+        array $params = [],
+        int $limit = 100
+    ): RecurringsResponse {
+        $allRecurrings = [];
+        $params = $this->normalizeRecurringListParams($params);
+        $params['limit'] = max(1, min($limit, 100));
+
+        do {
+            $recurringsResponse = $this->getRecurrings($token, array_merge($params, ['offset' => count($allRecurrings)]));
+            $allRecurrings = array_merge($allRecurrings, $recurringsResponse->getItems());
+            $total = $recurringsResponse->getPagination() ? $recurringsResponse->getPagination()->getTotal() : count($allRecurrings);
+        } while (count($allRecurrings) < ($total ?? count($allRecurrings)));
+
+        return $recurringsResponse->setItems($allRecurrings);
+    }
+
+    #endregion
+    #region recurrings
+    public function getRecurrings(Token $token, array $params = []): RecurringsResponse
+    {
+        $params = $this->normalizeRecurringListParams($params);
+
+        if (!isset($params['sortby'])) $params['sortby'] = 'serialNumber';
+        if (!isset($params['order'])) $params['order'] = 'ASC';
+
+        $response = $this->call($token, 'GET', 'recurring-billing/recurrings-v1', $params, false, basePath: 'api');
+        return RecurringsResponse::deserialize($response);
+    }
+
+    public function getRecurring(Token $token, string $id, array $params = []): Recurring
+    {
+        $response = $this->call($token, 'GET', 'recurring-billing/recurrings-v1/' . rawurlencode($id), $params, true, basePath: 'api');
+        return Recurring::fromArray($response);
+    }
+
+    public function createRecurring(Token $token, Recurring $recurring): Recurring
+    {
+        $response = $this->call($token, 'POST', 'recurring-billing/recurrings-v1', $recurring->toCreateArray(), true, basePath: 'api');
+        return Recurring::fromArray($response);
+    }
+
+    public function updateRecurring(Token $token, string $id, Recurring $recurring): Recurring
+    {
+        $response = $this->call($token, 'PUT', 'recurring-billing/recurrings-v1/' . rawurlencode($id), $recurring->toUpdateArray(), true, basePath: 'api');
+        return Recurring::fromArray($response);
+    }
+
+    public function patchRecurring(Token $token, string $id, array $operations): Recurring
+    {
+        $payload = array_map(function ($operation) {
+            if ($operation instanceof RecurringPatchOperation) {
+                return $operation->toArray();
+            }
+
+            if (is_array($operation)) {
+                return $operation;
+            }
+
+            throw new \InvalidArgumentException('Recurring patch operations must be arrays or RecurringPatchOperation instances.');
+        }, $operations);
+
+        $response = $this->call($token, 'PATCH', 'recurring-billing/recurrings-v1/' . rawurlencode($id), $payload, true, basePath: 'api');
+        return Recurring::fromArray($response);
+    }
+
+    /**
+     * @param Token $token
+     * @param array $params
+     * @return RecurringInvoiceRequestsResponse
+     */
+    public function getRecurringInvoiceRequests(Token $token, array $params = []): RecurringInvoiceRequestsResponse
+    {
+        $params = $this->normalizeRecurringInvoiceRequestParams($params);
+        $response = $this->call($token, 'GET', 'recurring-billing/recurrings-invoice-requests-v1', $params, true, basePath: 'api');
+
+        return RecurringInvoiceRequestsResponse::fromArray($response);
+    }
+
+    public function createRecurringInvoiceRequests(
+        Token $token,
+        array $recurringIds,
+        string $processingMode = 'SYNC'
+    ): RecurringInvoiceRequest {
+        $params = ['processing-mode' => $processingMode];
+        $payload = ['recurring_ids' => array_values($recurringIds)];
+
+        $response = $this->call(
+            $token,
+            'POST',
+            'recurring-billing/recurrings-invoice-requests-v1?' . $this->buildQueryString($params),
+            $payload,
+            true,
+            basePath: 'api'
+        );
+
+        return RecurringInvoiceRequest::fromArray($response);
     }
 
     /**
@@ -830,6 +940,95 @@ class FortnoxService
         return $newToken;
     }
 
+    private function normalizeRecurringListParams(array $params): array
+    {
+        $aliases = [
+            'customer_ids' => 'customer-ids',
+            'customerIds' => 'customer-ids',
+            'invoice_handlings' => 'invoice-handlings',
+            'invoiceHandlings' => 'invoice-handlings',
+            'error_status' => 'error-status',
+            'errorStatus' => 'error-status',
+            'sort_order' => 'order',
+            'sortOrder' => 'order',
+        ];
+
+        foreach ($aliases as $alias => $target) {
+            if (array_key_exists($alias, $params) && !array_key_exists($target, $params)) {
+                $params[$target] = $params[$alias];
+                unset($params[$alias]);
+            }
+        }
+
+        return $params;
+    }
+
+    private function normalizeRecurringInvoiceRequestParams(array $params): array
+    {
+        $aliases = [
+            'recurring_ids' => 'recurring-ids',
+            'recurringIds' => 'recurring-ids',
+        ];
+
+        foreach ($aliases as $alias => $target) {
+            if (array_key_exists($alias, $params) && !array_key_exists($target, $params)) {
+                $params[$target] = $params[$alias];
+                unset($params[$alias]);
+            }
+        }
+
+        return $params;
+    }
+
+    private function buildQueryString(array $data): string
+    {
+        $parts = [];
+
+        foreach ($data as $key => $value) {
+            $this->appendQueryStringValue($parts, (string) $key, $value);
+        }
+
+        return implode('&', $parts);
+    }
+
+    private function appendQueryStringValue(array &$parts, string $key, $value): void
+    {
+        if ($value === null) {
+            return;
+        }
+
+        if (is_array($value)) {
+            if ($this->isListArray($value)) {
+                foreach ($value as $item) {
+                    $this->appendQueryStringValue($parts, $key, $item);
+                }
+
+                return;
+            }
+
+            foreach ($value as $nestedKey => $nestedValue) {
+                $this->appendQueryStringValue($parts, sprintf('%s[%s]', $key, $nestedKey), $nestedValue);
+            }
+
+            return;
+        }
+
+        if (is_bool($value)) {
+            $value = $value ? '1' : '0';
+        }
+
+        $parts[] = rawurlencode($key) . '=' . rawurlencode((string) $value);
+    }
+
+    private function isListArray(array $value): bool
+    {
+        if ($value === []) {
+            return true;
+        }
+
+        return array_keys($value) === range(0, count($value) - 1);
+    }
+
     public function call(
         Token $token,
         string $method,
@@ -852,11 +1051,14 @@ class FortnoxService
         $headers[] = 'Authorization: Bearer ' . $token->getAccessToken();
         $orignialPath = $path;
 
-        if (in_array($method, array('POST', 'PUT'))) {
+        if (in_array($method, array('POST', 'PUT', 'PATCH'), true)) {
             $headers[] = 'Content-Type: application/json';
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         } else {
-            $path .= "?" . http_build_query($data);
+            $queryString = $this->buildQueryString($data);
+            if ($queryString !== '') {
+                $path .= '?' . $queryString;
+            }
         }
 
         // $this->addLog("[$path] With params: ", array(
