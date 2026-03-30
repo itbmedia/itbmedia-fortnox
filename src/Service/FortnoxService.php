@@ -9,11 +9,13 @@ use ITBMedia\FortnoxBundle\Exception\FortnoxException;
 use ITBMedia\FortnoxBundle\Exception\FortnoxHttpException;
 use ITBMedia\FortnoxBundle\Exception\FortnoxRateLimitException;
 use ITBMedia\FortnoxBundle\Factory\CacheFactory;
+use ITBMedia\FortnoxBundle\Factory\FortnoxResponseMetadataFactory;
 use ITBMedia\FortnoxBundle\Factory\LockStoreFactory;
 use ITBMedia\FortnoxBundle\Model\Article;
 use ITBMedia\FortnoxBundle\Model\Contract;
 use ITBMedia\FortnoxBundle\Model\CostCenter;
 use ITBMedia\FortnoxBundle\Model\Customer;
+use ITBMedia\FortnoxBundle\Model\FortnoxPagination;
 use ITBMedia\FortnoxBundle\Model\Invoice;
 use ITBMedia\FortnoxBundle\Model\Offer;
 use ITBMedia\FortnoxBundle\Model\Order;
@@ -448,14 +450,38 @@ class FortnoxService
         $allRecurrings = [];
         $params = $this->normalizeRecurringListParams($params);
         $params['limit'] = max(1, min($limit, 100));
+        $baseOffset = isset($params['offset']) ? (int) $params['offset'] : 0;
 
         do {
-            $recurringsResponse = $this->getRecurrings($token, array_merge($params, ['offset' => count($allRecurrings)]));
-            $allRecurrings = array_merge($allRecurrings, $recurringsResponse->getItems());
-            $total = $recurringsResponse->getPagination() ? $recurringsResponse->getPagination()->getTotal() : count($allRecurrings);
-        } while (count($allRecurrings) < ($total ?? count($allRecurrings)));
+            $recurringsResponse = $this->getRecurrings($token, array_merge($params, ['offset' => $baseOffset + count($allRecurrings)]));
+            $pageItems = $recurringsResponse->getItems();
+            $allRecurrings = array_merge($allRecurrings, $pageItems);
 
-        return $recurringsResponse->setItems($allRecurrings);
+            $pagination = $recurringsResponse->getPagination();
+            $totalCount = $pagination?->getCount();
+            $lastRecord = $pagination?->getLastRecord();
+
+            if ($pageItems === []) {
+                break;
+            }
+
+            $hasMore = $lastRecord === null
+                ? ($totalCount !== null
+                    ? ($baseOffset + count($allRecurrings) < $totalCount)
+                    : count($pageItems) >= $params['limit'])
+                : !$lastRecord;
+        } while ($hasMore);
+
+        $pagination = $recurringsResponse->getPagination() ?? new FortnoxPagination();
+        $pagination
+            ->setCount($pagination->getCount() ?? count($allRecurrings))
+            ->setOffset($baseOffset)
+            ->setLimit(count($allRecurrings))
+            ->setLastRecord(true);
+
+        return $recurringsResponse
+            ->setItems($allRecurrings)
+            ->setPagination($pagination);
     }
 
     #endregion
@@ -467,8 +493,20 @@ class FortnoxService
         if (!isset($params['sortby'])) $params['sortby'] = 'serialNumber';
         if (!isset($params['order'])) $params['order'] = 'ASC';
 
-        $response = $this->call($token, 'GET', 'recurring-billing/recurrings-v1', $params, false, basePath: 'api');
-        return RecurringsResponse::deserialize($response);
+        $response = $this->callWithMetadata($token, 'GET', 'recurring-billing/recurrings-v1', $params, false, basePath: 'api');
+        $responseData = is_array($response['data']) ? $response['data'] : [];
+        $recurringsResponse = RecurringsResponse::fromArray($responseData);
+        $pagination = FortnoxResponseMetadataFactory::createPagination(
+            $params,
+            $response['headers'],
+            $responseData
+        );
+
+        if ($pagination !== null) {
+            $recurringsResponse->setPagination($pagination);
+        }
+
+        return $recurringsResponse;
     }
 
     public function getRecurring(Token $token, string $id, array $params = []): Recurring
@@ -1039,6 +1077,53 @@ class FortnoxService
         $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS,
         string $basePath = '3'
     ) {
+        return $this->performCall(
+            $token,
+            $method,
+            $path,
+            $data,
+            $serialize,
+            $earlyRetriesLeft,
+            $retryCount,
+            $basePath,
+            false
+        );
+    }
+
+    private function callWithMetadata(
+        Token $token,
+        string $method,
+        string $path,
+        array $data = [],
+        bool $serialize = false,
+        int $earlyRetriesLeft = FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS,
+        $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS,
+        string $basePath = '3'
+    ): array {
+        return $this->performCall(
+            $token,
+            $method,
+            $path,
+            $data,
+            $serialize,
+            $earlyRetriesLeft,
+            $retryCount,
+            $basePath,
+            true
+        );
+    }
+
+    private function performCall(
+        Token $token,
+        string $method,
+        string $path,
+        array $data = [],
+        bool $serialize = false,
+        int $earlyRetriesLeft = FortnoxService::DEFAULT_EARLY_RETRY_ATTEMPTS,
+        $retryCount = FortnoxService::DEFAULT_RETRY_ATTEMPTS,
+        string $basePath = '3',
+        bool $includeMetadata = false
+    ) {
         // $this->addLog("[$path]");
         if ($cachedToken = $this->getCacheToken($token->getRefreshToken())) {
             header('X-Refresh-Token-Cache-Early: ' . "true");
@@ -1096,7 +1181,17 @@ class FortnoxService
             if ($this->onRefreshToken && is_callable($this->onRefreshToken)) call_user_func($this->onRefreshToken, $newToken);
 
             $this->addLog("[$path] Retrying with new Token token ($earlyRetriesLeft): ", $newToken->serialize());
-            return $this->call($newToken, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft - 1, basePath: $basePath);
+            return $this->performCall(
+                $newToken,
+                $method,
+                $orignialPath,
+                $data,
+                $serialize,
+                $earlyRetriesLeft - 1,
+                FortnoxService::DEFAULT_RETRY_ATTEMPTS,
+                $basePath,
+                $includeMetadata
+            );
         }
 
         header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
@@ -1109,9 +1204,18 @@ class FortnoxService
             $sleepSeconds = $this->getRateLimitSleepSeconds($retryCount, $response_headers);
             sleep($sleepSeconds);
 
-            return $this->call($token, $method, $orignialPath, $data, $serialize, $earlyRetriesLeft, $retryCount - 1, basePath: $basePath);
+            return $this->performCall(
+                $token,
+                $method,
+                $orignialPath,
+                $data,
+                $serialize,
+                $earlyRetriesLeft,
+                $retryCount - 1,
+                $basePath,
+                $includeMetadata
+            );
         }
-
         $isJson = $content_type && stripos($content_type, "application/json") !== false;
         if ($isJson) {
             if ($response_code < 200 || $response_code > 299) {
@@ -1134,8 +1238,20 @@ class FortnoxService
                     );
                 }
             }
+
+            $decodedBody = json_decode($body, true);
+
+            if ($includeMetadata) {
+                return [
+                    'data' => $decodedBody,
+                    'raw_body' => $body,
+                    'status' => $response_code,
+                    'headers' => $response_headers,
+                ];
+            }
+
             if ($serialize) {
-                return json_decode($body, true);
+                return $decodedBody;
             } else {
                 return $body;
             }
@@ -1149,31 +1265,52 @@ class FortnoxService
                 ));
             }
 
-            return array('body' => $body, 'status' => $response_code, 'headers' => $response_headers);
+            $response = array('body' => $body, 'status' => $response_code, 'headers' => $response_headers);
+
+            if ($includeMetadata) {
+                return [
+                    'data' => $response,
+                    'raw_body' => $body,
+                    'status' => $response_code,
+                    'headers' => $response_headers,
+                ];
+            }
+
+            return $response;
         }
     }
 
     public function get_headers_from_curl_response(string $responseHeaders)
     {
         $headers = array();
-        $header_text = substr($responseHeaders, 0, strpos($responseHeaders, "\r\n\r\n"));
-        foreach (explode("\r\n", $header_text) as $i => $line) {
-            if ($i === 0) {
-                $headers['http_code'] = $line;
-            } else {
-                list($key, $value) = explode(': ', $line);
+        $headerBlocks = preg_split("/\r\n\r\n/", trim($responseHeaders));
+        $headerBlocks = array_values(array_filter($headerBlocks, static fn(string $block): bool => trim($block) !== ''));
+        $headerText = $headerBlocks === [] ? '' : end($headerBlocks);
 
-                $headers[$key] = $value;
+        foreach (preg_split("/\r\n/", $headerText) as $i => $line) {
+            if ($i === 0) {
+                $headers['http_code'] = trim($line);
+                continue;
             }
+
+            if (!str_contains($line, ':')) {
+                continue;
+            }
+
+            [$key, $value] = explode(':', $line, 2);
+            $headers[strtolower(trim($key))] = trim($value);
         }
+
         return $headers;
     }
 
     private function getRateLimitSleepSeconds(int $retryCount, array $responseHeaders): int
     {
         $sleepSeconds = null;
-        if (isset($responseHeaders['Retry-After'])) {
-            $raw = trim((string) $responseHeaders['Retry-After']);
+        $retryAfter = $responseHeaders['retry-after'] ?? $responseHeaders['Retry-After'] ?? null;
+
+        if ($retryAfter !== null) {
+            $raw = trim((string) $retryAfter);
             if ($raw !== '' && ctype_digit($raw)) {
                 $sleepSeconds = (int) $raw;
             }
