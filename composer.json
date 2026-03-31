@@ -1,25 +1,25 @@
 {
-    "name": "itbmedia/fortnox-bundle",
-    "description": "Fortnox api client",
-    "version": "1.1.76",
-    "type": "symfony-bundle",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "ITBMedia\\FortnoxBundle\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "LucasNapik98",
-            "email": "lucas.napik@outlook.com"
-        }
-    ],
-    "require": {
-        "symfony/framework-bundle": "*",
-        "jms/serializer-bundle": "*",
-        "symfony/expression-language": "*",
-        "symfony/lock": "^5.4",
-        "symfony/cache": "^5.4"
-    }
+	"name": "itbmedia/fortnox-bundle",
+	"description": "Fortnox api client",
+	"version": "1.2.2",
+	"type": "symfony-bundle",
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"ITBMedia\\FortnoxBundle\\": "src/"
+		}
+	},
+	"authors": [
+		{
+			"name": "LucasNapik98",
+			"email": "lucas.napik@outlook.com"
+		}
+	],
+	"require": {
+		"symfony/framework-bundle": "*",
+		"jms/serializer-bundle": "*",
+		"symfony/expression-language": "*",
+		"symfony/lock": "^5.4",
+		"symfony/cache": "^5.4"
+	}
 }
