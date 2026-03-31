@@ -25,6 +25,7 @@ use ITBMedia\FortnoxBundle\Model\RecurringPatchOperation;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlePricesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ArticlesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CompanyInformationResponse;
+use ITBMedia\FortnoxBundle\Model\Response\CompanySettingsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ContractsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\ContractTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\CostCentersResponse;
@@ -147,6 +148,16 @@ class FortnoxService
     {
         $response = $this->call($token, 'GET', 'companyinformation', [], false);
         return CompanyInformationResponse::deserialize($response);
+    }
+
+    /**
+     * @param Token $token
+     * @return CompanySettingsResponse
+     */
+    public function getCompanySettings(Token $token): CompanySettingsResponse
+    {
+        $response = $this->call($token, 'GET', 'settings/company', [], false);
+        return CompanySettingsResponse::deserialize($response);
     }
 
 

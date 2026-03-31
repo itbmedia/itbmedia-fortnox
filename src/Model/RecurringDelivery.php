@@ -20,9 +20,9 @@ class RecurringDelivery extends AbstractSerializableModel
 
     /**
      * @Serializer\Type("string")
-     * @Serializer\SerializedName("country")
+     * @Serializer\SerializedName("country_code")
      */
-    public ?string $country = null;
+    public ?string $country_code = null;
 
     /**
      * @Serializer\Type("string")
