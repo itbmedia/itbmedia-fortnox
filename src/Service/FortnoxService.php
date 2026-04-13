@@ -1210,7 +1210,8 @@ class FortnoxService
         if ($response_code === 429) {
             if ($retryCount <= 0) {
                 $message = "Fortnox API rate limit reached: " . ($body ?: '');
-                throw new FortnoxRateLimitException($message, $response_code);
+                $retriesAttempted = FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount;
+                throw new FortnoxRateLimitException($message, $response_code, $retriesAttempted);
             }
             $sleepSeconds = $this->getRateLimitSleepSeconds($retryCount, $response_headers);
             sleep($sleepSeconds);
