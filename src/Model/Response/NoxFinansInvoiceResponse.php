@@ -10,32 +10,32 @@ use ITBMedia\FortnoxBundle\Model\SerializableInterface;
 class NoxFinansInvoiceResponse implements SerializableInterface
 {
   /**
-   * @var float
+   * @var float|null
    * @Type("float")
    * @SerializedName("BalanceIncludeFees")
    */
-  private float $balanceIncludeFees;
+  private ?float $balanceIncludeFees = null;
 
   /**
-   * @var float
+   * @var float|null
    * @Type("float")
    * @SerializedName("BalanceIncludeFeesCurrency")
    */
-  private float $balanceIncludeFeesCurrency;
+  private ?float $balanceIncludeFeesCurrency = null;
 
   /**
-   * @var float
+   * @var float|null
    * @Type("float")
    * @SerializedName("CurrentCapitalBalance")
    */
-  private float $currentCapitalBalance;
+  private ?float $currentCapitalBalance = null;
 
   /**
-   * @var float
+   * @var float|null
    * @Type("float")
    * @SerializedName("CurrentCapitalBalanceCurrency")
    */
-  private float $currentCapitalBalanceCurrency;
+  private ?float $currentCapitalBalanceCurrency = null;
 
   /**
    * @var string
@@ -96,45 +96,45 @@ class NoxFinansInvoiceResponse implements SerializableInterface
 
   // Getters & setters
 
-  public function getBalanceIncludeFees(): float
+  public function getBalanceIncludeFees(): ?float
   {
     return $this->balanceIncludeFees;
   }
 
-  public function setBalanceIncludeFees(float $balanceIncludeFees): self
+  public function setBalanceIncludeFees(?float $balanceIncludeFees): self
   {
     $this->balanceIncludeFees = $balanceIncludeFees;
     return $this;
   }
 
-  public function getBalanceIncludeFeesCurrency(): float
+  public function getBalanceIncludeFeesCurrency(): ?float
   {
     return $this->balanceIncludeFeesCurrency;
   }
 
-  public function setBalanceIncludeFeesCurrency(float $balanceIncludeFeesCurrency): self
+  public function setBalanceIncludeFeesCurrency(?float $balanceIncludeFeesCurrency): self
   {
     $this->balanceIncludeFeesCurrency = $balanceIncludeFeesCurrency;
     return $this;
   }
 
-  public function getCurrentCapitalBalance(): float
+  public function getCurrentCapitalBalance(): ?float
   {
     return $this->currentCapitalBalance;
   }
 
-  public function setCurrentCapitalBalance(float $currentCapitalBalance): self
+  public function setCurrentCapitalBalance(?float $currentCapitalBalance): self
   {
     $this->currentCapitalBalance = $currentCapitalBalance;
     return $this;
   }
 
-  public function getCurrentCapitalBalanceCurrency(): float
+  public function getCurrentCapitalBalanceCurrency(): ?float
   {
     return $this->currentCapitalBalanceCurrency;
   }
 
-  public function setCurrentCapitalBalanceCurrency(float $currentCapitalBalanceCurrency): self
+  public function setCurrentCapitalBalanceCurrency(?float $currentCapitalBalanceCurrency): self
   {
     $this->currentCapitalBalanceCurrency = $currentCapitalBalanceCurrency;
     return $this;
@@ -233,10 +233,12 @@ class NoxFinansInvoiceResponse implements SerializableInterface
 
   public function serialize(): string
   {
-    return SerializerBuilder::create()->build()->serialize($this, 'json');
+    return SerializerBuilder::create()
+      ->build()
+      ->serialize($this, 'json');
   }
 
-  public static function deserialize(string $data): NoxFinansInvoiceResponse
+  public static function deserialize(string $data): self
   {
     return SerializerBuilder::create()
       ->build()
@@ -250,7 +252,7 @@ class NoxFinansInvoiceResponse implements SerializableInterface
       ->toArray($this);
   }
 
-  public static function fromArray(array $data): NoxFinansInvoiceResponse
+  public static function fromArray(array $data): self
   {
     return SerializerBuilder::create()
       ->build()
