@@ -501,7 +501,7 @@ class FortnoxService
     {
         $params = $this->normalizeRecurringListParams($params);
 
-        if (!isset($params['sortby'])) $params['sortby'] = 'serialNumber';
+        // if (!isset($params['sortby'])) $params['sortby'] = 'SERIAL_NUMBER';
         if (!isset($params['order'])) $params['order'] = 'DESC';
 
         $response = $this->callWithMetadata($token, 'GET', 'recurring-billing/recurrings-v1', $params, false, basePath: 'api');
