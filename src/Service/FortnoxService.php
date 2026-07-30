@@ -42,10 +42,12 @@ use ITBMedia\FortnoxBundle\Model\Response\PrintTemplatesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\PricesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\RecurringInvoiceRequestsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\RecurringsResponse;
+use ITBMedia\FortnoxBundle\Model\Response\TaxReductionsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\TermsOfDeliveriesResponse;
 use ITBMedia\FortnoxBundle\Model\Response\TermsOfPaymentsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\UnitsResponse;
 use ITBMedia\FortnoxBundle\Model\Response\WayOfDeliveriesResponse;
+use ITBMedia\FortnoxBundle\Model\TaxReduction;
 use ITBMedia\FortnoxBundle\Model\Token;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -675,6 +677,157 @@ class FortnoxService
         return NoxFinansInvoiceResponse::fromArray($response);
     }
     #endregion
+
+    #region tax-reductions
+    /**
+     * Get all tax reductions for a resource (invoice, order, offer)
+     * Fetches the list first, then fetches full details for each item
+     * because the list endpoint only returns sparse data
+     *
+     * @param Token $token
+     * @param string $resourceType Either 'invoices', 'orders', or 'offers'
+     * @param string $resourceId The resource document number/ID
+     * @param array $params
+     * @return TaxReductionsResponse
+     */
+    public function getTaxReductionsList(Token $token, string $resourceType, string $resourceId, array $params = []): TaxReductionsResponse
+    {
+        if (!isset($params['filter'])) {
+            $params['filter'] = $resourceType;
+        }
+        if (!isset($params['referencenumber'])) {
+            $params['referencenumber'] = $resourceId;
+        }
+
+        // Get sparse list first
+        $response = $this->call($token, 'GET', 'taxreductions', $params, false);
+        $sparseResponse = TaxReductionsResponse::deserialize($response);
+
+        // Fetch full details for each tax reduction
+        $fullTaxReductions = [];
+        foreach ($sparseResponse->getTaxReductions() as $sparseTaxReduction) {
+            $fullTaxReduction = $this->getTaxReduction($token, $resourceType, $resourceId, (string)$sparseTaxReduction->fortnoxId);
+            $fullTaxReductions[] = $fullTaxReduction;
+        }
+
+        // Create response with full details
+        $fullResponse = new TaxReductionsResponse();
+        $fullResponse->setTaxReductions($fullTaxReductions);
+        $fullResponse->setMetaInformation($sparseResponse->getMetaInformation());
+
+        return $fullResponse;
+    }
+
+    /**
+     * Get a specific tax reduction
+     *
+     * @param Token $token
+     * @param string $resourceType Either 'invoices', 'orders', or 'offers'
+     * @param string $resourceId The resource document number/ID
+     * @param string $taxReductionId The tax reduction ID
+     * @param array $params
+     * @return TaxReduction
+     */
+    public function getTaxReduction(Token $token, string $resourceType, string $resourceId, string $taxReductionId, array $params = []): TaxReduction
+    {
+        $response = $this->call($token, 'GET', "taxreductions/$taxReductionId", $params, true)['TaxReduction'];
+        return TaxReduction::fromArray($response);
+    }
+
+    /**
+     * Create a tax reduction for a resource (invoice, order, offer)
+     *
+     * @param Token $token
+     * @param string $resourceType Either 'invoices', 'orders', or 'offers'
+     * @param string $resourceId The resource document number/ID
+     * @param TaxReduction $taxReduction
+     * @return TaxReduction
+     */
+    public function createTaxReduction(Token $token, string $resourceType, string $resourceId, TaxReduction $taxReduction): TaxReduction
+    {
+        $response = $this->call(
+            $token,
+            'POST',
+            'taxreductions',
+            array('TaxReduction' => $this->buildTaxReductionPayload($resourceType, $resourceId, $taxReduction)),
+            true
+        )['TaxReduction'];
+
+        return TaxReduction::fromArray($response);
+    }
+
+    /**
+     * Update a tax reduction
+     *
+     * @param Token $token
+     * @param string $resourceType Either 'invoices', 'orders', or 'offers'
+     * @param string $resourceId The resource document number/ID
+     * @param string $taxReductionId The tax reduction ID
+     * @param TaxReduction $taxReduction
+     * @return TaxReduction
+     */
+    public function updateTaxReduction(Token $token, string $resourceType, string $resourceId, string $taxReductionId, TaxReduction $taxReduction): TaxReduction
+    {
+        $response = $this->call(
+            $token,
+            'PUT',
+            "taxreductions/$taxReductionId",
+            array('TaxReduction' => $this->buildTaxReductionPayload($resourceType, $resourceId, $taxReduction)),
+            true
+        )['TaxReduction'];
+
+        return TaxReduction::fromArray($response);
+    }
+
+    /**
+     * Delete a tax reduction
+     *
+     * @param Token $token
+     * @param string $resourceType Either 'invoices', 'orders', or 'offers'
+     * @param string $resourceId The resource document number/ID
+     * @param string $taxReductionId The tax reduction ID
+     * @return bool
+     */
+    public function deleteTaxReduction(Token $token, string $resourceType, string $resourceId, string $taxReductionId): bool
+    {
+        try {
+            $this->call($token, 'DELETE', "taxreductions/$taxReductionId", [], true);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    private function buildTaxReductionPayload(string $resourceType, string $resourceId, TaxReduction $taxReduction): array
+    {
+        $payload = $taxReduction->toArray(true);
+        // dd($payload);
+
+        if (!isset($payload['ReferenceDocumentType'])) {
+            $payload['ReferenceDocumentType'] = $this->getTaxReductionReferenceDocumentType($resourceType);
+        }
+        if (!isset($payload['ReferenceNumber'])) {
+            $payload['ReferenceNumber'] = $resourceId;
+        }
+
+        return $payload;
+    }
+
+    private function getTaxReductionReferenceDocumentType(string $resourceType): string
+    {
+        switch ($resourceType) {
+            case 'offers':
+                return 'OFFER';
+            case 'orders':
+                return 'ORDER';
+            case 'invoices':
+                return 'INVOICE';
+            default:
+                throw new Exception(sprintf('Unsupported tax reduction resource type "%s".', $resourceType));
+        }
+    }
+    #endregion
+
     #region templates
     public function getPrintTemplates(Token $token, array $params = []): PrintTemplatesResponse
     {
