@@ -1132,7 +1132,9 @@ class FortnoxService
         if ($res && ($arrayRes = json_decode($res, true)) && isset($arrayRes['error']) || isset($arrayRes['error_description'])) {
             throw new FortnoxException($response_code, $response_code, "Fortnox: " .  $arrayRes['error'] . ": " . $arrayRes['error_description']);
         }
-
+        if ($response_code === 500) {
+            throw new FortnoxException($response_code, $response_code, $body ? "Fortnox: " . $body : "Fortnox har driftstörningar. Försök igen senare.");
+        }
         $newToken = Token::deserialize($res);
         $newToken->setReference($token->getReference());
         // $this->addLog("New token: ", $newToken->serialize());
@@ -1356,6 +1358,9 @@ class FortnoxService
                 $basePath,
                 $includeMetadata
             );
+        }
+        if ($response_code === 500) {
+            throw new FortnoxException($response_code, $response_code, $body ? "Fortnox" : "Fortnox har driftstörningar. Försök igen senare.");
         }
 
         header('X-Retry-Attempt: ' . (FortnoxService::DEFAULT_RETRY_ATTEMPTS - $retryCount));
