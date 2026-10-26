@@ -1132,7 +1132,7 @@ class FortnoxService
         if ($res && ($arrayRes = json_decode($res, true)) && isset($arrayRes['error']) || isset($arrayRes['error_description'])) {
             throw new FortnoxException($response_code, $response_code, "Fortnox: " .  $arrayRes['error'] . ": " . $arrayRes['error_description']);
         }
-        if ($response_code === 500) {
+        if (in_array($response_code, [404, 500])) {
             throw new FortnoxException($response_code, $response_code, $body ? "Fortnox: " . $body : "Fortnox har driftstörningar. Försök igen senare.");
         }
         $newToken = Token::deserialize($res);
@@ -1359,7 +1359,9 @@ class FortnoxService
                 $includeMetadata
             );
         }
-        if ($response_code === 500) {
+
+
+        if (in_array($response_code, [404, 500])) {
             throw new FortnoxException($response_code, $response_code, $body ? "Fortnox" : "Fortnox har driftstörningar. Försök igen senare.");
         }
 
